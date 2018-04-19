@@ -23,7 +23,7 @@ hs_err_pid*
 
 # Netbeans Files
 .project
-.nb-configuration.xml
+nb-configuration.xml
 
 # Other stuff
 .classpath
