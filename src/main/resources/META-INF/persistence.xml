@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="DEFAULT_PU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:global/jdbc/SampleDS</jta-data-source>
+    <class>br.com.imerljak.domain.Processo</class>
+    <class>br.com.imerljak.domain.Usuario</class>
+    <class>br.com.imerljak.domain.Concessionaria</class>
+    <class>br.com.imerljak.domain.Pessoa</class>
+    <class>br.com.imerljak.domain.Denunciante</class>
+    <class>br.com.imerljak.domain.Representante</class>
+    <class>br.com.imerljak.domain.TipoServico</class>
+    <class>br.com.imerljak.domain.Denuncia</class>
+    <class>br.com.imerljak.domain.Tramite</class>
+    <class>br.com.imerljak.domain.TramiteDenuncia</class>
+    <class>br.com.imerljak.domain.TramiteProcesso</class>
+    <class>br.com.imerljak.domain.TipoTramite</class>
+    <class>br.com.imerljak.domain.Anexo</class>
+    <class>br.com.imerljak.domain.AnexoTramite</class>
+    <class>br.com.imerljak.domain.Documento</class>
+    <class>br.com.imerljak.domain.TipoDocumento</class>
+    <class>br.com.imerljak.domain.AnexoDenuncia</class>
+    <class>br.com.imerljak.domain.TipoProcesso</class>
+    <class>br.com.imerljak.domain.Tipo</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

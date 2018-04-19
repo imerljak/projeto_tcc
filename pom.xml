@@ -7,18 +7,72 @@
     <packaging>war</packaging>
     <dependencies>
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${version.mysql}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mvc</groupId>
+            <artifactId>javax.mvc-api</artifactId>
+            <version>${version.mvc}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.ozark</groupId>
+            <artifactId>ozark</artifactId>
+            <scope>runtime</scope>
+            <version>${version.ozark}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>javax.security.enterprise</artifactId>
+            <version>${version.soteria}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
+            <version>${version.javaee}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
         <finalName>projeto_tcc</finalName>
     </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <context.path>projeto_tcc</context.path>
+                <db.password/>
+                <db.user>root</db.user>
+                <db.port>3306</db.port>
+                <db.name>projeto_tcc</db.name>
+                <db.svc>localhost</db.svc>
+            </properties>
+        </profile>
+    </profiles>
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <layout>default</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <version.javaee>8.0</version.javaee>
+        <version.mysql>5.1.46</version.mysql>
+        <version.soteria>1.0</version.soteria>
+        <version.mvc>1.0-pr</version.mvc>
+        <version.ozark>1.0.0-m02</version.ozark>
     </properties>
 </project>

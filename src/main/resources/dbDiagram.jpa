@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" ptype="MONOLITH" ppkg="br.com.imerljak" epkg="domain" v="4.4" rws="_15241577926642" Pws="_15241577926642" cws="_15241577926642" persistenceUnitName="DEFAULT_PU" sm="false" xs="false" id="_15241577926631" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:mapped-superclass compositePrimaryKeyClass="BaseEntityPK" abs="false" class="BaseEntity" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524161741650216">
+        <jpa:hc e="true">
+            <jpa:a>_1524161754237218</jpa:a>
+        </jpa:hc>
+        <jpa:eq e="true">
+            <jpa:a>_1524161754237218</jpa:a>
+        </jpa:eq>
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic optional="false" attribute-type="java.time.LocalDateTime" v="true" xvt="" name="dataCriacao" ft="false" id="_1524161758206219">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:pp/>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="false"/>
+            </jpa:basic>
+            <jpa:basic optional="false" attribute-type="java.time.LocalDateTime" v="true" xvt="" name="dataAtualizacao" ft="false" id="_1524161758670220">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:pp/>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="java.time.LocalDateTime" v="true" xvt="" name="dataRemocao" id="_1524161758862221">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:pp/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_1524161754237218">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:mapped-superclass compositePrimaryKeyClass="ArquivoPK" abs="false" class="Arquivo" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241656824192199">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="nome" ft="false" id="_15241657564992203">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="caminho" ft="false" id="_15241657589232204">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="extencao" ft="false" id="_15241657618922205">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:entity compositePrimaryKeyClass="ProcessoPK" abs="false" class="Processo" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524157837830">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="protocolo" ft="false" id="_15241579836258">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="nome" ft="false" id="_15241578541855">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="observacoes" id="_15241578963126">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="status" ft="false" id="_15241579000727">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524158694152" v="true" name="concessionaria" id="_1524161553829212"/>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1524158294061" connected-attribute-id="_1524163155171596" v="true" xvt="" name="relator" ft="true" id="_1524163155170595">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_1524158294061" connected-attribute-id="_1524163162443599" v="true" xvt="" name="revisor" ft="true" id="_1524163162442598">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524158294061" connected-attribute-id="_1524163166179602" v="true" xvt="" name="criador" id="_1524163166178601">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_15241670240013982" v="true" name="tipoProcesso" id="_15241670740393989"/>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524163915507618" connected-attribute-id="_1524164173887635" v="true" xvt="" name="tramites" id="_1524164173888636">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15241649141221595" connected-attribute-id="_15241659419832210" v="true" xvt="" name="documentos" id="_15241659419842211">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_15241663650202815" v="true" name="denuncias" id="_15241663649182814"/>
+            <jpa:version attribute-type="long" v="true" xvt="" name="revisao" ft="false" id="_1524159735417127">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" precision="0"/>
+            </jpa:version>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Processo.findAll">
+            <jpa:query>Select e from Processo e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByNome">
+            <jpa:query>Select p from Processo p where p.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByObservacoes">
+            <jpa:query>Select p from Processo p where p.observacoes=:observacoes</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByStatus">
+            <jpa:query>Select p from Processo p where p.status=:status</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByProtocolo">
+            <jpa:query>Select p from Processo p where p.protocolo=:protocolo</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByRelator">
+            <jpa:query>Select p from Processo p where p.relator=:relator</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByRevisor">
+            <jpa:query>Select p from Processo p where p.revisor=:revisor</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByDataCriacao">
+            <jpa:query>Select p from Processo p where p.dataCriacao=:dataCriacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByConcessionaria">
+            <jpa:query>Select p from Processo p where p.concessionaria=:concessionaria</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByCriador">
+            <jpa:query>Select p from Processo p where p.criador=:criador</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByRevisao">
+            <jpa:query>Select p from Processo p where p.revisao=:revisao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByDataRemocao">
+            <jpa:query>Select p from Processo p where p.dataRemocao=:dataRemocao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByConcessionaria">
+            <jpa:query>Select p from Processo p where p.concessionaria=:concessionaria</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByCriador">
+            <jpa:query>Select p from Processo p where p.criador=:criador</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Processo.findByDataAtualizacao">
+            <jpa:query>Select p from Processo p where p.dataAtualizacao=:dataAtualizacao</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="UsuarioPK" abs="false" class="Usuario" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524158294061">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="nome" ft="false" id="_152415831322118">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column name="nome" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="email" ft="false" id="_152415831593419">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                    <jpa:em/>
+                </jpa:bv>
+                <jpa:column name="email" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="senha" id="_152415831768620">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524157837830" connected-attribute-id="_1524163155170595" v="true" xvt="" name="processosRelator" id="_1524163155171596">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524157837830" connected-attribute-id="_1524163162442598" v="true" xvt="" name="processosRevisor" id="_1524163162443599">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524157837830" connected-attribute-id="_1524163166178601" v="true" xvt="" name="processosCriador" id="_1524163166179602">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Usuario.findAll">
+            <jpa:query>Select e from Usuario e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByNome">
+            <jpa:query>Select u from Usuario u where u.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByEmail">
+            <jpa:query>Select u from Usuario u where u.email=:email</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findBySenha">
+            <jpa:query>Select u from Usuario u where u.senha=:senha</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByDataCriacao">
+            <jpa:query>Select u from Usuario u where u.dataCriacao=:dataCriacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByDataAtualizacao">
+            <jpa:query>Select u from Usuario u where u.dataAtualizacao=:dataAtualizacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Usuario.findByDataRemocao">
+            <jpa:query>Select u from Usuario u where u.dataRemocao=:dataRemocao</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="ConcessionariaPK" abs="false" class="Concessionaria" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524158694152">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="nome" ft="false" id="_152415870414731">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic optional="false" attribute-type="String" v="true" xvt="" name="cnpj" ft="false" id="_152415870611432">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                    <jpa:pt r="\d{14}"/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" xvt="" name="endereco" ft="true" id="_152415871017933">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" name="telefone" id="_1524161936288224"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162198514236" v="true" name="representantes" id="_1524162286703244"/>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_1524163045241592" v="true" xvt="" name="denuncias" id="_1524163045242593">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162454906245" v="true" xvt="" name="servicos" id="_1524162800912580">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-many>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Concessionaria.findAll">
+            <jpa:query>Select e from Concessionaria e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByNome">
+            <jpa:query>Select c from Concessionaria c where c.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByCnpj">
+            <jpa:query>Select c from Concessionaria c where c.cnpj=:cnpj</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByEndereco">
+            <jpa:query>Select c from Concessionaria c where c.endereco=:endereco</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByDataCriacao">
+            <jpa:query>Select c from Concessionaria c where c.dataCriacao=:dataCriacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByDataAtualizacao">
+            <jpa:query>Select c from Concessionaria c where c.dataAtualizacao=:dataAtualizacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByDataRemocao">
+            <jpa:query>Select c from Concessionaria c where c.dataRemocao=:dataRemocao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Concessionaria.findByTelefone">
+            <jpa:query>Select c from Concessionaria c where c.telefone=:telefone</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PessoaPK" abs="true" class="Pessoa" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162067373226">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="nome" ft="true" id="_1524162086082229">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="email" id="_1524162088274230">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:em/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" name="telefone" id="_1524162091866231"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Pessoa.findAll">
+            <jpa:query>Select e from Pessoa e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pessoa.findByNome">
+            <jpa:query>Select p from Pessoa p where p.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pessoa.findByEmail">
+            <jpa:query>Select p from Pessoa p where p.email=:email</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Pessoa.findByTelefone">
+            <jpa:query>Select p from Pessoa p where p.telefone=:telefone</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-column name="DTYPE"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="DenunciantePK" abs="false" class="Denunciante" superclassId="_1524162067373226" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162193287233">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241665269133217" v="true" name="denuncia" id="_15241665269123216"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Denunciante.findAll">
+            <jpa:query>Select e from Denunciante e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>DENUNCIANTE</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RepresentantePK" abs="false" class="Representante" superclassId="_1524162067373226" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162198514236">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="cargo" id="_1524162268309242"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Representante.findAll">
+            <jpa:query>Select e from Representante e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Representante.findByCargo">
+            <jpa:query>Select r from Representante r where r.cargo=:cargo</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>REPRESENTANTE</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TipoServicoPK" abs="false" class="TipoServico" superclassId="_15241671670484193" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162454906245">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="TipoServico.findAll">
+            <jpa:query>Select e from TipoServico e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoServico.findByNome">
+            <jpa:query>Select s from TipoServico s where s.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoServico.findByDescricao">
+            <jpa:query>Select s from TipoServico s where s.descricao=:descricao</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>SERVICO</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="DenunciaPK" abs="false" class="Denuncia" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162965027581">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="reclamacao" id="_1524162982518585"/>
+            <jpa:basic attribute-type="String" v="true" name="ocorrencia" id="_1524162985974586"/>
+            <jpa:basic attribute-type="String" v="true" name="dataOcorrencia" id="_1524162988638587"/>
+            <jpa:basic attribute-type="String" v="true" name="localOcorrencia" id="_1524162998478588"/>
+            <jpa:basic attribute-type="String" v="true" name="sugestao" id="_1524163004142589"/>
+            <jpa:basic attribute-type="String" v="true" name="providencia" id="_1524163017558590"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524158694152" connected-attribute-id="_1524163045242593" v="true" xvt="" name="concessionaria" id="_1524163045241592">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524163912798615" connected-attribute-id="_1524164155847632" v="true" xvt="" name="tramites" id="_1524164155848633">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15241652042961994" connected-attribute-id="_15241652395262001" v="true" xvt="" name="anexos" id="_15241652395272002">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162193287233" connected-attribute-id="_15241665269123216" v="true" xvt="" name="denunciantes" id="_15241665269133217">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:many-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524157837830" connected-attribute-id="_15241663649182814" v="true" xvt="" name="processos" id="_15241663650202815">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-many>
+            <jpa:version attribute-type="long" v="true" name="revisao" id="_1524163493189607"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Denuncia.findAll">
+            <jpa:query>Select e from Denuncia e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findByReclamacao">
+            <jpa:query>Select d from Denuncia d where d.reclamacao=:reclamacao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findByOcorrencia">
+            <jpa:query>Select d from Denuncia d where d.ocorrencia=:ocorrencia</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findByDataOcorrencia">
+            <jpa:query>Select d from Denuncia d where d.dataOcorrencia=:dataOcorrencia</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findByLocalOcorrencia">
+            <jpa:query>Select d from Denuncia d where d.localOcorrencia=:localOcorrencia</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findBySugestao">
+            <jpa:query>Select d from Denuncia d where d.sugestao=:sugestao</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Denuncia.findByProvidencia">
+            <jpa:query>Select d from Denuncia d where d.providencia=:providencia</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TramitePK" abs="true" class="Tramite" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524163549145608">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.time.LocalDateTime" v="true" xvt="" name="dataVigencia" id="_1524163681023612">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:fp/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:basic attribute-type="java.time.LocalDateTime" v="true" xvt="" name="dataLimite" id="_1524163685039613">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:fp/>
+                </jpa:bv>
+            </jpa:basic>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524164021656623" v="true" name="tipoTramite" id="_1524164062141628"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524158294061" v="true" name="usuario" id="_15241655004432008"/>
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15241649080671589" connected-attribute-id="_15241651308841809" v="true" xvt="" name="anexos" id="_15241651308851810">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Tramite.findAll">
+            <jpa:query>Select e from Tramite e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Tramite.findByDataVigencia">
+            <jpa:query>Select t from Tramite t where t.dataVigencia=:dataVigencia</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Tramite.findByDataLimite">
+            <jpa:query>Select t from Tramite t where t.dataLimite=:dataLimite</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Tramite.findByAttribute">
+            <jpa:query>Select t from Tramite t where t.attribute=:attribute</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-column/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TramiteDenunciaPK" abs="false" class="TramiteDenuncia" superclassId="_1524163549145608" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524163912798615">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_1524164155848633" v="true" name="denuncia" id="_1524164155847632"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="TramiteDenuncia.findAll">
+            <jpa:query>Select e from TramiteDenuncia e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>DENUNCIA</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TramiteProcessoPK" abs="false" class="TramiteProcesso" superclassId="_1524163549145608" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524163915507618">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524157837830" connected-attribute-id="_1524164173888636" v="true" name="processo" id="_1524164173887635"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="TramiteProcesso.findAll">
+            <jpa:query>Select e from TramiteProcesso e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>PROCESSO</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TipoTramitePK" abs="false" class="TipoTramite" superclassId="_15241671670484193" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524164021656623">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="TipoTramite.findAll">
+            <jpa:query>Select e from TipoTramite e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoTramite.findByNome">
+            <jpa:query>Select t from TipoTramite t where t.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoTramite.findByDescricao">
+            <jpa:query>Select t from TipoTramite t where t.descricao=:descricao</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>TRAMITE</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AnexoPK" abs="true" class="Anexo" superclassId="_15241656824192199" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241649065151586">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="Anexo.findAll">
+            <jpa:query>Select e from Anexo e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Anexo.findByNome">
+            <jpa:query>Select a from Anexo a where a.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Anexo.findByCamino">
+            <jpa:query>Select a from Anexo a where a.camino=:camino</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Anexo.findByTipo">
+            <jpa:query>Select a from Anexo a where a.tipo=:tipo</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-column/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AnexoTramitePK" abs="false" class="AnexoTramite" superclassId="_15241649065151586" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241649080671589">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524163549145608" connected-attribute-id="_15241651308851810" v="true" name="tramite" id="_15241651308841809"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="AnexoTramite.findAll">
+            <jpa:query>Select e from AnexoTramite e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>TRAMITE</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="DocumentoPK" abs="false" class="Documento" superclassId="_15241656824192199" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241649141221595">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="procedencia" id="_15241659124222208"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_15241649332511598" v="true" xvt="" name="tipoDocumento" id="_15241649468811603">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524157837830" connected-attribute-id="_15241659419842211" v="true" xvt="" name="processo" id="_15241659419832210">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524158294061" v="true" xvt="" name="criador" id="_15241680456294805">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:version attribute-type="long" v="true" name="revisao" id="_15241655724012196"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Documento.findAll">
+            <jpa:query>Select e from Documento e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Documento.findByNome">
+            <jpa:query>Select d from Documento d where d.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Documento.findByCaminho">
+            <jpa:query>Select d from Documento d where d.caminho=:caminho</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Documento.findByTipoDocumento">
+            <jpa:query>Select d from Documento d where d.tipoDocumento=:tipoDocumento</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Documento.findByProcedencia">
+            <jpa:query>Select d from Documento d where d.procedencia=:procedencia</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TipoDocumentoPK" abs="false" class="TipoDocumento" superclassId="_15241671670484193" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241649332511598">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="TipoDocumento.findAll">
+            <jpa:query>Select e from TipoDocumento e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoDocumento.findByNome">
+            <jpa:query>Select t from TipoDocumento t where t.nome=:nome</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="TipoDocumento.findByDescricao">
+            <jpa:query>Select t from TipoDocumento t where t.descricao=:descricao</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>DOCUMENTO</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AnexoDenunciaPK" abs="false" class="AnexoDenuncia" superclassId="_15241649065151586" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241652042961994">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241652395272002" v="true" name="denuncia" id="_15241652395262001"/>
+        </jpa:attributes>
+        <jpa:nq e="false" name="AnexoDenuncia.findAll">
+            <jpa:query>Select e from AnexoDenuncia e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>DENUNCIA</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TipoProcessoPK" abs="false" class="TipoProcesso" superclassId="_15241671670484193" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241670240013982">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes/>
+        <jpa:nq e="false" name="TipoProcesso.findAll">
+            <jpa:query>Select e from TipoProcesso e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-value>PROCESSO</jpa:discriminator-value>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TipoPK" abs="true" class="Tipo" superclassId="_1524161741650216" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241671670484193">
+        <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="nome" ft="false" id="_15241671877454197">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:bv>
+                    <jpa:nn/>
+                </jpa:bv>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="descricao" id="_15241671918804198">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Tipo.findAll">
+            <jpa:query>Select e from Tipo e</jpa:query>
+        </jpa:nq>
+        <jpa:discriminator-column/>
+    </jpa:entity>
+    <jpa:snp loc="BEFORE_PACKAGE" e="true">/**
+ * This file was generated by the Jeddict
+ */</jpa:snp>
+    <jpa:c>
+        <ct>java.util.List</ct>
+        <ct>java.util.Set</ct>
+        <ct>java.util.Map</ct>
+        <ct>java.util.Collection</ct>
+        <cit>java.util.ArrayList</cit>
+        <cit>java.util.LinkedList</cit>
+        <cit>java.util.HashSet</cit>
+        <cit>java.util.TreeSet</cit>
+        <cit>java.util.HashMap</cit>
+        <db u="jdbc:mysql://localhost:3306/projeto_tcc?zeroDateTimeBehavior=convertToNull" n="root" p="" d="com.mysql.jdbc.Driver"/>
+    </jpa:c>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_15241577926642">
+            <i ref="_15241649080671589" x="425" y="432"/>
+            <i ref="_15241670240013982" x="2423" y="382"/>
+            <i ref="_1524162193287233" x="734" y="430"/>
+            <i ref="_15241649332511598" x="2210" y="382"/>
+            <i ref="_15241671670484193" x="2629" y="218"/>
+            <i ref="_1524162067373226" x="932" y="231"/>
+            <i ref="_1524164021656623" x="2632" y="383"/>
+            <i ref="_15241649141221595" x="838" y="632"/>
+            <i ref="_15241656824192199" x="469" y="64"/>
+            <i ref="_1524163549145608" x="1796" y="214"/>
+            <i ref="_1524163912798615" x="1644" y="417"/>
+            <i ref="_1524157837830" x="1366" y="715"/>
+            <i ref="_1524158294061" x="1693" y="726"/>
+            <i ref="_1524161741650216" x="1345" y="33"/>
+            <i ref="_1524162198514236" x="1021" y="426"/>
+            <i ref="_1524162454906245" x="2825" y="385"/>
+            <i ref="_15241649065151586" x="433" y="250"/>
+            <i ref="_15241652042961994" x="164" y="430"/>
+            <i ref="_1524163915507618" x="1953" y="418"/>
+            <i ref="_1524158694152" x="577" y="726"/>
+            <i ref="_1524162965027581" x="242" y="614"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>
