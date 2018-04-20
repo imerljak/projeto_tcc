@@ -1,23 +1,7 @@
 package br.com.imerljak.repository;
 
 import br.com.imerljak.domain.Denuncia;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Named("denuncia")
-public class DenunciaRepository extends AbstractRepository<Denuncia, Long> {
-
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public DenunciaRepository() {
-        super(Denuncia.class);
-    }
-
+public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 }

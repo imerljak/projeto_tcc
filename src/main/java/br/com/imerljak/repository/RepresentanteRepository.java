@@ -1,23 +1,7 @@
 package br.com.imerljak.repository;
 
 import br.com.imerljak.domain.Representante;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Named("representante")
-public class RepresentanteRepository extends AbstractRepository<Representante, Long> {
-
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public RepresentanteRepository() {
-        super(Representante.class);
-    }
-
+public interface RepresentanteRepository extends JpaRepository<Representante, Long> {
 }

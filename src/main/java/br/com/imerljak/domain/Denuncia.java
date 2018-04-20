@@ -3,16 +3,9 @@
  */
 package br.com.imerljak.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.ws.rs.FormParam;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -21,27 +14,21 @@ import javax.ws.rs.FormParam;
 public class Denuncia extends BaseEntity {
 
     @Basic
-    @FormParam("reclamacao")
     private String reclamacao;
 
     @Basic
-    @FormParam("ocorrencia")
     private String ocorrencia;
 
     @Basic
-    @FormParam("dataOcorrencia")
     private String dataOcorrencia;
 
     @Basic
-    @FormParam("localOcorrencia")
     private String localOcorrencia;
 
     @Basic
-    @FormParam("sugestao")
     private String sugestao;
 
     @Basic
-    @FormParam("providencia")
     private String providencia;
 
     @ManyToOne(fetch = FetchType.LAZY)

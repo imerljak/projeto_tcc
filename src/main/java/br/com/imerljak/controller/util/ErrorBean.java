@@ -16,15 +16,12 @@
  */
 package br.com.imerljak.controller.util;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Named
-@RequestScoped
+//@Named
+//@RequestScoped
 public class ErrorBean {
 
     private String message;

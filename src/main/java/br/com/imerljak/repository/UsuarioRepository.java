@@ -1,23 +1,7 @@
 package br.com.imerljak.repository;
 
 import br.com.imerljak.domain.Usuario;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Named("usuario")
-public class UsuarioRepository extends AbstractRepository<Usuario, Long> {
-
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public UsuarioRepository() {
-        super(Usuario.class);
-    }
-
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 }

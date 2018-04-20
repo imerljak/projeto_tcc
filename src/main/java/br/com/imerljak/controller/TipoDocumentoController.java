@@ -16,99 +16,91 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.TipoDocumento;
 import br.com.imerljak.repository.TipoDocumentoRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("tipoDocumento")
+@Controller
+@RequestMapping("tipoDocumento")
 public class TipoDocumentoController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private TipoDocumentoRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyTipoDocumento() {
-        return "tipoDocumento/create.jsp";
+    @Autowired
+    public TipoDocumentoController(TipoDocumentoRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createTipoDocumento(@Valid
-            @BeanParam TipoDocumento tipoDocumento) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(tipoDocumento);
-        return "redirect:tipoDocumento/list";
-    }
+    // TODO: 20/04/18 Convert to Spring
 
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editTipoDocumento(@PathParam("id") Long id) {
-        model.put("TIPODOCUMENTO", repository.find(id));
-        return "tipoDocumento/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateTipoDocumento(@Valid
-            @BeanParam TipoDocumento tipoDocumento) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(tipoDocumento);
-        return "redirect:tipoDocumento/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeTipoDocumento(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:tipoDocumento/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findTipoDocumento(@PathParam("id") Long id) {
-        model.put("TIPODOCUMENTO", repository.find(id));
-        return "tipoDocumento/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllTipoDocumento() {
-        model.put("TIPODOCUMENTO_LIST", repository.findAll());
-        return "tipoDocumento/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyTipoDocumento() {
+//        return "tipoDocumento/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createTipoDocumento(@Valid
+//            @BeanParam TipoDocumento tipoDocumento) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(tipoDocumento);
+//        return "redirect:tipoDocumento/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editTipoDocumento(@PathParam("id") Long id) {
+//        model.put("TIPODOCUMENTO", repository.find(id));
+//        return "tipoDocumento/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateTipoDocumento(@Valid
+//            @BeanParam TipoDocumento tipoDocumento) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(tipoDocumento);
+//        return "redirect:tipoDocumento/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeTipoDocumento(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:tipoDocumento/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findTipoDocumento(@PathParam("id") Long id) {
+//        model.put("TIPODOCUMENTO", repository.find(id));
+//        return "tipoDocumento/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllTipoDocumento() {
+//        model.put("TIPODOCUMENTO_LIST", repository.findAll());
+//        return "tipoDocumento/list.jsp";
+//    }
 
 }

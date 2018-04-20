@@ -6,7 +6,6 @@ package br.com.imerljak.domain;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.ws.rs.FormParam;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -16,7 +15,6 @@ import javax.ws.rs.FormParam;
 public class Representante extends Pessoa {
 
     @Basic
-    @FormParam("cargo")
     private String cargo;
 
     public String getCargo() {

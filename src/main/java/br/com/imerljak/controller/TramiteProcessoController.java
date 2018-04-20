@@ -16,99 +16,89 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.TramiteProcesso;
 import br.com.imerljak.repository.TramiteProcessoRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("tramiteProcesso")
+@RequestMapping("/tramiteProcesso")
 public class TramiteProcessoController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private TramiteProcessoRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyTramiteProcesso() {
-        return "tramiteProcesso/create.jsp";
+    @Autowired
+    public TramiteProcessoController(TramiteProcessoRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createTramiteProcesso(@Valid
-            @BeanParam TramiteProcesso tramiteProcesso) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(tramiteProcesso);
-        return "redirect:tramiteProcesso/list";
-    }
+    // TODO: 20/04/18 Convert to spring
 
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editTramiteProcesso(@PathParam("id") Long id) {
-        model.put("TRAMITEPROCESSO", repository.find(id));
-        return "tramiteProcesso/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateTramiteProcesso(@Valid
-            @BeanParam TramiteProcesso tramiteProcesso) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(tramiteProcesso);
-        return "redirect:tramiteProcesso/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeTramiteProcesso(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:tramiteProcesso/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findTramiteProcesso(@PathParam("id") Long id) {
-        model.put("TRAMITEPROCESSO", repository.find(id));
-        return "tramiteProcesso/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllTramiteProcesso() {
-        model.put("TRAMITEPROCESSO_LIST", repository.findAll());
-        return "tramiteProcesso/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyTramiteProcesso() {
+//        return "tramiteProcesso/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createTramiteProcesso(@Valid
+//            @BeanParam TramiteProcesso tramiteProcesso) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(tramiteProcesso);
+//        return "redirect:tramiteProcesso/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editTramiteProcesso(@PathParam("id") Long id) {
+//        model.put("TRAMITEPROCESSO", repository.find(id));
+//        return "tramiteProcesso/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateTramiteProcesso(@Valid
+//            @BeanParam TramiteProcesso tramiteProcesso) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(tramiteProcesso);
+//        return "redirect:tramiteProcesso/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeTramiteProcesso(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:tramiteProcesso/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findTramiteProcesso(@PathParam("id") Long id) {
+//        model.put("TRAMITEPROCESSO", repository.find(id));
+//        return "tramiteProcesso/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllTramiteProcesso() {
+//        model.put("TRAMITEPROCESSO_LIST", repository.findAll());
+//        return "tramiteProcesso/list.jsp";
+//    }
 
 }

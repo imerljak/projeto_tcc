@@ -3,19 +3,11 @@
  */
 package br.com.imerljak.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -25,23 +17,19 @@ public class Processo extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     @Basic(optional = false)
-    @FormParam("protocolo")
     @NotNull
     private String protocolo;
 
     @Column(nullable = false)
     @Basic(optional = false)
-    @FormParam("nome")
     @NotNull
     private String nome;
 
     @Basic
-    @FormParam("observacoes")
     private String observacoes;
 
     @Column(nullable = false)
     @Basic
-    @FormParam("status")
     @NotNull
     private String status;
 

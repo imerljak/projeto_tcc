@@ -3,17 +3,12 @@
  */
 package br.com.imerljak.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.ws.rs.FormParam;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -23,23 +18,19 @@ public class Concessionaria extends BaseEntity {
 
     @Column(nullable = false)
     @Basic(optional = false)
-    @FormParam("nome")
     @NotNull
     private String nome;
 
     @Column(unique = true, nullable = false)
     @Basic(optional = false)
-    @FormParam("cnpj")
     @NotNull
     @Pattern(regexp = "\\d{14}")
     private String cnpj;
 
     @Basic
-    @FormParam("endereco")
     private String endereco;
 
     @Basic
-    @FormParam("telefone")
     private String telefone;
 
     @OneToMany

@@ -16,99 +16,89 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.Denuncia;
 import br.com.imerljak.repository.DenunciaRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("denuncia")
+@ConditionalOnBean
+@RequestMapping("/denuncia")
 public class DenunciaController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private DenunciaRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyDenuncia() {
-        return "denuncia/create.jsp";
+    @Autowired
+    public DenunciaController(DenunciaRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createDenuncia(@Valid
-            @BeanParam Denuncia denuncia) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(denuncia);
-        return "redirect:denuncia/list";
-    }
-
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editDenuncia(@PathParam("id") Long id) {
-        model.put("DENUNCIA", repository.find(id));
-        return "denuncia/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateDenuncia(@Valid
-            @BeanParam Denuncia denuncia) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(denuncia);
-        return "redirect:denuncia/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeDenuncia(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:denuncia/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findDenuncia(@PathParam("id") Long id) {
-        model.put("DENUNCIA", repository.find(id));
-        return "denuncia/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllDenuncia() {
-        model.put("DENUNCIA_LIST", repository.findAll());
-        return "denuncia/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyDenuncia() {
+//        return "denuncia/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createDenuncia(@Valid
+//            @BeanParam Denuncia denuncia) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(denuncia);
+//        return "redirect:denuncia/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editDenuncia(@PathParam("id") Long id) {
+//        model.put("DENUNCIA", repository.find(id));
+//        return "denuncia/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateDenuncia(@Valid
+//            @BeanParam Denuncia denuncia) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(denuncia);
+//        return "redirect:denuncia/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeDenuncia(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:denuncia/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findDenuncia(@PathParam("id") Long id) {
+//        model.put("DENUNCIA", repository.find(id));
+//        return "denuncia/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllDenuncia() {
+//        model.put("DENUNCIA_LIST", repository.findAll());
+//        return "denuncia/list.jsp";
+//    }
 
 }

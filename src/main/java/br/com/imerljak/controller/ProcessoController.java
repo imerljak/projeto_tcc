@@ -16,99 +16,91 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.Processo;
 import br.com.imerljak.repository.ProcessoRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("processo")
+@Controller
+@RequestMapping("/processo")
 public class ProcessoController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private ProcessoRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyProcesso() {
-        return "processo/create.jsp";
+    @Autowired
+    public ProcessoController(ProcessoRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createProcesso(@Valid
-            @BeanParam Processo processo) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(processo);
-        return "redirect:processo/list";
-    }
+    // TODO: 20/04/18 Convert to Spring
 
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editProcesso(@PathParam("id") Long id) {
-        model.put("PROCESSO", repository.find(id));
-        return "processo/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateProcesso(@Valid
-            @BeanParam Processo processo) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(processo);
-        return "redirect:processo/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeProcesso(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:processo/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findProcesso(@PathParam("id") Long id) {
-        model.put("PROCESSO", repository.find(id));
-        return "processo/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllProcesso() {
-        model.put("PROCESSO_LIST", repository.findAll());
-        return "processo/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyProcesso() {
+//        return "processo/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createProcesso(@Valid
+//            @BeanParam Processo processo) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(processo);
+//        return "redirect:processo/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editProcesso(@PathParam("id") Long id) {
+//        model.put("PROCESSO", repository.find(id));
+//        return "processo/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateProcesso(@Valid
+//            @BeanParam Processo processo) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(processo);
+//        return "redirect:processo/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeProcesso(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:processo/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findProcesso(@PathParam("id") Long id) {
+//        model.put("PROCESSO", repository.find(id));
+//        return "processo/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllProcesso() {
+//        model.put("PROCESSO_LIST", repository.findAll());
+//        return "processo/list.jsp";
+//    }
 
 }

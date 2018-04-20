@@ -1,23 +1,7 @@
 package br.com.imerljak.repository;
 
 import br.com.imerljak.domain.TipoServico;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Named("tipoServico")
-public class TipoServicoRepository extends AbstractRepository<TipoServico, Long> {
-
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public TipoServicoRepository() {
-        super(TipoServico.class);
-    }
-
+public interface TipoServicoRepository extends JpaRepository<TipoServico, Long> {
 }

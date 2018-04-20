@@ -3,12 +3,7 @@
  */
 package br.com.imerljak.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-import javax.ws.rs.FormParam;
+import javax.persistence.*;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -17,7 +12,6 @@ import javax.ws.rs.FormParam;
 public class Documento extends Arquivo {
 
     @Basic
-    @FormParam("procedencia")
     private String procedencia;
 
     @ManyToOne(fetch = FetchType.LAZY)

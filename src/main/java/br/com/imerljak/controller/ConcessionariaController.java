@@ -16,99 +16,89 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.Concessionaria;
 import br.com.imerljak.repository.ConcessionariaRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("concessionaria")
+@Controller
+@RequestMapping("/concessionaria")
 public class ConcessionariaController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private ConcessionariaRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyConcessionaria() {
-        return "concessionaria/create.jsp";
+    @Autowired
+    public ConcessionariaController(ConcessionariaRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createConcessionaria(@Valid
-            @BeanParam Concessionaria concessionaria) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(concessionaria);
-        return "redirect:concessionaria/list";
-    }
-
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editConcessionaria(@PathParam("id") Long id) {
-        model.put("CONCESSIONARIA", repository.find(id));
-        return "concessionaria/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateConcessionaria(@Valid
-            @BeanParam Concessionaria concessionaria) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(concessionaria);
-        return "redirect:concessionaria/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeConcessionaria(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:concessionaria/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findConcessionaria(@PathParam("id") Long id) {
-        model.put("CONCESSIONARIA", repository.find(id));
-        return "concessionaria/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllConcessionaria() {
-        model.put("CONCESSIONARIA_LIST", repository.findAll());
-        return "concessionaria/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyConcessionaria() {
+//        return "concessionaria/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createConcessionaria(@Valid
+//            @BeanParam Concessionaria concessionaria) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(concessionaria);
+//        return "redirect:concessionaria/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editConcessionaria(@PathParam("id") Long id) {
+//        model.put("CONCESSIONARIA", repository.find(id));
+//        return "concessionaria/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateConcessionaria(@Valid
+//            @BeanParam Concessionaria concessionaria) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(concessionaria);
+//        return "redirect:concessionaria/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeConcessionaria(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:concessionaria/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findConcessionaria(@PathParam("id") Long id) {
+//        model.put("CONCESSIONARIA", repository.find(id));
+//        return "concessionaria/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllConcessionaria() {
+//        model.put("CONCESSIONARIA_LIST", repository.findAll());
+//        return "concessionaria/list.jsp";
+//    }
 
 }

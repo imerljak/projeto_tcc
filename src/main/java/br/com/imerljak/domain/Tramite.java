@@ -3,17 +3,11 @@
  */
 package br.com.imerljak.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.FutureOrPresent;
-import javax.ws.rs.FormParam;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -23,12 +17,10 @@ import javax.ws.rs.FormParam;
 public abstract class Tramite extends BaseEntity {
 
     @Basic
-    @FormParam("dataVigencia")
     @FutureOrPresent
     private LocalDateTime dataVigencia;
 
     @Basic
-    @FormParam("dataLimite")
     @FutureOrPresent
     private LocalDateTime dataLimite;
 

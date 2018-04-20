@@ -1,23 +1,7 @@
 package br.com.imerljak.repository;
 
 import br.com.imerljak.domain.TramiteProcesso;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Named("tramiteProcesso")
-public class TramiteProcessoRepository extends AbstractRepository<TramiteProcesso, Long> {
-
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public TramiteProcessoRepository() {
-        super(TramiteProcesso.class);
-    }
-
+public interface TramiteProcessoRepository extends JpaRepository<TramiteProcesso, Long> {
 }

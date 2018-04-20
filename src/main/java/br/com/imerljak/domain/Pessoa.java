@@ -3,13 +3,12 @@
  */
 package br.com.imerljak.domain;
 
-import java.util.Optional;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
+import java.util.Optional;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -19,17 +18,14 @@ import javax.ws.rs.FormParam;
 public abstract class Pessoa extends BaseEntity {
 
     @Basic
-    @FormParam("nome")
     @NotNull
     private String nome;
 
     @Basic
-    @FormParam("email")
     @Email
     private String email;
 
     @Basic
-    @FormParam("telefone")
     private String telefone;
 
     public Optional<String> getNome() {

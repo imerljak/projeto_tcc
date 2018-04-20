@@ -16,56 +16,49 @@
  */
 package br.com.imerljak.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import javax.mvc.engine.ViewEngine;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import org.glassfish.soteria.identitystores.annotation.Credentials;
-import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefinition;
-
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@ApplicationPath("resources")
-@EmbeddedIdentityStoreDefinition(
-        @Credentials(callerName = "user", password = "user"))
-public class ApplicationConfig extends Application {
+//@ApplicationPath("resources")
+//@EmbeddedIdentityStoreDefinition(
+//        @Credentials(callerName = "user", password = "user"))
+public class ApplicationConfig
+//        extends Application
+{
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> resources = new java.util.HashSet<>();
-        addRestResourceClasses(resources);
-        return resources;
-    }
+//    @Override
+//    public Set<Class<?>> getClasses() {
+//        Set<Class<?>> resources = new java.util.HashSet<>();
+//        addRestResourceClasses(resources);
+//        return resources;
+//    }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ViewEngine.VIEW_FOLDER, "/WEB-INF/views");
-        return props;
-    }
+//    @Override
+//    public Map<String, Object> getProperties() {
+//        Map<String, Object> props = new HashMap<>();
+//        props.put(ViewEngine.VIEW_FOLDER, "/WEB-INF/views");
+//        return props;
+//    }
 
-    private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(br.com.imerljak.controller.AnexoDenunciaController.class);
-        resources.add(br.com.imerljak.controller.AnexoTramiteController.class);
-        resources.add(br.com.imerljak.controller.ConcessionariaController.class);
-        resources.add(br.com.imerljak.controller.DenunciaController.class);
-        resources.add(br.com.imerljak.controller.DenuncianteController.class);
-        resources.add(br.com.imerljak.controller.DocumentoController.class);
-        resources.add(br.com.imerljak.controller.LoginController.class);
-        resources.add(br.com.imerljak.controller.ProcessoController.class);
-        resources.add(br.com.imerljak.controller.RepresentanteController.class);
-        resources.add(br.com.imerljak.controller.TipoDocumentoController.class);
-        resources.add(br.com.imerljak.controller.TipoProcessoController.class);
-        resources.add(br.com.imerljak.controller.TipoServicoController.class);
-        resources.add(br.com.imerljak.controller.TipoTramiteController.class);
-        resources.add(br.com.imerljak.controller.TramiteDenunciaController.class);
-        resources.add(br.com.imerljak.controller.TramiteProcessoController.class);
-        resources.add(br.com.imerljak.controller.UsuarioController.class);
-        resources.add(br.com.imerljak.controller.util.CustomParamConverterProvider.class);
-    }
+//    private void addRestResourceClasses(Set<Class<?>> resources) {
+//        resources.add(br.com.imerljak.controller.AnexoDenunciaController.class);
+//        resources.add(br.com.imerljak.controller.AnexoTramiteController.class);
+//        resources.add(br.com.imerljak.controller.ConcessionariaController.class);
+//        resources.add(br.com.imerljak.controller.DenunciaController.class);
+//        resources.add(br.com.imerljak.controller.DenuncianteController.class);
+//        resources.add(br.com.imerljak.controller.DocumentoController.class);
+//        resources.add(br.com.imerljak.controller.LoginController.class);
+//        resources.add(br.com.imerljak.controller.ProcessoController.class);
+//        resources.add(br.com.imerljak.controller.RepresentanteController.class);
+//        resources.add(br.com.imerljak.controller.TipoDocumentoController.class);
+//        resources.add(br.com.imerljak.controller.TipoProcessoController.class);
+//        resources.add(br.com.imerljak.controller.TipoServicoController.class);
+//        resources.add(br.com.imerljak.controller.TipoTramiteController.class);
+//        resources.add(br.com.imerljak.controller.TramiteDenunciaController.class);
+//        resources.add(br.com.imerljak.controller.TramiteProcessoController.class);
+//        resources.add(br.com.imerljak.controller.UsuarioController.class);
+//        resources.add(br.com.imerljak.controller.util.CustomParamConverterProvider.class);
+//    }
 
 }

@@ -3,15 +3,14 @@
  */
 package br.com.imerljak.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -21,19 +20,16 @@ public class Usuario extends BaseEntity {
 
     @Column(name = "nome", nullable = false)
     @Basic
-    @FormParam("nome")
     @NotNull
     private String nome;
 
     @Column(name = "email", nullable = false)
     @Basic(optional = false)
-    @FormParam("email")
     @NotNull
     @Email
     private String email;
 
     @Basic(optional = false)
-    @FormParam("senha")
     @NotNull
     private String senha;
 

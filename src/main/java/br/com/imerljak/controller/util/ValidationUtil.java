@@ -16,23 +16,19 @@
  */
 package br.com.imerljak.controller.util;
 
-import java.util.Set;
-import javax.mvc.binding.BindingResult;
-import javax.mvc.binding.ValidationError;
-
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 public class ValidationUtil {
 
-    public static String getResponse(BindingResult validationResult, ErrorBean error) {
-        final Set<ValidationError> allValidationErrors = validationResult.getAllValidationErrors();
-        final ValidationError validationError = allValidationErrors.iterator().next();
-        error.setProperty(validationError.getParamName());
-        error.setValue(validationError.getViolation().getInvalidValue());
-        error.setMessage(validationError.getMessage());
-        return "/webresources/common/error.jsp";
-    }
+//    public static String getResponse(BindingResult validationResult, ErrorBean error) {
+//        final Set<ValidationError> allValidationErrors = validationResult.getAllValidationErrors();
+//        final ValidationError validationError = allValidationErrors.iterator().next();
+//        error.setProperty(validationError.getParamName());
+//        error.setValue(validationError.getViolation().getInvalidValue());
+//        error.setMessage(validationError.getMessage());
+//        return "/webresources/common/error.jsp";
+//    }
 
 }

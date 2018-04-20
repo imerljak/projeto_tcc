@@ -16,99 +16,89 @@
  */
 package br.com.imerljak.controller;
 
-import br.com.imerljak.controller.util.ErrorBean;
-import br.com.imerljak.controller.util.ValidationUtil;
-import br.com.imerljak.domain.AnexoTramite;
 import br.com.imerljak.repository.AnexoTramiteRepository;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
-@Path("anexoTramite")
+@Controller
+@RequestMapping("/anexoTramite")
 public class AnexoTramiteController {
 
-    @Inject
-    private javax.mvc.Models model;
-    @Inject
     private AnexoTramiteRepository repository;
-    @Inject
-    private javax.mvc.binding.BindingResult validationResult;
-    @Inject
-    private ErrorBean error;
 
-    @GET
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    public String emptyAnexoTramite() {
-        return "anexoTramite/create.jsp";
+    @Autowired
+    public AnexoTramiteController(AnexoTramiteRepository repository) {
+        this.repository = repository;
     }
 
-    @POST
-    @Path("new")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String createAnexoTramite(@Valid
-            @BeanParam AnexoTramite anexoTramite) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.create(anexoTramite);
-        return "redirect:anexoTramite/list";
-    }
-
-    @GET
-    @Path("update/{id}")
-    @javax.mvc.annotation.Controller
-    public String editAnexoTramite(@PathParam("id") Long id) {
-        model.put("ANEXOTRAMITE", repository.find(id));
-        return "anexoTramite/update.jsp";
-    }
-
-    @POST
-    @Path("update")
-    @javax.mvc.annotation.Controller
-    @ValidateOnExecution(type = ExecutableType.NONE)
-    public String updateAnexoTramite(@Valid
-            @BeanParam AnexoTramite anexoTramite) {
-        if (validationResult.isFailed()) {
-            return ValidationUtil.getResponse(validationResult, error);
-        }
-        repository.edit(anexoTramite);
-        return "redirect:anexoTramite/list";
-    }
-
-    @GET
-    @Path("remove/{id}")
-    @javax.mvc.annotation.Controller
-    public String removeAnexoTramite(@PathParam("id") Long id) {
-        repository.remove(repository.find(id));
-        return "redirect:anexoTramite/list";
-    }
-
-    @GET
-    @Path("{id}")
-    @javax.mvc.annotation.Controller
-    public String findAnexoTramite(@PathParam("id") Long id) {
-        model.put("ANEXOTRAMITE", repository.find(id));
-        return "anexoTramite/view.jsp";
-    }
-
-    @GET
-    @Path("list")
-    @javax.mvc.annotation.Controller
-    public String findAllAnexoTramite() {
-        model.put("ANEXOTRAMITE_LIST", repository.findAll());
-        return "anexoTramite/list.jsp";
-    }
+//    @GET
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    public String emptyAnexoTramite() {
+//        return "anexoTramite/create.jsp";
+//    }
+//
+//    @POST
+//    @Path("new")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String createAnexoTramite(@Valid
+//            @BeanParam AnexoTramite anexoTramite) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.create(anexoTramite);
+//        return "redirect:anexoTramite/list";
+//    }
+//
+//    @GET
+//    @Path("update/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String editAnexoTramite(@PathParam("id") Long id) {
+//        model.put("ANEXOTRAMITE", repository.find(id));
+//        return "anexoTramite/update.jsp";
+//    }
+//
+//    @POST
+//    @Path("update")
+//    @javax.mvc.annotation.Controller
+//    @ValidateOnExecution(type = ExecutableType.NONE)
+//    public String updateAnexoTramite(@Valid
+//            @BeanParam AnexoTramite anexoTramite) {
+//        if (validationResult.isFailed()) {
+//            return ValidationUtil.getResponse(validationResult, error);
+//        }
+//        repository.edit(anexoTramite);
+//        return "redirect:anexoTramite/list";
+//    }
+//
+//    @GET
+//    @Path("remove/{id}")
+//    @javax.mvc.annotation.Controller
+//    public String removeAnexoTramite(@PathParam("id") Long id) {
+//        repository.remove(repository.find(id));
+//        return "redirect:anexoTramite/list";
+//    }
+//
+//    @GET
+//    @Path("{id}")
+//    @javax.mvc.annotation.Controller
+//    public String findAnexoTramite(@PathParam("id") Long id) {
+//        model.put("ANEXOTRAMITE", repository.find(id));
+//        return "anexoTramite/view.jsp";
+//    }
+//
+//    @GET
+//    @Path("list")
+//    @javax.mvc.annotation.Controller
+//    public String findAllAnexoTramite() {
+//        model.put("ANEXOTRAMITE_LIST", repository.findAll());
+//        return "anexoTramite/list.jsp";
+//    }
 
 }
