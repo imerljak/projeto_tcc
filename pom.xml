@@ -5,11 +5,99 @@
     <artifactId>projeto_tcc</artifactId>
     <version>0.1.0</version>
     <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <version.javaee>8.0</version.javaee>
+        <version.mysql>5.1.46</version.mysql>
+        <version.soteria>1.0</version.soteria>
+        <version.mvc>1.0-pr</version.mvc>
+        <version.ozark>1.0.0-m02</version.ozark>
+    </properties>
+    
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <context.path>projeto_tcc</context.path>
+                <db.svc>localhost</db.svc>
+                <db.type>mariadb</db.type>
+                <db.driver>org.mariadb.jdbc.Driver</db.driver>
+                <db.port>3306</db.port>
+                <db.name>projeto_tcc</db.name>
+                <db.user>root</db.user>
+                <db.password>password</db.password>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>projeto_tcc</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>  
+                            <filtering>true</filtering>                   
+                            <directory>src/main/webapp</directory>                          
+                            <includes>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <layout>default</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    
     <dependencies>
-        <dependency>
+        <!--        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${version.mysql}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.2.12.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.2.16.Final</version>
         </dependency>
         <dependency>
             <groupId>javax.mvc</groupId>
@@ -35,44 +123,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>projeto_tcc</finalName>
-    </build>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <context.path>projeto_tcc</context.path>
-                <db.password/>
-                <db.user>root</db.user>
-                <db.port>3306</db.port>
-                <db.name>projeto_tcc</db.name>
-                <db.svc>localhost</db.svc>
-            </properties>
-        </profile>
-    </profiles>
-    <repositories>
-        <repository>
-            <id>oss-sonatype</id>
-            <name>oss-sonatype</name>
-            <layout>default</layout>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-        <version.javaee>8.0</version.javaee>
-        <version.mysql>5.1.46</version.mysql>
-        <version.soteria>1.0</version.soteria>
-        <version.mvc>1.0-pr</version.mvc>
-        <version.ozark>1.0.0-m02</version.ozark>
-    </properties>
+    
 </project>

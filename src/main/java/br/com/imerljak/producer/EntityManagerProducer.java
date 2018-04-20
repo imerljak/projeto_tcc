@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 @RequestScoped
 public class EntityManagerProducer {
 
-    @PersistenceContext(unitName = "DEFAULT_PU")
+    @PersistenceContext(unitName = "TccDS")
     private EntityManager em;
 
     @Produces

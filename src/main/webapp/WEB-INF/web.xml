@@ -5,11 +5,12 @@
          version="3.1">
     <data-source>
         <!--  environment-specific properties applied using maven-war-plugin Webapp resource filtering -->
-        <name>java:global/jdbc/SampleDS</name>
-        <class-name>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</class-name>
-        <server-name>${db.svc}</server-name>
-        <port-number>${db.port}</port-number>
-        <database-name>${db.name}</database-name>
+        <name>java:global/jdbc/tccDS</name>
+        <class-name>${db.driver}</class-name>
+        <!--<server-name>${db.svc}</server-name>-->
+        <url>jdbc:${db.type}://${db.svc}:${db.port}/${db.name}</url>
+        <!--<port-number>${db.port}</port-number>-->
+        <!--<database-name>${db.name}</database-name>-->
         <user>${db.user}</user>
         <password>${db.password}</password>
     </data-source>

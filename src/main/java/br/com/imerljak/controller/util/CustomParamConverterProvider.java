@@ -16,7 +16,7 @@ public class CustomParamConverterProvider implements ParamConverterProvider {
             return new ParamConverter<T>() {
                 @Override
                 public T fromString(String value) {
-                    return (T) Boolean.valueOf(value != null && value.equals("on"));
+                    return (T) Boolean.toString(value != null && value.equals("on"));
                 }
 
                 @Override
