@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/imerljak/projeto_tcc.svg?branch=master)](https://travis-ci.org/imerljak/projeto_tcc)
+
 # Summary
 Projeto de TCC para o curso de Sistema de Informação - IFFarroupilha - SB - 2018
 
