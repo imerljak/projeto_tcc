@@ -26,6 +26,7 @@ hs_err_pid*
 
 # Netbeans Files
 .project
+nbactions.xml
 nb-configuration.xml
 
 # Other stuff
