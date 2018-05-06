@@ -16,16 +16,21 @@
  */
 package br.com.imerljak.controller;
 
+import br.com.imerljak.domain.Usuario;
 import br.com.imerljak.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Controller
+@RequestScope
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
@@ -38,69 +43,55 @@ public class UsuarioController {
 
     // TODO: 20/04/18 convert to Spring
 
-//    @GET
-//    @Path("new")
-//    @javax.mvc.annotation.Controller
-//    public String emptyUsuario() {
-//        return "usuario/create.jsp";
-//    }
-//
-//    @POST
-//    @Path("new")
-//    @javax.mvc.annotation.Controller
-//    @ValidateOnExecution(type = ExecutableType.NONE)
-//    public String createUsuario(@Valid
-//            @BeanParam Usuario usuario) {
-//        if (validationResult.isFailed()) {
-//            return ValidationUtil.getResponse(validationResult, error);
-//        }
-//        repository.create(usuario);
-//        return "redirect:usuario/list";
-//    }
-//
-//    @GET
-//    @Path("update/{id}")
-//    @javax.mvc.annotation.Controller
-//    public String editUsuario(@PathParam("id") Long id) {
-//        model.put("USUARIO", repository.find(id));
-//        return "usuario/update.jsp";
-//    }
-//
-//    @POST
-//    @Path("update")
-//    @javax.mvc.annotation.Controller
-//    @ValidateOnExecution(type = ExecutableType.NONE)
-//    public String updateUsuario(@Valid
-//            @BeanParam Usuario usuario) {
-//        if (validationResult.isFailed()) {
-//            return ValidationUtil.getResponse(validationResult, error);
-//        }
-//        repository.edit(usuario);
-//        return "redirect:usuario/list";
-//    }
-//
-//    @GET
-//    @Path("remove/{id}")
-//    @javax.mvc.annotation.Controller
-//    public String removeUsuario(@PathParam("id") Long id) {
-//        repository.remove(repository.find(id));
-//        return "redirect:usuario/list";
-//    }
-//
-//    @GET
-//    @Path("{id}")
-//    @javax.mvc.annotation.Controller
-//    public String findUsuario(@PathParam("id") Long id) {
-//        model.put("USUARIO", repository.find(id));
-//        return "usuario/view.jsp";
-//    }
-//
-//    @GET
-//    @Path("list")
-//    @javax.mvc.annotation.Controller
-//    public String findAllUsuario() {
-//        model.put("USUARIO_LIST", repository.findAll());
-//        return "usuario/list.jsp";
-//    }
+    @RequestMapping(value = "new", method = RequestMethod.GET)
+    public String emptyUsuario() {
 
+//        Usuario usuario = new Usuario();
+//        usuario.setNome("Israel Merljak");
+//        usuario.setEmail("imerljak@gmail.com");
+//        usuario.setSenha("12345");
+//
+//        repository.save(usuario);
+
+        return "usuario/create";
+    }
+
+    @RequestMapping(value = "new", method = RequestMethod.POST)
+    public String createUsuario(Usuario usuario) { // TODO: @Valid
+        repository.save(usuario);
+        return "redirect:usuario/list";
+    }
+
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
+    public ModelAndView editUsuario(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("usuario/update");
+        modelAndView.addObject("usuario", repository.findById(id));
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public String updateusuario(Usuario usuario) { // TODO: @Valid
+        repository.save(usuario);
+        return "redirect:usuario/list";
+    }
+
+    @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
+    public String removeUsuario(@PathVariable Long id) {
+        repository.deleteById(id);
+        return "redirect:usuario/list";
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ModelAndView findUsuario(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("usuario/view");
+        modelAndView.addObject("usuario", repository.findById(id));
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public ModelAndView findAllUsuarios() {
+        ModelAndView modelAndView = new ModelAndView("usuario/list");
+        modelAndView.addObject("usuarios", repository.findAll()); // TODO: Paginate ?
+        return modelAndView;
+    }
 }

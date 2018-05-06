@@ -3,17 +3,12 @@
  */
 package br.com.imerljak.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -40,6 +35,22 @@ public class BaseEntity implements Serializable {
     @Basic
     @PastOrPresent
     private LocalDateTime dataRemocao;
+
+    @PrePersist
+    protected void prePersist() {
+        dataCriacao = LocalDateTime.now();
+        dataAtualizacao = dataCriacao;
+    }
+
+    @PreRemove
+    protected void preRemove() {
+        dataRemocao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void preUpdate() {
+        dataAtualizacao = LocalDateTime.now();
+    }
 
     public Long getId() {
         return this.id;

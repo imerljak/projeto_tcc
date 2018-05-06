@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Usuarios List</title>
+
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
 <body>
-
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="usuarios" type="br.com.imerljak.domain.Usuario[]"*/-->
+    <tr th:each="usuario : ${usuarios}">
+        <td th:text="${usuario.nome}">Fulano de Tal</td>
+        <td th:text="${usuario.email}">email@mail.com</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
