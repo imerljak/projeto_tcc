@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Usuários</title>
+</head>
+
+<!-- page content -->
+<div layout:fragment="content">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Usuários
+                <small>Lista de usuários cadastrados no sistema.</small>
+            </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a class="btn" th:href="@{/usuarios/novo}"><i class="fa fa-user-plus"></i> Novo Usuário</a>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Email</th>
+                            <th>???</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <th scope="row" th:text="${usuario.id}">1</th>
+                            <td th:text="${usuario.nome}">Mark</td>
+                            <td th:text="${usuario.email}">Otto</td>
+                            <td th:text="'???'">@mdo</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->

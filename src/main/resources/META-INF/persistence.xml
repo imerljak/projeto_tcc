@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress XmlDefaultAttributeValue -->
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="TccDS" transaction-type="JTA">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <jta-data-source>java:global/jdbc/tccDS</jta-data-source>
-    <class>br.com.imerljak.domain.Processo</class>
-    <class>br.com.imerljak.domain.Usuario</class>
-    <class>br.com.imerljak.domain.Concessionaria</class>
-    <class>br.com.imerljak.domain.Pessoa</class>
-    <class>br.com.imerljak.domain.Denunciante</class>
-    <class>br.com.imerljak.domain.Representante</class>
-    <class>br.com.imerljak.domain.TipoServico</class>
-    <class>br.com.imerljak.domain.Denuncia</class>
-    <class>br.com.imerljak.domain.Tramite</class>
-    <class>br.com.imerljak.domain.TramiteDenuncia</class>
-    <class>br.com.imerljak.domain.TramiteProcesso</class>
-    <class>br.com.imerljak.domain.TipoTramite</class>
-    <class>br.com.imerljak.domain.Anexo</class>
-    <class>br.com.imerljak.domain.AnexoTramite</class>
-    <class>br.com.imerljak.domain.Documento</class>
-    <class>br.com.imerljak.domain.TipoDocumento</class>
-    <class>br.com.imerljak.domain.AnexoDenuncia</class>
-    <class>br.com.imerljak.domain.TipoProcesso</class>
-    <class>br.com.imerljak.domain.Tipo</class>
+    <class>br.com.imerljak.processos.entity.Processo</class>
+    <class>br.com.imerljak.usuarios.entity.Usuario</class>
+    <class>br.com.imerljak.concessionarias.entity.Concessionaria</class>
+    <class>br.com.imerljak.common.entity.Pessoa</class>
+    <class>br.com.imerljak.denuncias.entity.Denunciante</class>
+    <class>br.com.imerljak.concessionarias.entity.Representante</class>
+    <class>br.com.imerljak.concessionarias.entity.TipoServico</class>
+    <class>br.com.imerljak.denuncias.entity.Denuncia</class>
+    <class>br.com.imerljak.common.entity.Tramite</class>
+    <class>br.com.imerljak.denuncias.entity.TramiteDenuncia</class>
+    <class>br.com.imerljak.processos.entity.TramiteProcesso</class>
+    <class>br.com.imerljak.common.entity.TipoTramite</class>
+    <class>br.com.imerljak.common.entity.Anexo</class>
+    <class>br.com.imerljak.common.entity.AnexoTramite</class>
+    <class>br.com.imerljak.processos.entity.Documento</class>
+    <class>br.com.imerljak.processos.entity.TipoDocumento</class>
+    <class>br.com.imerljak.denuncias.entity.AnexoDenuncia</class>
+    <class>br.com.imerljak.processos.entity.TipoProcesso</class>
+    <class>br.com.imerljak.common.entity.Tipo</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
