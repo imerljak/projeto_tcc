@@ -10,7 +10,9 @@ import javax.validation.constraints.NotNull;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @MappedSuperclass
-public class Arquivo extends BaseEntity {
+public class Arquivo extends SoftDeleteEntity {
+
+    private static final long serialVersionUID = 1L;
 
     @Column(unique = true, nullable = false)
     @Basic

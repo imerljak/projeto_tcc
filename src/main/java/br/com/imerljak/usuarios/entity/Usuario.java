@@ -1,47 +1,57 @@
 
 package br.com.imerljak.usuarios.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.processos.entity.Processo;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-public class Usuario extends BaseEntity {
+//@SQLDelete(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
+//@SQLDeleteAll(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
+//@Where(clause = "removido=0")
+public class Usuario extends SoftDeleteEntity {
 
-    @Column(name = "nome", nullable = false)
+    private static final long serialVersionUID = 3391331287260381725L;
+
     @Basic
-    @NotNull
+    @NotEmpty
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Email
+    @NotEmpty
     @Column(name = "email", nullable = false)
     @Basic(optional = false)
-    @NotNull
-    @Email
     private String email;
 
+    @NotEmpty
+    @Size(min = 6, message = "A senha deve ter mais que 6 caracteres")
     @Basic(optional = false)
-    @NotNull
     private String senha;
 
     @OneToMany(mappedBy = "relator")
-    private List<Processo> processosRelator;
+    private Set<Processo> processosRelator = new HashSet<>();
 
     @OneToMany(mappedBy = "revisor")
-    private List<Processo> processosRevisor;
+    private Set<Processo> processosRevisor = new HashSet<>();
 
     @OneToMany(mappedBy = "criador")
-    private List<Processo> processosCriador;
+    private Set<Processo> processosCriador = new HashSet<>();
 
     public String getNome() {
         return this.nome;
@@ -67,14 +77,11 @@ public class Usuario extends BaseEntity {
         this.senha = senha;
     }
 
-    public List<Processo> getProcessosRelator() {
-        if (processosRelator == null) {
-            processosRelator = new ArrayList<>();
-        }
+    public Set<Processo> getProcessosRelator() {
         return this.processosRelator;
     }
 
-    public void setProcessosRelator(List<Processo> processosRelator) {
+    public void setProcessosRelator(Set<Processo> processosRelator) {
         this.processosRelator = processosRelator;
     }
 
@@ -88,14 +95,11 @@ public class Usuario extends BaseEntity {
         processosRelator.setRelator(null);
     }
 
-    public List<Processo> getProcessosRevisor() {
-        if (processosRevisor == null) {
-            processosRevisor = new ArrayList<>();
-        }
+    public Set<Processo> getProcessosRevisor() {
         return this.processosRevisor;
     }
 
-    public void setProcessosRevisor(List<Processo> processosRevisor) {
+    public void setProcessosRevisor(Set<Processo> processosRevisor) {
         this.processosRevisor = processosRevisor;
     }
 
@@ -109,14 +113,11 @@ public class Usuario extends BaseEntity {
         processosRevisor.setRevisor(null);
     }
 
-    public List<Processo> getProcessosCriador() {
-        if (processosCriador == null) {
-            processosCriador = new ArrayList<>();
-        }
+    public Set<Processo> getProcessosCriador() {
         return this.processosCriador;
     }
 
-    public void setProcessosCriador(List<Processo> processosCriador) {
+    public void setProcessosCriador(Set<Processo> processosCriador) {
         this.processosCriador = processosCriador;
     }
 

@@ -41,35 +41,35 @@ public class DenunciaController {
         this.repository = repository;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/adicionar")
     public ModelAndView emptyDenuncia() {
         ModelAndView modelAndView = new ModelAndView("denuncias/create");
         modelAndView.addObject("denuncia", new Denuncia());
         return modelAndView;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/adicionar")
     public String createDenuncia(@Validated Denuncia denuncia, RedirectAttributes redirectAttributes) {
         repository.save(denuncia);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia salva com sucesso!");
         return "redirect:denuncias";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/editar/{id}")
     public ModelAndView editDenuncia(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("denuncias/update");
         modelAndView.addObject("denuncia", repository.findById(id));
         return modelAndView;
     }
 
-    @PostMapping("/update")
+    @PostMapping("/editar")
     public String updateDenuncia(@Validated Denuncia denuncia, RedirectAttributes redirectAttributes) {
         repository.save(denuncia);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia atualizada com sucesso!");
         return "redirect:denuncias";
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remover/{id}")
     public String removeDenuncia(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia removida com sucesso!");

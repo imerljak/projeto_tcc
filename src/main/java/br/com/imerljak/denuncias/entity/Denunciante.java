@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("DENUNCIANTE")
 public class Denunciante extends Pessoa {
 
+    private static final long serialVersionUID = 1238412128962205476L;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Denuncia denuncia;
 

@@ -1,6 +1,10 @@
 
 package br.com.imerljak.common.entity;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -12,8 +16,13 @@ import java.util.Optional;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-@DiscriminatorColumn(length = 31, name = "DTYPE")
-public abstract class Pessoa extends BaseEntity {
+@DiscriminatorColumn
+//@SQLDelete(sql = "UPDATE pessoa SET removido = 1 WHERE id = ? AND version = ?")
+//@SQLDeleteAll(sql = "UPDATE pessoa SET removido = 1")
+//@Where(clause = "removido = 0")
+public abstract class Pessoa extends SoftDeleteEntity {
+
+    private static final long serialVersionUID = -1231437318555494389L;
 
     @Basic
     @NotNull

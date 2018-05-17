@@ -41,35 +41,35 @@ public class DocumentoController {
         this.repository = repository;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/adicionar")
     public ModelAndView emptyDocumento() {
         ModelAndView modelAndView = new ModelAndView("documentos/create");
         modelAndView.addObject("documento", new Documento());
         return modelAndView;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/adicionar")
     public String createDocumento(@Validated Documento documento, RedirectAttributes redirectAttributes) {
         repository.save(documento);
         redirectAttributes.addFlashAttribute("mensagem", "Documento criado com sucesso!");
         return "redirect:documentos";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/editar/{id}")
     public ModelAndView editDocumento(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("documentos/update");
         modelAndView.addObject("documento", repository.findById(id));
         return modelAndView;
     }
 
-    @PostMapping("/update")
+    @PostMapping("/editar")
     public String updateDocumento(@Validated Documento documento, RedirectAttributes redirectAttributes) {
         repository.save(documento);
         redirectAttributes.addFlashAttribute("mensagem", "Documento atualizado com sucesso!");
         return "redirect:documentos";
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remover/{id}")
     public String removeDocumento(@PathVariable Long id) {
         repository.deleteById(id);
         return "redirect:documentos";

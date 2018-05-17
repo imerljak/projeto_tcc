@@ -41,17 +41,22 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
+                            <th>Nome</th>
                             <th>Email</th>
-                            <th>???</th>
+                            <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <!--/*@thymesVar id="usuarios" type="br.com.imerljak.usuarios.entity.Usuario[]"*/-->
                         <tr th:each="usuario : ${usuarios}">
                             <th scope="row" th:text="${usuario.id}">1</th>
                             <td th:text="${usuario.nome}">Mark</td>
                             <td th:text="${usuario.email}">Otto</td>
-                            <td th:text="'???'">@mdo</td>
+                            <td>
+                                <form th:action="@{/usuarios/remover/{id}(id=${usuario.id})}">
+                                    <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -59,5 +64,16 @@
             </div>
         </div>
     </div>
+
+    <!--<script>
+        window.onload = function () {
+            new PNotify({
+                title: "Teste",
+                text: "Lorem ipsum...",
+                type: 'success',
+                styling: 'bootstrap3'
+            });
+        }
+    </script>-->
 </div>
 <!-- /page content -->

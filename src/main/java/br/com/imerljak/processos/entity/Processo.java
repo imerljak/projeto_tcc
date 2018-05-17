@@ -1,10 +1,14 @@
 
 package br.com.imerljak.processos.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.denuncias.entity.Denuncia;
 import br.com.imerljak.usuarios.entity.Usuario;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +20,12 @@ import java.util.Optional;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-public class Processo extends BaseEntity {
+//@SQLDelete(sql = "UPDATE processo SET removido = 1 WHERE id = ? AND version = ?")
+//@SQLDeleteAll(sql = "UPDATE processo SET removido = 1")
+//@Where(clause = "removido = 0")
+public class Processo extends SoftDeleteEntity {
+
+    private static final long serialVersionUID = -7779592815770774218L;
 
     @Column(unique = true, nullable = false)
     @Basic(optional = false)
@@ -45,6 +54,7 @@ public class Processo extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario revisor;
 
+    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario criador;
 
@@ -59,10 +69,6 @@ public class Processo extends BaseEntity {
 
     @ManyToMany
     private List<Denuncia> denuncias;
-
-    @Column(nullable = false)
-    @Version
-    private long revisao;
 
     public String getProtocolo() {
         return this.protocolo;
@@ -197,14 +203,6 @@ public class Processo extends BaseEntity {
     public void removeDenuncia(Denuncia denuncia) {
         getDenuncias().remove(denuncia);
         denuncia.getProcessos().remove(this);
-    }
-
-    public long getRevisao() {
-        return this.revisao;
-    }
-
-    public void setRevisao(long revisao) {
-        this.revisao = revisao;
     }
 
 }

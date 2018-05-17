@@ -2,6 +2,7 @@
 package br.com.imerljak.common.entity;
 
 import br.com.imerljak.usuarios.entity.Usuario;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
@@ -13,8 +14,13 @@ import java.util.List;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-@DiscriminatorColumn(length = 31)
-public abstract class Tramite extends BaseEntity {
+@DiscriminatorColumn
+//@SQLDelete(sql = "UPDATE tramite SET removido = 1 WHERE id = ? AND version = ?")
+//@SQLDeleteAll(sql = "UPDATE tramite SET removido = 1")
+//@Where(clause = "removido = 0")
+public abstract class Tramite extends SoftDeleteEntity {
+
+    private static final long serialVersionUID = 8695715051300957310L;
 
     @Basic
     @FutureOrPresent
@@ -27,6 +33,7 @@ public abstract class Tramite extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoTramite tipoTramite;
 
+    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 

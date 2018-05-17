@@ -1,9 +1,12 @@
 
 package br.com.imerljak.denuncias.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.processos.entity.Processo;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +16,12 @@ import java.util.List;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-public class Denuncia extends BaseEntity {
+//@SQLDelete(sql = "UPDATE denuncia SET removido=1 WHERE id=? AND version=?")
+//@SQLDeleteAll(sql = "UPDATE denuncia SET removido=1 WHERE id=? AND version=?")
+//@Where(clause = "removido=0")
+public class Denuncia extends SoftDeleteEntity {
+
+    private static final long serialVersionUID = 8340651480291045404L;
 
     @Basic
     private String reclamacao;
@@ -47,9 +55,6 @@ public class Denuncia extends BaseEntity {
 
     @ManyToMany(mappedBy = "denuncias")
     private List<Processo> processos;
-
-    @Version
-    private long revisao;
 
     public String getReclamacao() {
         return this.reclamacao;
@@ -188,13 +193,4 @@ public class Denuncia extends BaseEntity {
     public void removeProcesso(Processo processo) {
         getProcessos().remove(processo);
     }
-
-    public long getRevisao() {
-        return this.revisao;
-    }
-
-    public void setRevisao(long revisao) {
-        this.revisao = revisao;
-    }
-
 }

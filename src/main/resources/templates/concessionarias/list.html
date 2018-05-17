@@ -10,8 +10,8 @@
 <div layout:fragment="content">
     <div class="page-title">
         <div class="title_left">
-            <h3>Usuários
-                <small>Lista de usuários cadastrados no sistema.</small>
+            <h3>Concessionárias
+                <small>Lista de concessionárias cadastradas no sistema.</small>
             </h3>
         </div>
 
@@ -33,7 +33,8 @@
         <div class="col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <a class="btn" th:href="@{/usuarios/novo}"><i class="fa fa-user-plus"></i> Novo Usuário</a>
+                    <a class="btn" th:href="@{/concessionarias/adicionar}"><i class="fa fa-user-plus"></i> Nova
+                        Concessionária</a>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -41,17 +42,22 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Email</th>
-                            <th>???</th>
+                            <th>Nome</th>
+                            <th>Cnpj</th>
+                            <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="usuario : ${usuarios}">
-                            <th scope="row" th:text="${usuario.id}">1</th>
-                            <td th:text="${usuario.nome}">Mark</td>
-                            <td th:text="${usuario.email}">Otto</td>
-                            <td th:text="'???'">@mdo</td>
+                        <!--/*@thymesVar id="concessionarias" type="br.com.imerljak.concessionarias.entity.Concessionaria[]"*/-->
+                        <tr th:each="concessionaria : ${concessionarias}">
+                            <th scope="row" th:text="${concessionaria.id}">1</th>
+                            <td th:text="${concessionaria.nome}">Mark</td>
+                            <td th:text="${concessionaria.cnpj}">Otto</td>
+                            <td>
+                                <a class="btn btn-danger" th:href="@{concessionarias/remover/{id}(id=${concessionaria.id})}">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -12,5 +12,5 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("PROCESSO")
 public class TipoProcesso extends Tipo {
-
+    private static final long serialVersionUID = -3717858585377329684L;
 }

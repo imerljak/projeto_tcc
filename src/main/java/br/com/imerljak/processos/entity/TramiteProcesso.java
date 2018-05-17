@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("PROCESSO")
 public class TramiteProcesso extends Tramite {
 
+    private static final long serialVersionUID = -7975509486366489673L;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Processo processo;
 

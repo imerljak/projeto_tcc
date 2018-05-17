@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("DENUNCIA")
 public class AnexoDenuncia extends Anexo {
 
+    private static final long serialVersionUID = 6356713240105726798L;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Denuncia denuncia;
 

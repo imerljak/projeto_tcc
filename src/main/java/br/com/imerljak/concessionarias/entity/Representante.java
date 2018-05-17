@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("REPRESENTANTE")
 public class Representante extends Pessoa {
 
+    private static final long serialVersionUID = 5136286368992534275L;
+
     @Basic
     private String cargo;
 

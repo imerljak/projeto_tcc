@@ -19,6 +19,8 @@ package br.com.imerljak.concessionarias.boundary;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,39 +42,49 @@ public class ConcessionariaController {
         this.repository = repository;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/adicionar")
     public ModelAndView createConcessionaria() {
         ModelAndView modelAndView = new ModelAndView("concessionarias/create");
         modelAndView.addObject("concessionaria", new Concessionaria());
         return modelAndView;
     }
 
-    @PostMapping("/new")
-    public String createConcessionaria(Concessionaria concessionaria, RedirectAttributes redirectAttributes) {
+    @PostMapping("/adicionar")
+    public String createConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "concessionarias/create";
+        }
+
         repository.save(concessionaria);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionaria gravada com sucesso!");
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/editar/{id}")
     public ModelAndView editConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/update");
         modelAndView.addObject("concessionaria", repository.findById(id));
         return modelAndView;
     }
 
-    @PostMapping("/update")
-    public String updateConcessionaria(Concessionaria concessionaria, RedirectAttributes redirectAttributes) {
+    @PostMapping("/editar")
+    public String updateConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/concessionarias/update";
+        }
+
         repository.save(concessionaria);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária alterada com sucesso!");
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remover/{id}")
     public String removeConcessionaria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária removida com sucesso!");
-        return "redirect:/concessionárias";
+        return "redirect:/concessionarias";
     }
 
     @GetMapping("/{id}")

@@ -42,35 +42,35 @@ public class ProcessoController {
         this.repository = repository;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/novo")
     public ModelAndView emptyProcesso() {
         ModelAndView modelAndView = new ModelAndView("processos/create");
         modelAndView.addObject("processo", new Processo());
         return modelAndView;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/novo")
     public String createProcesso(@Validated Processo processo, RedirectAttributes redirectAttributes) {
         repository.save(processo);
         redirectAttributes.addFlashAttribute("mensagem", "Processo criado com sucesso!");
         return "redirect:processos";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/editar/{id}")
     public ModelAndView editProcesso(@PathParam("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("processos/update.jsp");
         modelAndView.addObject("processo", repository.findById(id));
         return modelAndView;
     }
 
-    @PostMapping("/update")
+    @PostMapping("/editar")
     public String updateProcesso(@Validated Processo processo, RedirectAttributes redirectAttributes) {
         repository.save(processo);
         redirectAttributes.addFlashAttribute("mensagem", "Processo atualizado com sucesso!");
         return "redirect:processos";
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remover/{id}")
     public String removeProcesso(@PathParam("id") Long id) {
         repository.deleteById(id);
         return "redirect:processos";

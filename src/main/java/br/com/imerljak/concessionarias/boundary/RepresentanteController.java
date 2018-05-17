@@ -40,7 +40,7 @@ public class RepresentanteController {
         this.repository = repository;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/novo")
     public ModelAndView createRepresentante() {
 
         ModelAndView modelAndView = new ModelAndView("representantes/create");
@@ -49,7 +49,7 @@ public class RepresentanteController {
         return modelAndView;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/novo")
     public String saveRepresentante(Representante representante, RedirectAttributes redirectAttributes) {
         repository.save(representante);
 
@@ -58,7 +58,7 @@ public class RepresentanteController {
         return "redirect:/representantes";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/editar/{id}")
     public ModelAndView editRepresentante(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("representantes/edit");
         modelAndView.addObject("representante", repository.findById(id));
@@ -66,14 +66,14 @@ public class RepresentanteController {
         return modelAndView;
     }
 
-    @PostMapping("/update")
+    @PostMapping("/editar")
     public String saveEditedRepresentante(Representante representante, RedirectAttributes redirectAttributes) {
         repository.save(representante);
         redirectAttributes.addFlashAttribute("mensagem", "Representante alterado com sucesso!");
         return "redirect:/representantes";
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remover/{id}")
     public String removeRepresentante(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Representante removido com sucesso!");

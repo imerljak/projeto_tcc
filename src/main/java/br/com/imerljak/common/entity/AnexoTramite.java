@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("TRAMITE")
 public class AnexoTramite extends Anexo {
 
+    private static final long serialVersionUID = 345447199231481874L;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Tramite tramite;
 

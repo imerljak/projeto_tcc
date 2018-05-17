@@ -1,31 +1,35 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.denuncias.entity.Denuncia;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-public class Concessionaria extends BaseEntity {
+//@SQLDelete(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
+//@SQLDeleteAll(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
+//@Where(clause = "removido=0")
+public class Concessionaria extends SoftDeleteEntity {
 
-    @Column(nullable = false)
+    private static final long serialVersionUID = -210267340348887485L;
+
+    @NotEmpty
     @Basic(optional = false)
-    @NotNull
+    @Column(nullable = false)
     private String nome;
 
-    @Column(unique = true, nullable = false)
+    @CNPJ
     @Basic(optional = false)
-    @NotNull
-    @Pattern(regexp = "\\d{14}")
+    @Column(unique = true, nullable = false)
     private String cnpj;
 
     @Basic
@@ -35,13 +39,13 @@ public class Concessionaria extends BaseEntity {
     private String telefone;
 
     @OneToMany
-    private List<Representante> representantes;
+    private List<Representante> representantes = new AutoPopulatingList<>(Representante.class);
 
     @OneToMany(mappedBy = "concessionaria")
-    private List<Denuncia> denuncias;
+    private List<Denuncia> denuncias = new ArrayList<>();
 
     @ManyToMany
-    private List<TipoServico> servicos;
+    private List<TipoServico> servicos = new ArrayList<>();
 
     public String getNome() {
         return this.nome;
@@ -59,8 +63,8 @@ public class Concessionaria extends BaseEntity {
         this.cnpj = cnpj;
     }
 
-    public Optional<String> getEndereco() {
-        return Optional.ofNullable(this.endereco);
+    public String getEndereco() {
+        return this.endereco;
     }
 
     public void setEndereco(String endereco) {
@@ -134,4 +138,13 @@ public class Concessionaria extends BaseEntity {
         getServicos().remove(servico);
     }
 
+    @Override
+    public String toString() {
+        return "Concessionaria{" +
+                "nome='" + nome + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", telefone='" + telefone + '\'' +
+                '}';
+    }
 }

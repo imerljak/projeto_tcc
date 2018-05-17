@@ -11,8 +11,13 @@ import javax.validation.constraints.NotNull;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-@DiscriminatorColumn(length = 31)
-public abstract class Tipo extends BaseEntity {
+@DiscriminatorColumn
+//@SQLDelete(sql = "UPDATE tipo SET removido=1 WHERE id=? AND version=?")
+//@SQLDeleteAll(sql = "UPDATE tipo SET removido=1 WHERE id=? AND version=?")
+//@Where(clause = "removido = 0")
+public abstract class Tipo extends SimpleEntity {
+
+    private static final long serialVersionUID = 6330763506497934608L;
 
     @Column(unique = true, nullable = false)
     @Basic

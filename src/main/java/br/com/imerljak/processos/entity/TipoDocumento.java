@@ -12,5 +12,5 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("DOCUMENTO")
 public class TipoDocumento extends Tipo {
-
+    private static final long serialVersionUID = 1663710071527886322L;
 }
