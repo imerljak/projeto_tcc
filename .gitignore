@@ -38,3 +38,4 @@ nb-configuration.xml
 
 # Other stuff
 .classpath
+.vscode
