@@ -29,6 +29,9 @@ hs_err_pid*
 nbactions.xml
 nb-configuration.xml
 
+# Eclipse
+.settings
+
 # Intellij
 .idea
 *.iml
