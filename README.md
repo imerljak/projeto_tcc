@@ -3,9 +3,9 @@
 # Summary
 Projeto de TCC para o curso de Sistema de Informação - IFFarroupilha - SB - 2018
 
-# Build
-mvn clean package && docker build -t br.com.imerljak/projeto_tcc .
+# Build & Run
+* With Maven: `mvn spring-boot:run`
+* With java: `java -jar target/projeto_tcc.jar`
 
-# RUN
-
-docker rm -f projeto_tcc || true && docker run -d -p 8080:8080 -p 4848:4848 --name projeto_tcc br.com.imerljak/projeto_tcc 
+# Preview
+Versão teste, passível de bugs e falhas pode ser encontrada [AQUI](https://agesb.herokuapp.com/) (Esta versão será continuamente atualizada conforme correr o desenvolvimento do projeto)
