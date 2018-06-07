@@ -1,16 +1,14 @@
 
 package br.com.imerljak.usuarios.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.processos.entity.Processo;
+import br.com.imerljak.share.entity.BaseEntity;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -21,10 +19,7 @@ import java.util.Set;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido=0")
-public class Usuario extends SoftDeleteEntity {
+public class Usuario extends BaseEntity {
 
     private static final long serialVersionUID = 3391331287260381725L;
 
@@ -49,9 +44,6 @@ public class Usuario extends SoftDeleteEntity {
 
     @OneToMany(mappedBy = "revisor")
     private Set<Processo> processosRevisor = new HashSet<>();
-
-    @OneToMany(mappedBy = "criador")
-    private Set<Processo> processosCriador = new HashSet<>();
 
     public String getNome() {
         return this.nome;
@@ -112,23 +104,4 @@ public class Usuario extends SoftDeleteEntity {
         getProcessosRevisor().remove(processosRevisor);
         processosRevisor.setRevisor(null);
     }
-
-    public Set<Processo> getProcessosCriador() {
-        return this.processosCriador;
-    }
-
-    public void setProcessosCriador(Set<Processo> processosCriador) {
-        this.processosCriador = processosCriador;
-    }
-
-    public void addProcessosCriador(Processo processosCriador) {
-        getProcessosCriador().add(processosCriador);
-        processosCriador.setCriador(this);
-    }
-
-    public void removeProcessosCriador(Processo processosCriador) {
-        getProcessosCriador().remove(processosCriador);
-        processosCriador.setCriador(null);
-    }
-
 }

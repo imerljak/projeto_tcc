@@ -1,5 +1,5 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -10,5 +10,5 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("TRAMITE")
 public class TipoTramite extends Tipo {
-
+    private static final long serialVersionUID = -7549050569633749659L;
 }

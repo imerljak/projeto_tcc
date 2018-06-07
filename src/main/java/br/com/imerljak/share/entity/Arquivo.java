@@ -1,5 +1,5 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @MappedSuperclass
-public class Arquivo extends SoftDeleteEntity {
+public class Arquivo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

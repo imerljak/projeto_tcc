@@ -1,11 +1,12 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.common.entity.Pessoa;
+import br.com.imerljak.share.entity.Pessoa;
 
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -17,6 +18,7 @@ public class Representante extends Pessoa {
     private static final long serialVersionUID = 5136286368992534275L;
 
     @Basic
+    @NotNull
     private String cargo;
 
     public String getCargo() {
@@ -27,4 +29,11 @@ public class Representante extends Pessoa {
         this.cargo = cargo;
     }
 
+    @Override
+    public String toString() {
+        return "Representante{" +
+                super.toString() +
+                "cargo='" + cargo + '\'' +
+                '}';
+    }
 }

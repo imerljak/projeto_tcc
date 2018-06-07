@@ -1,9 +1,10 @@
 
 package br.com.imerljak.denuncias.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.processos.entity.Processo;
+import br.com.imerljak.share.entity.BaseEntity;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import org.hibernate.annotations.Where;
@@ -16,10 +17,7 @@ import java.util.List;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE denuncia SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE denuncia SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido=0")
-public class Denuncia extends SoftDeleteEntity {
+public class Denuncia extends BaseEntity {
 
     private static final long serialVersionUID = 8340651480291045404L;
 

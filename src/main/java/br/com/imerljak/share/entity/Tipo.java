@@ -1,10 +1,12 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -12,10 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @DiscriminatorColumn
-//@SQLDelete(sql = "UPDATE tipo SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE tipo SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido = 0")
-public abstract class Tipo extends SimpleEntity {
+public abstract class Tipo extends BaseEntity {
 
     private static final long serialVersionUID = 6330763506497934608L;
 

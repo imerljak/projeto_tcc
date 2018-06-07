@@ -17,6 +17,7 @@
 package br.com.imerljak.concessionarias.boundary;
 
 import br.com.imerljak.concessionarias.entity.Concessionaria;
+import br.com.imerljak.concessionarias.entity.Representante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,12 +46,18 @@ public class ConcessionariaController {
     @GetMapping("/adicionar")
     public ModelAndView createConcessionaria() {
         ModelAndView modelAndView = new ModelAndView("concessionarias/create");
-        modelAndView.addObject("concessionaria", new Concessionaria());
+
+        Concessionaria concessionaria = new Concessionaria();
+        concessionaria.getRepresentantes().add(new Representante());
+        modelAndView.addObject("concessionaria", concessionaria);
         return modelAndView;
     }
 
     @PostMapping("/adicionar")
     public String createConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        System.out.println(concessionaria);
+        System.out.println(concessionaria.getRepresentantes());
 
         if (bindingResult.hasErrors()) {
             return "concessionarias/create";

@@ -1,5 +1,5 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

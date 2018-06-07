@@ -1,7 +1,11 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
 import br.com.imerljak.usuarios.entity.Usuario;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLDeleteAll;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
@@ -15,10 +19,7 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorColumn
-//@SQLDelete(sql = "UPDATE tramite SET removido = 1 WHERE id = ? AND version = ?")
-//@SQLDeleteAll(sql = "UPDATE tramite SET removido = 1")
-//@Where(clause = "removido = 0")
-public abstract class Tramite extends SoftDeleteEntity {
+public abstract class Tramite extends BaseEntity {
 
     private static final long serialVersionUID = 8695715051300957310L;
 

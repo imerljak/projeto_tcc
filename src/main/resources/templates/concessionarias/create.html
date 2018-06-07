@@ -41,11 +41,12 @@
                           th:object="${concessionaria}"
                           method="post"
                           novalidate>
+
                         <span class="section">Dados Gerais</span>
 
                         <div class="item form-group" th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="nome">Nome <span
-                                    class="required">*</span>
+                            <label class="control-label col-sm-2 col-xs-12" for="nome">Nome
+                                <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input id="nome" class="form-control col-md-7 col-xs-12"
@@ -57,8 +58,8 @@
                             </div>
                         </div>
                         <div class="item form-group" th:classappend="${#fields.hasErrors('cnpj')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="cnpj">Cnpj <span
-                                    class="required">*</span>
+                            <label class="control-label col-sm-2 col-xs-12" for="cnpj">Cnpj
+                                <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="cnpj" th:field="*{cnpj}" required="required"
@@ -81,8 +82,7 @@
                             </div>
                         </div>
                         <div class="item form-group" th:classappend="${#fields.hasErrors('telefone')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="telefone">Telefone</span>
-                            </label>
+                            <label class="control-label col-sm-2 col-xs-12" for="telefone">Telefone</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="tel" id="telefone" th:field="*{telefone}" required="required"
                                        class="form-control col-md-7 col-xs-12">
@@ -92,8 +92,71 @@
                                 Erros de validação
                             </div>
                         </div>
-                        <span class="section">Responsáveis</span>
-                        <p>Em desenvolvimento..</p>
+
+
+                        <span class="section">Representantes</span>
+                        <div th:each="representante, row : *{representantes}">
+                            <div class="item form-group">
+                                <label th:for="${'representantes['+row.index+'].nome'}"
+                                       class="control-label col-sm-2 col-xs-12">Nome
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input th:id="${'representantes['+row.index+'].nome'}" type="text"
+                                           class="form-control col-md-7 col-xs-12"
+                                           required="required"
+                                           th:field="*{representantes[__${row.index}__].nome}" placeholder="Nome">
+                                </div>
+                                <div class="help-block col-md-4"
+                                     th:if="${#fields.hasErrors('representantes['+row.index+'].nome')}"
+                                     th:errors="*{telefone}">
+                                    Erros de validação
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label th:for="${'representantes['+row.index+'].cargo'}"
+                                       class="control-label col-sm-2 col-xs-12">Cargo
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input th:id="${'representantes['+row.index+'].cargo'}" type="text"
+                                           class="form-control col-md-7 col-xs-12"
+                                           required="required"
+                                           th:field="*{representantes[__${row.index}__].cargo}" placeholder="Cargo">
+                                </div>
+                                <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
+                                     th:errors="*{telefone}">
+                                    Erros de validação
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label th:for="${'representantes['+row.index+'].email'}"
+                                       class="control-label col-sm-2 col-xs-12">Email</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input th:id="${'representantes['+row.index+'].email'}" type="email"
+                                           class="form-control col-md-7 col-xs-12"
+                                           th:field="*{representantes[__${row.index}__].email}" placeholder="Email">
+                                </div>
+                                <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
+                                     th:errors="*{telefone}">
+                                    Erros de validação
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label th:for="${'representantes['+row.index+'].telefone'}"
+                                       class="control-label col-sm-2 col-xs-12">Telefone</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input th:id="${'representantes['+row.index+'].telefone'}" type="tel"
+                                           class="form-control col-md-7 col-xs-12"
+                                           th:field="*{representantes[__${row.index}__].telefone}"
+                                           placeholder="Telefone">
+                                </div>
+                                <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
+                                     th:errors="*{telefone}">
+                                    Erros de validação
+                                </div>
+                            </div>
+                        </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">

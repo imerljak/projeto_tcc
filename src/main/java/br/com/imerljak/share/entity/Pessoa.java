@@ -1,6 +1,7 @@
 
-package br.com.imerljak.common.entity;
+package br.com.imerljak.share.entity;
 
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import org.hibernate.annotations.Where;
@@ -8,19 +9,16 @@ import org.hibernate.annotations.Where;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
 @DiscriminatorColumn
-//@SQLDelete(sql = "UPDATE pessoa SET removido = 1 WHERE id = ? AND version = ?")
-//@SQLDeleteAll(sql = "UPDATE pessoa SET removido = 1")
-//@Where(clause = "removido = 0")
-public abstract class Pessoa extends SoftDeleteEntity {
+public abstract class Pessoa extends BaseEntity {
 
     private static final long serialVersionUID = -1231437318555494389L;
 
@@ -35,8 +33,8 @@ public abstract class Pessoa extends SoftDeleteEntity {
     @Basic
     private String telefone;
 
-    public Optional<String> getNome() {
-        return Optional.ofNullable(this.nome);
+    public String getNome() {
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -59,4 +57,12 @@ public abstract class Pessoa extends SoftDeleteEntity {
         this.telefone = telefone;
     }
 
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
+                '}';
+    }
 }

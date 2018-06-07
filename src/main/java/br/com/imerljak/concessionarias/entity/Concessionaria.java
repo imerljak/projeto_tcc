@@ -1,12 +1,13 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.denuncias.entity.Denuncia;
+import br.com.imerljak.share.entity.BaseEntity;
+import org.hibernate.annotations.Loader;
 import org.hibernate.validator.constraints.br.CNPJ;
-import org.springframework.util.AutoPopulatingList;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,7 @@ import java.util.List;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido=0")
-public class Concessionaria extends SoftDeleteEntity {
+public class Concessionaria extends BaseEntity {
 
     private static final long serialVersionUID = -210267340348887485L;
 
@@ -38,8 +36,10 @@ public class Concessionaria extends SoftDeleteEntity {
     @Basic
     private String telefone;
 
-    @OneToMany
-    private List<Representante> representantes = new AutoPopulatingList<>(Representante.class);
+    @Valid
+    @NotEmpty
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Representante> representantes = new ArrayList<>();
 
     @OneToMany(mappedBy = "concessionaria")
     private List<Denuncia> denuncias = new ArrayList<>();
