@@ -1,4 +1,4 @@
-package br.com.imerljak;
+package br.com.imerljak.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
