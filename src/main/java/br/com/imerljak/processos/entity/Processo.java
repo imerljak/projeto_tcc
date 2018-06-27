@@ -24,22 +24,21 @@ public class Processo extends BaseEntity {
 
     private static final long serialVersionUID = -7779592815770774218L;
 
-    @Column(unique = true, nullable = false)
-    @Basic(optional = false)
     @NotNull
+    @Column(unique = true, nullable = false, length = 80)
     private String protocolo;
 
-    @Column(nullable = false)
-    @Basic(optional = false)
     @NotNull
+    @Column(nullable = false, length = 191)
     private String nome;
 
-    @Basic
+    @Lob
+    @Column
     private String observacoes;
 
-    @Column(nullable = false)
-    @Basic
+    // TODO: Enumerar os valores de status
     @NotNull
+    @Column(nullable = false, length = 30)
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)

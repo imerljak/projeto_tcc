@@ -14,19 +14,18 @@ public class Arquivo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(unique = true, nullable = false)
-    @Basic
     @NotNull
+    @Column(unique = true, nullable = false, length = 191)
     private String nome;
 
-    @Column(unique = true, nullable = false)
     @Basic
     @NotNull
+    @Column(unique = true, nullable = false, length = 191)
     private String caminho;
 
-    @Column(unique = true, nullable = false)
     @Basic
     @NotNull
+    @Column(unique = true, nullable = false, length = 5)
     private String extencao;
 
     public String getNome() {

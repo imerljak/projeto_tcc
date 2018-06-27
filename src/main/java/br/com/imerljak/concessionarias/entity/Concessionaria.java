@@ -11,6 +11,8 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import br.com.caelum.stella.bean.validation.CNPJ;
 import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
 import br.com.imerljak.denuncias.entity.Denuncia;
+import br.com.imerljak.share.control.Telefone;
 import br.com.imerljak.share.control.TelefoneFormatConverter;
 import br.com.imerljak.share.entity.BaseEntity;
 
@@ -26,31 +29,32 @@ import br.com.imerljak.share.entity.BaseEntity;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cnpj"}))
 public class Concessionaria extends BaseEntity {
 
     private static final long serialVersionUID = -210267340348887485L;
 
     @NotEmpty
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 191)
     private String nome;
 
     @NotEmpty
     @CNPJ(formatted = true)
     @Convert(converter = CnpjFormatConverter.class)
-    @Basic(optional = false)
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 14)
     private String cnpj;
 
     @Basic
     private String endereco;
 
-    @Basic
+    @Telefone
     @Convert(converter = TelefoneFormatConverter.class)
+    @Column(length = 12)
     private String telefone;
 
     @Email
-    @Basic
+    @Column(length = 191)
     private String email;
 
     @Valid
