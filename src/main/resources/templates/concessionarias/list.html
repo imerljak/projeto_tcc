@@ -44,6 +44,7 @@
                             <th>#</th>
                             <th>Nome</th>
                             <th>Cnpj</th>
+                            <th>Telefone</th>
                             <th>Ações</th>
                         </tr>
                         </thead>
@@ -52,10 +53,19 @@
                         <tr th:each="concessionaria : ${concessionarias}">
                             <th scope="row" th:text="${concessionaria.id}">1</th>
                             <td th:text="${concessionaria.nome}">Mark</td>
-                            <td th:text="${concessionaria.cnpj}">Otto</td>
+                            <td th:text="${concessionaria.cnpj}">111.111.111</td>
+                            <td th:text="${concessionaria.telefone}">Otto</td>
                             <td>
-                                <a class="btn btn-danger" th:href="@{concessionarias/remover/{id}(id=${concessionaria.id})}">
+                                <a class="btn btn-info btn-xs"
+
+                                   th:href="@{concessionarias/editar/{id}(id=${concessionaria.id})}">
+                                    <i class="fa fa-edit"></i>
+                                    <span th:remove="tag" th:text="#{messages.actions.edit}">Edit</span>
+                                </a>
+                                <a class="btn btn-danger btn-xs"
+                                   th:href="@{concessionarias/remover/{id}(id=${concessionaria.id})}">
                                     <i class="fa fa-trash"></i>
+                                    <span th:remove="tag" th:text="#{messages.actions.delete}">Delete</span>
                                 </a>
                             </td>
                         </tr>

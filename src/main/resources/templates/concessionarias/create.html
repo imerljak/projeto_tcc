@@ -30,7 +30,10 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <a class="btn" th:href="@{/concessionarias}"><i class="fa fa-arrow-left"></i> Retornar</a>
+                    <a class="btn" th:href="@{/concessionarias}">
+                        <i class="fa fa-arrow-left"></i>
+                        <span th:remove="tag" th:text="#{messages.views.return}">Return</span>
+                    </a>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -51,6 +54,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input id="nome" class="form-control col-md-7 col-xs-12"
                                        th:field="*{nome}" placeholder="Distribuidora de Água Ltda."
+                                       autofocus
                                        required="required" type="text">
                             </div>
                             <div class="help-block col-md-4" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
@@ -64,6 +68,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="cnpj" th:field="*{cnpj}" required="required"
                                        placeholder="00.000.000/0000-00"
+                                       data-inputmask="'mask': '99.999.999/9999-99'"
                                        class="form-control col-md-7 col-xs-12">
                             </div>
                             <div class="help-block col-md-4" th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}">
@@ -74,6 +79,7 @@
                             <label class="control-label col-sm-2 col-xs-12" for="endereco">Endereço</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="endereco" th:field="*{endereco}" required="required"
+                                       placeholder="Rua do Brasil, 1234"
                                        class="form-control col-md-7 col-xs-12">
                             </div>
                             <div class="help-block col-md-4" th:if="${#fields.hasErrors('endereco')}"
@@ -85,6 +91,8 @@
                             <label class="control-label col-sm-2 col-xs-12" for="telefone">Telefone</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="tel" id="telefone" th:field="*{telefone}" required="required"
+                                       data-masktype="tel"
+                                       placeholder="(55) 3210-6543"
                                        class="form-control col-md-7 col-xs-12">
                             </div>
                             <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
@@ -94,7 +102,7 @@
                         </div>
 
 
-                        <span class="section">Representantes</span>
+                        <span class="section">Representante</span>
                         <div th:each="representante, row : *{representantes}">
                             <div class="item form-group">
                                 <label th:for="${'representantes['+row.index+'].nome'}"
@@ -105,7 +113,8 @@
                                     <input th:id="${'representantes['+row.index+'].nome'}" type="text"
                                            class="form-control col-md-7 col-xs-12"
                                            required="required"
-                                           th:field="*{representantes[__${row.index}__].nome}" placeholder="Nome">
+                                           th:field="*{representantes[__${row.index}__].nome}"
+                                           placeholder="Fulano da Silva">
                                 </div>
                                 <div class="help-block col-md-4"
                                      th:if="${#fields.hasErrors('representantes['+row.index+'].nome')}"
@@ -122,7 +131,7 @@
                                     <input th:id="${'representantes['+row.index+'].cargo'}" type="text"
                                            class="form-control col-md-7 col-xs-12"
                                            required="required"
-                                           th:field="*{representantes[__${row.index}__].cargo}" placeholder="Cargo">
+                                           th:field="*{representantes[__${row.index}__].cargo}" placeholder="Gerente">
                                 </div>
                                 <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
                                      th:errors="*{telefone}">
@@ -135,7 +144,8 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input th:id="${'representantes['+row.index+'].email'}" type="email"
                                            class="form-control col-md-7 col-xs-12"
-                                           th:field="*{representantes[__${row.index}__].email}" placeholder="Email">
+                                           th:field="*{representantes[__${row.index}__].email}"
+                                           placeholder="email@empresa.com">
                                 </div>
                                 <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
                                      th:errors="*{telefone}">
@@ -149,7 +159,8 @@
                                     <input th:id="${'representantes['+row.index+'].telefone'}" type="tel"
                                            class="form-control col-md-7 col-xs-12"
                                            th:field="*{representantes[__${row.index}__].telefone}"
-                                           placeholder="Telefone">
+                                           data-masktype="tel"
+                                           placeholder="(55) 9876-12349">
                                 </div>
                                 <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
                                      th:errors="*{telefone}">
@@ -159,9 +170,10 @@
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button type="submit" class="btn btn-primary">Cancelar</button>
-                                <button id="send" type="submit" class="btn btn-success">Registrar</button>
+                            <div class="col-md-8">
+                                <a th:href="@{/concessionarias}" class="btn btn-default" th:text="#{messages.forms.cancel}">Cancel</a>
+
+                                <button id="send" type="submit" class="btn btn-success pull-right" th:text="#{messages.forms.confirm}">Confirm</button>
                             </div>
                         </div>
                     </form>

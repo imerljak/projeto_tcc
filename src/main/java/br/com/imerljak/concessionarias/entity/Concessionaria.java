@@ -1,16 +1,26 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.denuncias.entity.Denuncia;
-import br.com.imerljak.share.entity.BaseEntity;
-import org.hibernate.annotations.Loader;
-import org.hibernate.validator.constraints.br.CNPJ;
-
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import br.com.caelum.stella.bean.validation.CNPJ;
+import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
+import br.com.imerljak.denuncias.entity.Denuncia;
+import br.com.imerljak.share.control.TelefoneFormatConverter;
+import br.com.imerljak.share.entity.BaseEntity;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -25,7 +35,9 @@ public class Concessionaria extends BaseEntity {
     @Column(nullable = false)
     private String nome;
 
-    @CNPJ
+    @NotEmpty
+    @CNPJ(formatted = true)
+    @Convert(converter = CnpjFormatConverter.class)
     @Basic(optional = false)
     @Column(unique = true, nullable = false)
     private String cnpj;
@@ -34,7 +46,12 @@ public class Concessionaria extends BaseEntity {
     private String endereco;
 
     @Basic
+    @Convert(converter = TelefoneFormatConverter.class)
     private String telefone;
+
+    @Email
+    @Basic
+    private String email;
 
     @Valid
     @NotEmpty
@@ -59,7 +76,7 @@ public class Concessionaria extends BaseEntity {
         return this.cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public void setCnpj(@NotNull String cnpj) {
         this.cnpj = cnpj;
     }
 
@@ -146,5 +163,13 @@ public class Concessionaria extends BaseEntity {
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
                 '}';
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -1766,7 +1766,11 @@ function init_InputMask() {
     }
     console.log('init_InputMask');
 
-    $(":input").inputmask();
+    $("input[data-masktype='tel']").inputmask({
+        mask: ["(99) 9999-9999", "(99) 99999-9999"]
+    });
+
+
 
 };
 
