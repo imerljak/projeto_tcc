@@ -16,8 +16,6 @@
  */
 package br.com.imerljak.concessionarias.boundary;
 
-import br.com.imerljak.concessionarias.entity.Concessionaria;
-import br.com.imerljak.concessionarias.entity.Representante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,6 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.com.imerljak.concessionarias.control.CnpjUtil;
+import br.com.imerljak.concessionarias.entity.Concessionaria;
+import br.com.imerljak.concessionarias.entity.Representante;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -58,6 +60,9 @@ public class ConcessionariaController {
 
         System.out.println(concessionaria);
         System.out.println(concessionaria.getRepresentantes());
+
+        repository.findByCnpj(CnpjUtil.unformat(concessionaria.getCnpj()))
+                .ifPresent(c -> bindingResult.rejectValue("cnpj", "{Duplicate.concessionaria.cnpj}"));
 
         if (bindingResult.hasErrors()) {
             return "concessionarias/create";

@@ -2,12 +2,8 @@ package br.com.imerljak.config;
 
 import java.util.Locale;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,12 +13,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class LocalizedMessagesConfig implements WebMvcConfigurer {
 
-    private static final String DEFAULT_LANGUAGE_TAG = "pt-BR";
+    private static final Locale DEFAULT_LOCALE = Locale.forLanguageTag("pt-BR");
 
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.forLanguageTag(DEFAULT_LANGUAGE_TAG));
+        localeResolver.setDefaultLocale(DEFAULT_LOCALE);
         return localeResolver;
     }
 
