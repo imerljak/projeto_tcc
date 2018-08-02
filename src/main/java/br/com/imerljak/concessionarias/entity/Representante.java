@@ -6,7 +6,7 @@ import br.com.imerljak.share.entity.Pessoa;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -18,7 +18,7 @@ public class Representante extends Pessoa {
     private static final long serialVersionUID = 5136286368992534275L;
 
     @Basic
-    @NotNull
+    @NotEmpty
     private String cargo;
 
     public String getCargo() {

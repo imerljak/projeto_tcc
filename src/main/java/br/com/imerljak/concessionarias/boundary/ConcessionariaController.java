@@ -31,6 +31,8 @@ import br.com.imerljak.concessionarias.control.CnpjUtil;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.concessionarias.entity.Representante;
 
+import javax.persistence.EntityNotFoundException;
+
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
@@ -45,6 +47,13 @@ public class ConcessionariaController {
         this.repository = repository;
     }
 
+    @GetMapping
+    public ModelAndView listConcessionarias() {
+        ModelAndView modelAndView = new ModelAndView("concessionarias/list");
+        modelAndView.addObject("concessionarias", repository.findAll()); // Paginate..
+        return modelAndView;
+    }
+
     @GetMapping("/adicionar")
     public ModelAndView createConcessionaria() {
         ModelAndView modelAndView = new ModelAndView("concessionarias/create");
@@ -57,10 +66,6 @@ public class ConcessionariaController {
 
     @PostMapping("/adicionar")
     public String createConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        System.out.println(concessionaria);
-        System.out.println(concessionaria.getRepresentantes());
-
         repository.findByCnpj(CnpjUtil.unformat(concessionaria.getCnpj()))
                 .ifPresent(c -> bindingResult.rejectValue("cnpj", "{Duplicate.concessionaria.cnpj}"));
 
@@ -76,7 +81,8 @@ public class ConcessionariaController {
     @GetMapping("/editar/{id}")
     public ModelAndView editConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/update");
-        modelAndView.addObject("concessionaria", repository.findById(id));
+        modelAndView.addObject("concessionaria",
+                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 
@@ -84,7 +90,7 @@ public class ConcessionariaController {
     public String updateConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/concessionarias/update";
+            return "concessionarias/update";
         }
 
         repository.save(concessionaria);
@@ -99,17 +105,11 @@ public class ConcessionariaController {
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detalhes/{id}")
     public ModelAndView viewConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/view");
-        modelAndView.addObject("concessionaria", repository.findById(id));
-        return modelAndView;
-    }
-
-    @GetMapping
-    public ModelAndView listConcessionarias() {
-        ModelAndView modelAndView = new ModelAndView("concessionarias/list");
-        modelAndView.addObject("concessionarias", repository.findAll());
+        modelAndView.addObject("concessionaria",
+                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 

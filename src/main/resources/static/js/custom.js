@@ -5335,6 +5335,15 @@ function init_echarts() {
 }
 
 
+function init_sweetAlert() {
+    if (typeof(swal) === 'undefined') {
+        return;
+    }
+
+    console.log("init_sweetAlert");
+}
+
+
 $(document).ready(function () {
 
     init_sparklines();
@@ -5371,6 +5380,7 @@ $(document).ready(function () {
     init_CustomNotification();
     init_autosize();
     init_autocomplete();
+    init_sweetAlert();
 
 });
 	

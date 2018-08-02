@@ -22,7 +22,7 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column
@@ -44,7 +44,7 @@ public class BaseEntity implements Serializable {
 
     @Transient
     public boolean isNew() {
-        return null == getId();
+        return (getId() != null) && (getVersion() != null);
     }
 
     @Override

@@ -53,6 +53,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+            <scope>runtime</scope>
         </dependency>
 
         <!--WebJars-->
@@ -97,11 +98,18 @@
             <version>3.2.1</version>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.1</version>
+            <groupId>org.webjars.bowergithub.sweetalert2</groupId>
+            <artifactId>sweetalert2</artifactId>
+            <version>7.18.0</version>
         </dependency>
 
+
+        <!--PostgreSQL-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.4</version>
+        </dependency>
 
 
         <!--Caelum Stella-->

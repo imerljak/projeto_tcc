@@ -1,17 +1,11 @@
 
 package br.com.imerljak.share.entity;
 
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLDeleteAll;
-import org.hibernate.annotations.Where;
-
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -23,7 +17,7 @@ public abstract class Pessoa extends BaseEntity {
     private static final long serialVersionUID = -1231437318555494389L;
 
     @Basic
-    @NotNull
+    @NotEmpty
     private String nome;
 
     @Basic

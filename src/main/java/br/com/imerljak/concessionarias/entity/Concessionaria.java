@@ -1,29 +1,20 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import br.com.caelum.stella.bean.validation.CNPJ;
 import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
 import br.com.imerljak.denuncias.entity.Denuncia;
 import br.com.imerljak.share.control.Telefone;
 import br.com.imerljak.share.control.TelefoneFormatConverter;
 import br.com.imerljak.share.entity.BaseEntity;
+
+import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -162,7 +153,8 @@ public class Concessionaria extends BaseEntity {
     @Override
     public String toString() {
         return "Concessionaria{" +
-                "nome='" + nome + '\'' +
+                "id=" + getId() +
+                ", nome='" + nome + '\'' +
                 ", cnpj='" + cnpj + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +

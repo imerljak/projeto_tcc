@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Usuários</title>
+    <title>Concessionárias</title>
 </head>
 
 <!-- page content -->
@@ -33,7 +33,7 @@
         <div class="col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <a class="btn" th:href="@{/concessionarias/adicionar}"><i class="fa fa-user-plus"></i> Nova
+                    <a class="btn" th:href="@{/concessionarias/adicionar}"><i class="fa fa-plus"></i> Nova
                         Concessionária</a>
                     <div class="clearfix"></div>
                 </div>
@@ -56,17 +56,24 @@
                             <td th:text="${concessionaria.cnpj}">111.111.111</td>
                             <td th:text="${concessionaria.telefone}">Otto</td>
                             <td>
+                                <a class="btn btn-primary btn-xs"
+                                   th:href="@{concessionarias/{id}(id=${concessionaria.id})}">
+                                    <i class="fa fa-folder"></i>
+                                    <span th:remove="tag" th:text="#{messages.actions.view}">View</span>
+                                </a>
                                 <a class="btn btn-info btn-xs"
-
                                    th:href="@{concessionarias/editar/{id}(id=${concessionaria.id})}">
                                     <i class="fa fa-edit"></i>
                                     <span th:remove="tag" th:text="#{messages.actions.edit}">Edit</span>
                                 </a>
-                                <a class="btn btn-danger btn-xs"
-                                   th:href="@{concessionarias/remover/{id}(id=${concessionaria.id})}">
-                                    <i class="fa fa-trash"></i>
-                                    <span th:remove="tag" th:text="#{messages.actions.delete}">Delete</span>
-                                </a>
+                                <form style="display: inline;"
+                                      class="deleteForm"
+                                      th:action="@{concessionarias/remover/{id}(id=${concessionaria.id})}">
+                                    <button class="btn btn-danger btn-xs" th:type="submit">
+                                        <i class="fa fa-trash"></i>
+                                        <span th:remove="tag" th:text="#{messages.actions.delete}">Delete</span>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         </tbody>
@@ -76,4 +83,53 @@
         </div>
     </div>
 </div>
+<script layout:fragment="scripts">
+    $(document).ready(function () {
+
+        var preventDelete = true;
+        $(".deleteForm").submit(function (evt) {
+            console.dir(evt);
+
+            if (preventDelete) {
+                evt.preventDefault();
+
+                var that = $(this);
+
+                swal({
+                    title: "Tem certeza?",
+                    text: "Você realmente deseja remover este registro?",
+                    type: "warning",
+                    timer: 10000,
+                    buttonsStyling: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    confirmButtonText: "Sim!",
+                    confirmButtonClass: "btn btn-danger",
+                    focusCancel: true,
+                    showCancelButton: true,
+                    cancelButtonClass: "btn btn-primary",
+                    cancelButtonText: "Acho que não.."
+                }).then(function (result) {
+                    console.log(result);
+
+                    if (result.dismiss === 'timer') {
+                        swal({
+                            type: "info",
+                            text: "Ação cancelada!",
+                            timer: 1500,
+                            showConfirmButton: false
+                        })
+                    }
+
+                    if (result.value) {
+                        preventDelete = false;
+                        that.submit();
+                    }
+                });
+            } else {
+                preventDelete = true;
+            }
+        });
+    })
+</script>
 <!-- /page content -->

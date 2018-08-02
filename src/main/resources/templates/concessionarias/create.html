@@ -3,14 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Usuários</title>
+    <title>Nova Concessionária</title>
 </head>
 
 <!-- page content -->
 <div layout:fragment="content">
     <div class="page-title">
         <div class="title_left">
-            <h3>Usuários</h3>
+            <h3>Concessionárias</h3>
         </div>
 
         <div class="title_right">
@@ -40,7 +40,7 @@
 
                     <!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.entity.Concessionaria"*/-->
                     <form class="form-horizontal form-label-left"
-                          th:href="@{/concessionarias/adicionar}"
+                          th:action="@{/concessionarias/adicionar}"
                           th:object="${concessionaria}"
                           method="post"
                           novalidate>
@@ -104,7 +104,8 @@
 
                         <span class="section">Representante</span>
                         <div th:each="representante, row : *{representantes}">
-                            <div class="item form-group">
+                            <div class="item form-group"
+                                 th:classappend="${#fields.hasErrors('representantes['+row.index+'].nome')?'has-error':''}">
                                 <label th:for="${'representantes['+row.index+'].nome'}"
                                        class="control-label col-sm-2 col-xs-12">Nome
                                     <span class="required">*</span>
@@ -114,16 +115,17 @@
                                            class="form-control col-md-7 col-xs-12"
                                            required="required"
                                            th:field="*{representantes[__${row.index}__].nome}"
-                                           placeholder="Fulano da Silva">
+                                           th:placeholder="'Fulano da Silva __${row.index}__'">
                                 </div>
                                 <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('representantes['+row.index+'].nome')}"
-                                     th:errors="*{telefone}">
+                                     th:if="${#fields.hasErrors('representantes[__${row.index}__].nome')}"
+                                     th:errors="*{representantes[__${row.index}__].nome}">
                                     Erros de validação
                                 </div>
                             </div>
-                            <div class="item form-group">
-                                <label th:for="${'representantes['+row.index+'].cargo'}"
+                            <div class="item form-group"
+                                 th:classappend="${#fields.hasErrors('representantes['+row.index+'].cargo')?'has-error':''}">
+                                <label th:for="${'representantes[__${row.index}__].cargo'}"
                                        class="control-label col-sm-2 col-xs-12">Cargo
                                     <span class="required">*</span>
                                 </label>
@@ -134,39 +136,41 @@
                                            th:field="*{representantes[__${row.index}__].cargo}" placeholder="Gerente">
                                 </div>
                                 <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('representantes['+row.index+'].cargo')}"
-                                     th:errors="*{telefone}">
+                                     th:if="${#fields.hasErrors('representantes[__${row.index}__].cargo')}"
+                                     th:errors="*{representantes[__${row.index}__].cargo}">
                                     Erros de validação
                                 </div>
                             </div>
-                            <div class="item form-group">
+                            <div class="item form-group"
+                                 th:classappend="${#fields.hasErrors('representantes['+row.index+'].email')?'has-error':''}">
                                 <label th:for="${'representantes['+row.index+'].email'}"
                                        class="control-label col-sm-2 col-xs-12">Email</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'representantes['+row.index+'].email'}" type="email"
+                                    <input th:id="${'representantes[__${row.index}__].email'}" type="email"
                                            class="form-control col-md-7 col-xs-12"
                                            th:field="*{representantes[__${row.index}__].email}"
                                            placeholder="email@empresa.com">
                                 </div>
                                 <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('representantes['+row.index+'].email')}"
-                                     th:errors="*{telefone}">
+                                     th:if="${#fields.hasErrors('representantes[__${row.index}__].email')}"
+                                     th:errors="*{representantes[__${row.index}__].email}">
                                     Erros de validação
                                 </div>
                             </div>
-                            <div class="item form-group">
-                                <label th:for="${'representantes['+row.index+'].telefone'}"
+                            <div class="item form-group"
+                                 th:classappend="${#fields.hasErrors('representantes['+row.index+'].telefone')?'has-error':''}">
+                                <label th:for="${'representantes[__${row.index}__].telefone'}"
                                        class="control-label col-sm-2 col-xs-12">Telefone</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'representantes['+row.index+'].telefone'}" type="tel"
+                                    <input th:id="${'representantes[__${row.index}__].telefone'}" type="tel"
                                            class="form-control col-md-7 col-xs-12"
                                            th:field="*{representantes[__${row.index}__].telefone}"
                                            data-masktype="tel"
                                            placeholder="(55) 9876-12349">
                                 </div>
                                 <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('representantes['+row.index+'].telefone')}"
-                                     th:errors="*{telefone}">
+                                     th:if="${#fields.hasErrors('representantes[__${row.index}__].telefone')}"
+                                     th:errors="*{representantes[__${row.index}__].telefone}">
                                     Erros de validação
                                 </div>
                             </div>
@@ -174,9 +178,6 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-8">
-                                <a th:href="@{/concessionarias}" class="btn btn-default"
-                                   th:text="#{messages.forms.cancel}">Cancel</a>
-
                                 <button id="send" type="submit" class="btn btn-success pull-right"
                                         th:text="#{messages.forms.confirm}">Confirm
                                 </button>
