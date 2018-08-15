@@ -3,16 +3,14 @@ package br.com.imerljak.usuarios.entity;
 
 import br.com.imerljak.processos.entity.Processo;
 import br.com.imerljak.share.entity.BaseEntity;
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLDeleteAll;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,11 +36,19 @@ public class Usuario extends BaseEntity {
     @Basic(optional = false)
     private String senha;
 
+    @Basic
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     @OneToMany(mappedBy = "relator")
-    private Set<Processo> processosRelator = new HashSet<>();
+    private List<Processo> processosRelator = new ArrayList<>();
 
     @OneToMany(mappedBy = "revisor")
-    private Set<Processo> processosRevisor = new HashSet<>();
+    private List<Processo> processosRevisor = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "usuario_role")
+    private Set<Role> roles = new HashSet<>();
 
     public String getNome() {
         return this.nome;
@@ -68,39 +74,39 @@ public class Usuario extends BaseEntity {
         this.senha = senha;
     }
 
-    public Set<Processo> getProcessosRelator() {
-        return this.processosRelator;
-    }
-
-    public void setProcessosRelator(Set<Processo> processosRelator) {
-        this.processosRelator = processosRelator;
+    public List<Processo> getProcessosRelator() {
+        return new ArrayList<>(this.processosRelator);
     }
 
     public void addProcessosRelator(Processo processosRelator) {
-        getProcessosRelator().add(processosRelator);
+        this.processosRelator.add(processosRelator);
         processosRelator.setRelator(this);
     }
 
     public void removeProcessosRelator(Processo processosRelator) {
-        getProcessosRelator().remove(processosRelator);
+        this.processosRelator.remove(processosRelator);
         processosRelator.setRelator(null);
     }
 
-    public Set<Processo> getProcessosRevisor() {
-        return this.processosRevisor;
-    }
-
-    public void setProcessosRevisor(Set<Processo> processosRevisor) {
-        this.processosRevisor = processosRevisor;
+    public List<Processo> getProcessosRevisor() {
+        return new ArrayList<>(this.processosRevisor);
     }
 
     public void addProcessosRevisor(Processo processosRevisor) {
-        getProcessosRevisor().add(processosRevisor);
+        this.processosRevisor.add(processosRevisor);
         processosRevisor.setRevisor(this);
     }
 
     public void removeProcessosRevisor(Processo processosRevisor) {
-        getProcessosRevisor().remove(processosRevisor);
+        this.processosRevisor.remove(processosRevisor);
         processosRevisor.setRevisor(null);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
