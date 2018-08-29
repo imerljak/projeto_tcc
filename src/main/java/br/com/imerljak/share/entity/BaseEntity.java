@@ -117,4 +117,5 @@ public class BaseEntity implements Serializable {
     public void setAtualizadoPor(String atualizadoPor) {
         this.atualizadoPor = atualizadoPor;
     }
+
 }

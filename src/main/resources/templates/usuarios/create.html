@@ -8,112 +8,101 @@
 
 <!-- page content -->
 <div layout:fragment="content">
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Cadastro de Usuário</h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <a class="btn" th:href="@{/usuarios}"><i class="fa fa-arrow-left"></i> Lista de Usuários</a>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
+        <div class="col-md-12">
 
-                    <!--/*@thymesVar id="usuario" type="br.com.imerljak.usuarios.entity.Usuario"*/-->
-                    <form class="form-horizontal form-label-left"
-                          th:action="@{/usuarios/adicionar}"
-                          th:object="${usuario}"
-                          method="post"
-                          novalidate>
-                        <span class="section">Dados Pessoais</span>
 
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
-                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Nome
-                                <span class="required">*</span>
+            <a class="btn" th:href="@{/usuarios}"><i class="fa fa-arrow-left"></i> Lista de Usuários</a>
+
+            <!--/*@thymesVar id="usuario" type="br.com.imerljak.usuarios.entity.Usuario"*/-->
+            <form id="RegisterValidation" class="form-horizontal form-label-left"
+                  th:action="@{/usuarios/adicionar}"
+                  th:object="${usuario}"
+                  th:method="post"
+                  novalidate>
+
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{version}">
+
+                <div class="card ">
+                    <div class="card-header ">
+                        <h4 class="card-title">Novo Usuário</h4>
+                    </div>
+                    <div class="card-body ">
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
+                            <label for="name">Nome
+                                <star class="star">*</star>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="name"
-                                       class="form-control col-md-7 col-xs-12"
-                                       th:field="*{nome}"
-                                       placeholder="Fulano da Silva"
-                                       required="required"
-                                       type="text">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
-                                Please choose a username.
-                            </div>
+                            <input id="name"
+                                   class="form-control"
+                                   th:field="*{nome}"
+                                   placeholder="Fulano da Silva"
+                                   required="required"
+                                   type="text">
+                            <label class="error" for="name" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
+                                Please choose a username
+                            </label>
                         </div>
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('email')?'has-error':''}">
-                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="email">Email
-                                <span class="required">*</span>
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('email')?'has-error':''}">
+                            <label for="email">Email
+                                <star class="star">*</star>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="email"
-                                       id="email"
-                                       placeholder="seuemail@mail.com"
-                                       th:field="*{email}"
-                                       required="required"
-                                       class="form-control col-md-7 col-xs-12">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            <input type="email"
+                                   id="email"
+                                   placeholder="seuemail@mail.com"
+                                   th:field="*{email}"
+                                   required="required"
+                                   class="form-control">
+                            <label class="error" for="email" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                                 Please input a valid email.
-                            </div>
+                            </label>
                         </div>
-                        <!--<div class="item form-group">
+                        <!--<div class="form-group has-label">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Confirma Email <span
                                     class="required">*</span>
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            ">
                                 <input type="email" id="email2"
                                        name="confirm_email"
                                        placeholder="seuemail@mail.com"
                                        required="required"
-                                       class="form-control col-md-7 col-xs-12">
+                                       class="form-control">
                             </div>
                         </div>-->
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('senha')?'has-error':''}">
-                            <label for="password" class="control-label col-md-2">Senha</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="password"
-                                       type="password"
-                                       th:field="*{senha}"
-                                       placeholder="*****"
-                                       class="form-control col-md-7 col-xs-12"
-                                       required="required">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('senha')?'has-error':''}">
+                            <label for="password">
+                                Senha
+                                <star class="star">*</star>
+                            </label>
+                            <input id="password"
+                                   type="password"
+                                   th:field="*{senha}"
+                                   placeholder="*****"
+                                   class="form-control"
+                                   required="required">
+                            <label class="error" for="password" th:if="${#fields.hasErrors('senha')}"
+                                   th:errors="*{senha}">
                                 Please input a valid password.
-                            </div>
+                            </label>
                         </div>
-                        <!--<div class="item form-group">
-                            <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Confirma
-                                Senha</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="password2"
-                                       type="password"
-                                       name="password2"
-                                       data-validate-linked="password"
-                                       placeholder="*****"
-                                       class="form-control col-md-7 col-xs-12"
-                                       required="required">
-                            </div>
-                        </div>-->
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-2">
-                                <button type="reset" class="btn btn-primary">Cancelar</button>
-                                <button id="send" type="submit" class="btn btn-success">Registrar</button>
-                            </div>
+                        <div class="card-category form-category">
+                            <star class="star">*</star>
+                            Required fields
                         </div>
-                    </form>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-info btn-fill pull-right" th:text="'Registrar'">Register
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
 <!-- /page content -->

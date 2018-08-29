@@ -1,8 +1,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<footer th:fragment="footer-content">
-    <div class="pull-right">
-        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+<footer class="footer" th:fragment="footer-content">
+    <div class="container">
+        <nav>
+            <ul class="footer-menu">
+                <li>
+                    <a href="#">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Company
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Portfolio
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Blog
+                    </a>
+                </li>
+            </ul>
+            <p class="copyright text-center">
+                ©
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+            </p>
+        </nav>
     </div>
-    <div class="clearfix"></div>
 </footer>
 </html>

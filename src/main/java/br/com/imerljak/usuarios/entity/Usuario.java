@@ -32,6 +32,7 @@ public class Usuario extends BaseEntity {
     @Basic(optional = false)
     private String email;
 
+//    @JsonIgnore
     @Size(min = 6, message = "A senha deve ter mais que 6 caracteres")
     @Basic(optional = false)
     private String senha;
@@ -46,7 +47,7 @@ public class Usuario extends BaseEntity {
     @OneToMany(mappedBy = "revisor")
     private List<Processo> processosRevisor = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "usuario_role")
     private Set<Role> roles = new HashSet<>();
 
@@ -108,5 +109,15 @@ public class Usuario extends BaseEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", ativo=" + ativo +
+                '}';
     }
 }

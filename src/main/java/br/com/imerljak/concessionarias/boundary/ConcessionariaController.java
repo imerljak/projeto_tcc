@@ -16,20 +16,18 @@
  */
 package br.com.imerljak.concessionarias.boundary;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import br.com.imerljak.concessionarias.control.CnpjUtil;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.concessionarias.entity.Representante;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -48,9 +46,9 @@ public class ConcessionariaController {
     }
 
     @GetMapping
-    public ModelAndView listConcessionarias() {
+    public ModelAndView listConcessionarias(@PageableDefault Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/list");
-        modelAndView.addObject("concessionarias", repository.findAll()); // Paginate..
+        modelAndView.addObject("concessionarias", repository.findAll(pageable));
         return modelAndView;
     }
 
@@ -86,7 +84,7 @@ public class ConcessionariaController {
         return modelAndView;
     }
 
-    @PostMapping("/editar")
+    @PutMapping("/editar")
     public String updateConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -98,8 +96,8 @@ public class ConcessionariaController {
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/remover/{id}")
-    public String removeConcessionaria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @DeleteMapping("/remover")
+    public String removeConcessionaria(Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária removida com sucesso!");
         return "redirect:/concessionarias";
