@@ -18,6 +18,8 @@ package br.com.imerljak.processos.boundary;
 
 import br.com.imerljak.processos.entity.Processo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,13 @@ public class ProcessoController {
     @Autowired
     public ProcessoController(ProcessoRepository repository) {
         this.repository = repository;
+    }
+
+    @GetMapping
+    public ModelAndView findAllProcesso(@PageableDefault Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("processos/list");
+        modelAndView.addObject("processos", repository.findAll(pageable));
+        return modelAndView;
     }
 
     @GetMapping("/novo")
@@ -80,13 +89,6 @@ public class ProcessoController {
     public ModelAndView findProcesso(@PathParam("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("processos/view");
         modelAndView.addObject("processo", repository.findById(id));
-        return modelAndView;
-    }
-
-    @GetMapping
-    public ModelAndView findAllProcesso() {
-        ModelAndView modelAndView = new ModelAndView("processos/list");
-        modelAndView.addObject("processos", repository.findAll());
         return modelAndView;
     }
 

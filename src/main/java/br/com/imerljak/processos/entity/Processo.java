@@ -1,14 +1,14 @@
 
 package br.com.imerljak.processos.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.denuncias.entity.Denuncia;
+import br.com.imerljak.share.entity.BaseEntity;
 import br.com.imerljak.usuarios.entity.Usuario;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,29 +20,25 @@ import java.util.Optional;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE processo SET removido = 1 WHERE id = ? AND version = ?")
-//@SQLDeleteAll(sql = "UPDATE processo SET removido = 1")
-//@Where(clause = "removido = 0")
-public class Processo extends SoftDeleteEntity {
+public class Processo extends BaseEntity {
 
     private static final long serialVersionUID = -7779592815770774218L;
 
-    @Column(unique = true, nullable = false)
-    @Basic(optional = false)
     @NotNull
+    @Column(unique = true, nullable = false, length = 80)
     private String protocolo;
 
-    @Column(nullable = false)
-    @Basic(optional = false)
     @NotNull
+    @Column(nullable = false, length = 191)
     private String nome;
 
-    @Basic
+    @Lob
+    @Column
     private String observacoes;
 
-    @Column(nullable = false)
-    @Basic
+    // TODO: Enumerar os valores de status
     @NotNull
+    @Column(nullable = false, length = 30)
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,10 +49,6 @@ public class Processo extends SoftDeleteEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario revisor;
-
-    @CreatedBy
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Usuario criador;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoProcesso tipoProcesso;
@@ -124,14 +116,6 @@ public class Processo extends SoftDeleteEntity {
 
     public void setRevisor(Usuario revisor) {
         this.revisor = revisor;
-    }
-
-    public Usuario getCriador() {
-        return this.criador;
-    }
-
-    public void setCriador(Usuario criador) {
-        this.criador = criador;
     }
 
     public TipoProcesso getTipoProcesso() {

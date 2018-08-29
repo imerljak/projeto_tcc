@@ -1,7 +1,7 @@
 
 package br.com.imerljak.denuncias.entity;
 
-import br.com.imerljak.common.entity.Pessoa;
+import br.com.imerljak.share.entity.Pessoa;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

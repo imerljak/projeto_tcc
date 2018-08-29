@@ -7,23 +7,24 @@
     <class>br.com.imerljak.processos.entity.Processo</class>
     <class>br.com.imerljak.usuarios.entity.Usuario</class>
     <class>br.com.imerljak.concessionarias.entity.Concessionaria</class>
-    <class>br.com.imerljak.common.entity.Pessoa</class>
+    <class>br.com.imerljak.share.entity.Pessoa</class>
     <class>br.com.imerljak.denuncias.entity.Denunciante</class>
     <class>br.com.imerljak.concessionarias.entity.Representante</class>
     <class>br.com.imerljak.concessionarias.entity.TipoServico</class>
     <class>br.com.imerljak.denuncias.entity.Denuncia</class>
-    <class>br.com.imerljak.common.entity.Tramite</class>
+    <class>br.com.imerljak.share.entity.Tramite</class>
     <class>br.com.imerljak.denuncias.entity.TramiteDenuncia</class>
     <class>br.com.imerljak.processos.entity.TramiteProcesso</class>
-    <class>br.com.imerljak.common.entity.TipoTramite</class>
-    <class>br.com.imerljak.common.entity.Anexo</class>
-    <class>br.com.imerljak.common.entity.AnexoTramite</class>
+    <class>br.com.imerljak.share.entity.TipoTramite</class>
+    <class>br.com.imerljak.share.entity.Anexo</class>
+    <class>br.com.imerljak.share.entity.AnexoTramite</class>
     <class>br.com.imerljak.processos.entity.Documento</class>
     <class>br.com.imerljak.processos.entity.TipoDocumento</class>
     <class>br.com.imerljak.denuncias.entity.AnexoDenuncia</class>
     <class>br.com.imerljak.processos.entity.TipoProcesso</class>
-    <class>br.com.imerljak.common.entity.Tipo</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>br.com.imerljak.share.entity.Tipo</class>
+      <class>br.com.imerljak.teste.entity.Teste</class>
+      <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
       <property name="hibernate.show_sql" value="true"/>

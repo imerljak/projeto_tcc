@@ -16,15 +16,16 @@
  */
 package br.com.imerljak.usuarios.boundary;
 
+import br.com.imerljak.usuarios.control.UsuarioNotFoundException;
 import br.com.imerljak.usuarios.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -45,9 +46,9 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ModelAndView listaUsuarios() {
+    public ModelAndView listaUsuarios(@PageableDefault Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("usuarios/list");
-        modelAndView.addObject("usuarios", repository.findAll()); // TODO: Paginate ?
+        modelAndView.addObject("usuarios", repository.findAll(pageable));
         return modelAndView;
     }
 
@@ -73,20 +74,36 @@ public class UsuarioController {
 
     @GetMapping(value = "/editar/{id}")
     public ModelAndView editaUsuarioForm(@PathVariable Long id) {
+
+        Usuario usuario = repository.findById(id).orElseThrow(UsuarioNotFoundException::new);
+
         ModelAndView modelAndView = new ModelAndView("usuarios/update");
-        modelAndView.addObject("usuario", repository.findById(id));
+        modelAndView.addObject("usuario", usuario);
         return modelAndView;
     }
 
-    @PostMapping(value = "/editar")
-    public String salvaEdicaoUsuario(@Validated Usuario usuario) {
-        repository.save(usuario);
+    @PutMapping(value = "/editar")
+    public String salvaEdicaoUsuario(@Validated Usuario usuario, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "/usuarios/update";
+        }
+
+        repository.findById(usuario.getId())
+                .ifPresent(u -> {
+                    u.setNome(usuario.getNome());
+                    u.setEmail(usuario.getEmail());
+
+                    repository.save(u);
+                });
+
         return "redirect:/usuarios";
     }
 
-    @GetMapping(value = "/remover/{id}")
-    public String removeUsuario(@PathVariable Long id) {
+    @DeleteMapping(value = "/remover")
+    public String removeUsuario(Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Usuário removido com sucesso!");
         return "redirect:/usuarios";
     }
 

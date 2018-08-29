@@ -18,6 +18,8 @@ package br.com.imerljak.denuncias.boundary;
 
 import br.com.imerljak.denuncias.entity.Denuncia;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class DenunciaController {
 
     private DenunciaRepository repository;
+
+
+    @GetMapping
+    public ModelAndView findAllDenuncia(@PageableDefault Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("denuncias/list");
+        modelAndView.addObject("denuncias", repository.findAll(pageable));
+        return modelAndView;
+    }
 
     @Autowired
     public DenunciaController(DenunciaRepository repository) {
@@ -80,13 +90,6 @@ public class DenunciaController {
     public ModelAndView findDenuncia(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("denuncias/view");
         modelAndView.addObject("denuncia", repository.findById(id));
-        return modelAndView;
-    }
-
-    @GetMapping
-    public ModelAndView findAllDenuncia() {
-        ModelAndView modelAndView = new ModelAndView("denuncias/list");
-        modelAndView.addObject("denuncias", repository.findAll());
         return modelAndView;
     }
 

@@ -1,25 +1,20 @@
 
 package br.com.imerljak.processos.entity;
 
-import br.com.imerljak.common.entity.Arquivo;
+import br.com.imerljak.share.entity.Arquivo;
 import br.com.imerljak.usuarios.entity.Usuario;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE documento SET removido = 1 WHERE id = ? AND version = ?")
-//@SQLDeleteAll(sql = "UPDATE documento SET removido = 1")
-//@Where(clause = "removido = 0")
 public class Documento extends Arquivo {
 
     private static final long serialVersionUID = -8398942158105186355L;

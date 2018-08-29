@@ -16,17 +16,20 @@
  */
 package br.com.imerljak.concessionarias.boundary;
 
+import br.com.imerljak.concessionarias.control.CnpjUtil;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
+import br.com.imerljak.concessionarias.entity.Representante;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.persistence.EntityNotFoundException;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -42,15 +45,27 @@ public class ConcessionariaController {
         this.repository = repository;
     }
 
+    @GetMapping
+    public ModelAndView listConcessionarias(@PageableDefault Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("concessionarias/list");
+        modelAndView.addObject("concessionarias", repository.findAll(pageable));
+        return modelAndView;
+    }
+
     @GetMapping("/adicionar")
     public ModelAndView createConcessionaria() {
         ModelAndView modelAndView = new ModelAndView("concessionarias/create");
-        modelAndView.addObject("concessionaria", new Concessionaria());
+
+        Concessionaria concessionaria = new Concessionaria();
+        concessionaria.getRepresentantes().add(new Representante());
+        modelAndView.addObject("concessionaria", concessionaria);
         return modelAndView;
     }
 
     @PostMapping("/adicionar")
     public String createConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        repository.findByCnpj(CnpjUtil.unformat(concessionaria.getCnpj()))
+                .ifPresent(c -> bindingResult.rejectValue("cnpj", "{Duplicate.concessionaria.cnpj}"));
 
         if (bindingResult.hasErrors()) {
             return "concessionarias/create";
@@ -64,15 +79,16 @@ public class ConcessionariaController {
     @GetMapping("/editar/{id}")
     public ModelAndView editConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/update");
-        modelAndView.addObject("concessionaria", repository.findById(id));
+        modelAndView.addObject("concessionaria",
+                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 
-    @PostMapping("/editar")
+    @PutMapping("/editar")
     public String updateConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/concessionarias/update";
+            return "concessionarias/update";
         }
 
         repository.save(concessionaria);
@@ -80,24 +96,18 @@ public class ConcessionariaController {
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/remover/{id}")
-    public String removeConcessionaria(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @DeleteMapping("/remover")
+    public String removeConcessionaria(Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária removida com sucesso!");
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detalhes/{id}")
     public ModelAndView viewConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/view");
-        modelAndView.addObject("concessionaria", repository.findById(id));
-        return modelAndView;
-    }
-
-    @GetMapping
-    public ModelAndView listConcessionarias() {
-        ModelAndView modelAndView = new ModelAndView("concessionarias/list");
-        modelAndView.addObject("concessionarias", repository.findAll());
+        modelAndView.addObject("concessionaria",
+                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 

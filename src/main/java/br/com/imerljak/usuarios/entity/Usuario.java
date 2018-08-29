@@ -1,30 +1,23 @@
 
 package br.com.imerljak.usuarios.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
 import br.com.imerljak.processos.entity.Processo;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLDeleteAll;
-import org.hibernate.annotations.Where;
+import br.com.imerljak.share.entity.BaseEntity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE usuario SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido=0")
-public class Usuario extends SoftDeleteEntity {
+public class Usuario extends BaseEntity {
 
     private static final long serialVersionUID = 3391331287260381725L;
 
@@ -39,19 +32,24 @@ public class Usuario extends SoftDeleteEntity {
     @Basic(optional = false)
     private String email;
 
-    @NotEmpty
+//    @JsonIgnore
     @Size(min = 6, message = "A senha deve ter mais que 6 caracteres")
     @Basic(optional = false)
     private String senha;
 
+    @Basic
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     @OneToMany(mappedBy = "relator")
-    private Set<Processo> processosRelator = new HashSet<>();
+    private List<Processo> processosRelator = new ArrayList<>();
 
     @OneToMany(mappedBy = "revisor")
-    private Set<Processo> processosRevisor = new HashSet<>();
+    private List<Processo> processosRevisor = new ArrayList<>();
 
-    @OneToMany(mappedBy = "criador")
-    private Set<Processo> processosCriador = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "usuario_role")
+    private Set<Role> roles = new HashSet<>();
 
     public String getNome() {
         return this.nome;
@@ -77,58 +75,49 @@ public class Usuario extends SoftDeleteEntity {
         this.senha = senha;
     }
 
-    public Set<Processo> getProcessosRelator() {
-        return this.processosRelator;
-    }
-
-    public void setProcessosRelator(Set<Processo> processosRelator) {
-        this.processosRelator = processosRelator;
+    public List<Processo> getProcessosRelator() {
+        return new ArrayList<>(this.processosRelator);
     }
 
     public void addProcessosRelator(Processo processosRelator) {
-        getProcessosRelator().add(processosRelator);
+        this.processosRelator.add(processosRelator);
         processosRelator.setRelator(this);
     }
 
     public void removeProcessosRelator(Processo processosRelator) {
-        getProcessosRelator().remove(processosRelator);
+        this.processosRelator.remove(processosRelator);
         processosRelator.setRelator(null);
     }
 
-    public Set<Processo> getProcessosRevisor() {
-        return this.processosRevisor;
-    }
-
-    public void setProcessosRevisor(Set<Processo> processosRevisor) {
-        this.processosRevisor = processosRevisor;
+    public List<Processo> getProcessosRevisor() {
+        return new ArrayList<>(this.processosRevisor);
     }
 
     public void addProcessosRevisor(Processo processosRevisor) {
-        getProcessosRevisor().add(processosRevisor);
+        this.processosRevisor.add(processosRevisor);
         processosRevisor.setRevisor(this);
     }
 
     public void removeProcessosRevisor(Processo processosRevisor) {
-        getProcessosRevisor().remove(processosRevisor);
+        this.processosRevisor.remove(processosRevisor);
         processosRevisor.setRevisor(null);
     }
 
-    public Set<Processo> getProcessosCriador() {
-        return this.processosCriador;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setProcessosCriador(Set<Processo> processosCriador) {
-        this.processosCriador = processosCriador;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public void addProcessosCriador(Processo processosCriador) {
-        getProcessosCriador().add(processosCriador);
-        processosCriador.setCriador(this);
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", ativo=" + ativo +
+                '}';
     }
-
-    public void removeProcessosCriador(Processo processosCriador) {
-        getProcessosCriador().remove(processosCriador);
-        processosCriador.setCriador(null);
-    }
-
 }

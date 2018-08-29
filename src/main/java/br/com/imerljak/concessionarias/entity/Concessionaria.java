@@ -1,13 +1,18 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.common.entity.SoftDeleteEntity;
+import br.com.caelum.stella.bean.validation.CNPJ;
+import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
 import br.com.imerljak.denuncias.entity.Denuncia;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.springframework.util.AutoPopulatingList;
+import br.com.imerljak.share.control.Telefone;
+import br.com.imerljak.share.control.TelefoneFormatConverter;
+import br.com.imerljak.share.entity.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,31 +20,38 @@ import java.util.List;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Entity
-//@SQLDelete(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
-//@SQLDeleteAll(sql = "UPDATE concessionaria SET removido=1 WHERE id=? AND version=?")
-//@Where(clause = "removido=0")
-public class Concessionaria extends SoftDeleteEntity {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cnpj"}))
+public class Concessionaria extends BaseEntity {
 
     private static final long serialVersionUID = -210267340348887485L;
 
     @NotEmpty
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 191)
     private String nome;
 
-    @CNPJ
-    @Basic(optional = false)
-    @Column(unique = true, nullable = false)
+    @NotEmpty
+    @CNPJ(formatted = true)
+    @Convert(converter = CnpjFormatConverter.class)
+    @Column(unique = true, nullable = false, length = 14)
     private String cnpj;
 
     @Basic
     private String endereco;
 
-    @Basic
+    @Telefone
+    @Convert(converter = TelefoneFormatConverter.class)
+    @Column(length = 12)
     private String telefone;
 
-    @OneToMany
-    private List<Representante> representantes = new AutoPopulatingList<>(Representante.class);
+    @Email
+    @Column(length = 191)
+    private String email;
+
+    @Valid
+    @NotEmpty
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Representante> representantes = new ArrayList<>();
 
     @OneToMany(mappedBy = "concessionaria")
     private List<Denuncia> denuncias = new ArrayList<>();
@@ -59,7 +71,7 @@ public class Concessionaria extends SoftDeleteEntity {
         return this.cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public void setCnpj(@NotNull String cnpj) {
         this.cnpj = cnpj;
     }
 
@@ -141,10 +153,19 @@ public class Concessionaria extends SoftDeleteEntity {
     @Override
     public String toString() {
         return "Concessionaria{" +
-                "nome='" + nome + '\'' +
+                "id=" + getId() +
+                ", nome='" + nome + '\'' +
                 ", cnpj='" + cnpj + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
                 '}';
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

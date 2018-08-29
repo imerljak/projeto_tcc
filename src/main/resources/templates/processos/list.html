@@ -1,60 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Usuários</title>
+    <title>Processos</title>
 </head>
 
 <!-- page content -->
-<div layout:fragment="content">
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Usuários
-                <small>Lista de usuários cadastrados no sistema.</small>
-            </h3>
-        </div>
-
-        <div class="title_right">
-            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="clearfix"></div>
+<div layout:fragment="content" th:remove="tag">
 
     <div class="row">
-        <div class="col-sm-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <a class="btn" th:href="@{/usuarios/novo}"><i class="fa fa-user-plus"></i> Novo Usuário</a>
-                    <div class="clearfix"></div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Lista de Processos</h4>
+                    <p class="class-category">Processos cadastrados no sistema.</p>
+
+                    <a class="btn" th:href="@{/usuarios/adicionar}"><i class="fa fa-file-contract"></i> Abrir Processo</a>
                 </div>
-                <div class="x_content">
-                    <table class="table">
+
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table full-width table-hover table-striped" id="usuarios_table">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Email</th>
-                            <th>???</th>
+                            <th class="text-left">Data</th>
+                            <th class="text-left">Protocolo</th>
+                            <th class="text-left">Concessionária</th>
+                            <th class="text-left">Relator</th>
+                            <th class="text-left">Revisor</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Situação</th>
+                            <th class="text-right">Ações</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="usuario : ${usuarios}">
-                            <th scope="row" th:text="${usuario.id}">1</th>
-                            <td th:text="${usuario.nome}">Mark</td>
-                            <td th:text="${usuario.email}">Otto</td>
-                            <td th:text="'???'">@mdo</td>
+                        <tr th:each="processo : ${processos}">
+                            <td class="text-left" th:text="${processo.dataCriacao}"></td>
+                            <td class="text-left" th:text="${processo.protocolo}"></td>
+                            <td class="text-left" th:text="${processo.concessionaria.nome}"></td>
+                            <td class="text-left" th:text="${processo.relator.nome}"></td>
+                            <td class="text-left" th:text="${processo.revisor.nome}"></td>
+                            <td class="text-center" th:text="${processo.tipoProcesso.nome}"></td>
+                            <td class="text-center" th:text="${processo.status}"></td>
+                            <td class="td-actions text-right">
+                                <a href="#" class="btn btn-info btn-link btn-xs" rel="tooltip"
+                                   data-original-title="Ver Processo">
+                                    <i class="fa fa-user"></i>
+                                </a>
+
+                                <a href="#" th:href="@{processos/editar/{id}(id=${processo.id})}"
+                                   class="btn btn-success btn-link btn-xs" rel="tooltip"
+                                   data-original-title="Editar Processo">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+
+                                <form th:method="delete" class="d-inline"
+                                      th:object="${processo}"
+                                      th:action="@{/processo/remover}">
+
+                                    <input type="hidden" th:name="id" th:value="*{id}">
+                                    <input type="hidden" th:name="version" th:value="*{version}">
+
+                                    <button type="submit" class="btn btn-danger btn-link btn-xs" rel="tooltip"
+                                            data-original-title="Remover Processo">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <p th:text="${processos.getPageable()}"></p>
                         </tr>
                         </tbody>
                     </table>
+                    <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${processos}, url='/processos')}"></nav>
                 </div>
             </div>
         </div>

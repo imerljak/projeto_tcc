@@ -1,7 +1,7 @@
 
 package br.com.imerljak.processos.entity;
 
-import br.com.imerljak.common.entity.Tipo;
+import br.com.imerljak.share.entity.Tipo;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

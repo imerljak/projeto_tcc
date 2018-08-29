@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<nav aria-label="Page navigation example" th:fragment="pagination (page, url)" th:if="${page.totalPages > 1}">
+    <!--/*@thymesVar id="url" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="page" type="org.springframework.data.domain.Page"*/-->
+    <!--/*@thymesVar id="i" type="java.lang.Integer"*/-->
+    <ul class="pagination justify-content-end">
+        <li class="page-item" th:classappend="${page.hasPrevious() ? '' : 'disabled'}">
+            <a href="#" th:href="@{${url}(page=0)}" class="page-link">
+                First
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${page.hasPrevious() ? '' : 'disabled'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=${page.getNumber() - 1})}"
+               tabindex="-1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li th:each="i : ${#numbers.sequence((page.getNumber() - 2 < 0 ? 0 : page.getNumber() - 2), (page.getNumber() + 2) < (page.getTotalPages()-1) ? (page.getNumber() + 2) : (page.getTotalPages() - 1) )}"
+            th:classappend="${i == page.getNumber() ? 'active' : ''}"
+            class="page-item">
+            <a class="page-link" href="#" th:href="@{${url}(page=${i})}" th:text="${i}"></a>
+        </li>
+        <li class="page-item" th:classappend="${page.hasNext() ? '' : 'disabled'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=${page.getNumber() + 1})}"
+               aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${page.hasNext() ? '' : 'disabled'}">
+            <a href="#" th:href="@{${url}(page=${page.getTotalPages() - 1})}"
+               class="page-link">
+                Last
+            </a>
+        </li>
+    </ul>
+</nav>
+</html>
