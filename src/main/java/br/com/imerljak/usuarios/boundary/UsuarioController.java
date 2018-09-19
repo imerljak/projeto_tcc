@@ -37,11 +37,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private UsuarioRepository repository;
+    private UsuarioService repository;
     private CargoRepository cargoRepository;
 
     @Autowired
-    public UsuarioController(UsuarioRepository repository, CargoRepository cargoRepository) {
+    public UsuarioController(UsuarioService repository, CargoRepository cargoRepository) {
         this.repository = repository;
         this.cargoRepository = cargoRepository;
     }
@@ -96,14 +96,7 @@ public class UsuarioController {
             return "/usuarios/update";
         }
 
-        repository.findById(usuario.getId())
-                .ifPresent(u -> {
-                    u.setNome(usuario.getNome());
-                    u.setEmail(usuario.getEmail());
-                    u.setCargos(usuario.getCargos());
-
-                    repository.save(u);
-                });
+        repository.save(usuario);
 
         return "redirect:/usuarios";
     }

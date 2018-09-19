@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -44,15 +45,30 @@ public class UsuarioService {
     public Usuario save(Usuario usuario) {
 
         if (usuario.isNew()) {
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+            encodePassword(usuario, usuario.getSenha());
+
+        } else {
+            Usuario usuarioExistente = findById(usuario.getId()).orElseThrow(EntityNotFoundException::new);
+
+            usuarioExistente.setNome(usuario.getNome());
+            usuarioExistente.setEmail(usuario.getEmail());
+            usuarioExistente.setCargos(usuario.getCargos());
+
+            if (!usuarioExistente.getSenha().equals(usuario.getSenha())) {
+                encodePassword(usuarioExistente, usuario.getSenha());
+            }
+
+            usuario = usuarioExistente;
         }
 
         return usuarioRepository.save(usuario);
     }
 
-    public Optional<Usuario> findById(Long id) {return usuarioRepository.findById(id);}
+    private void encodePassword(Usuario usuario, String password) {
+        usuario.setSenha(passwordEncoder.encode(password));
+    }
 
-    public boolean existsById(Long id) {return usuarioRepository.existsById(id);}
+    public Optional<Usuario> findById(Long id) {return usuarioRepository.findById(id);}
 
     public void deleteById(Long id) {usuarioRepository.deleteById(id);}
 
