@@ -3,32 +3,45 @@ package br.com.imerljak.denuncias.entity;
 
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.processos.entity.Processo;
-import br.com.imerljak.share.entity.BaseEntity;
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLDeleteAll;
-import org.hibernate.annotations.Where;
+import br.com.imerljak.common.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
+@Data
 @Entity
+@NoArgsConstructor
+@ToString(callSuper = true, exclude = {"tramites", "anexos", "processos"})
+@EqualsAndHashCode(callSuper = true, exclude = {"tramites", "anexos", "processos"})
 public class Denuncia extends BaseEntity {
 
     private static final long serialVersionUID = 8340651480291045404L;
 
     @Basic
+    private String protocolo;
+
+    @Basic
+    @NotNull
     private String reclamacao;
 
     @Basic
     private String ocorrencia;
 
     @Basic
-    private String dataOcorrencia;
+    private LocalDate dataOcorrencia;
 
     @Basic
     private String localOcorrencia;
@@ -39,156 +52,20 @@ public class Denuncia extends BaseEntity {
     @Basic
     private String providencia;
 
+    @NotEmpty
     @ManyToOne(fetch = FetchType.LAZY)
     private Concessionaria concessionaria;
 
-    @OneToMany(mappedBy = "denuncia")
-    private List<TramiteDenuncia> tramites;
+    @NotNull
+    @ManyToOne
+    private Denunciante denunciante;
 
     @OneToMany(mappedBy = "denuncia")
-    private List<AnexoDenuncia> anexos;
+    private List<TramiteDenuncia> tramites = new ArrayList<>();
 
     @OneToMany(mappedBy = "denuncia")
-    private List<Denunciante> denunciantes;
+    private List<AnexoDenuncia> anexos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "denuncias")
-    private List<Processo> processos;
-
-    public String getReclamacao() {
-        return this.reclamacao;
-    }
-
-    public void setReclamacao(String reclamacao) {
-        this.reclamacao = reclamacao;
-    }
-
-    public String getOcorrencia() {
-        return this.ocorrencia;
-    }
-
-    public void setOcorrencia(String ocorrencia) {
-        this.ocorrencia = ocorrencia;
-    }
-
-    public String getDataOcorrencia() {
-        return this.dataOcorrencia;
-    }
-
-    public void setDataOcorrencia(String dataOcorrencia) {
-        this.dataOcorrencia = dataOcorrencia;
-    }
-
-    public String getLocalOcorrencia() {
-        return this.localOcorrencia;
-    }
-
-    public void setLocalOcorrencia(String localOcorrencia) {
-        this.localOcorrencia = localOcorrencia;
-    }
-
-    public String getSugestao() {
-        return this.sugestao;
-    }
-
-    public void setSugestao(String sugestao) {
-        this.sugestao = sugestao;
-    }
-
-    public String getProvidencia() {
-        return this.providencia;
-    }
-
-    public void setProvidencia(String providencia) {
-        this.providencia = providencia;
-    }
-
-    public Concessionaria getConcessionaria() {
-        return this.concessionaria;
-    }
-
-    public void setConcessionaria(Concessionaria concessionaria) {
-        this.concessionaria = concessionaria;
-    }
-
-    public List<TramiteDenuncia> getTramites() {
-        if (tramites == null) {
-            tramites = new ArrayList<>();
-        }
-        return this.tramites;
-    }
-
-    public void setTramites(List<TramiteDenuncia> tramites) {
-        this.tramites = tramites;
-    }
-
-    public void addTramite(TramiteDenuncia tramite) {
-        getTramites().add(tramite);
-        tramite.setDenuncia(this);
-    }
-
-    public void removeTramite(TramiteDenuncia tramite) {
-        getTramites().remove(tramite);
-        tramite.setDenuncia(null);
-    }
-
-    public List<AnexoDenuncia> getAnexos() {
-        if (anexos == null) {
-            anexos = new ArrayList<>();
-        }
-        return this.anexos;
-    }
-
-    public void setAnexos(List<AnexoDenuncia> anexos) {
-        this.anexos = anexos;
-    }
-
-    public void addAnexo(AnexoDenuncia anexo) {
-        getAnexos().add(anexo);
-        anexo.setDenuncia(this);
-    }
-
-    public void removeAnexo(AnexoDenuncia anexo) {
-        getAnexos().remove(anexo);
-        anexo.setDenuncia(null);
-    }
-
-    public List<Denunciante> getDenunciantes() {
-        if (denunciantes == null) {
-            denunciantes = new ArrayList<>();
-        }
-        return this.denunciantes;
-    }
-
-    public void setDenunciantes(List<Denunciante> denunciantes) {
-        this.denunciantes = denunciantes;
-    }
-
-    public void addDenunciante(Denunciante denunciante) {
-        getDenunciantes().add(denunciante);
-        denunciante.setDenuncia(this);
-    }
-
-    public void removeDenunciante(Denunciante denunciante) {
-        getDenunciantes().remove(denunciante);
-        denunciante.setDenuncia(null);
-    }
-
-    public List<Processo> getProcessos() {
-        if (processos == null) {
-            processos = new ArrayList<>();
-        }
-        return this.processos;
-    }
-
-    public void setProcessos(List<Processo> processos) {
-        this.processos = processos;
-    }
-
-    public void addProcesso(Processo processo) {
-        getProcessos().add(processo);
-    }
-
-    public void removeProcesso(Processo processo) {
-        getProcessos().remove(processo);
-    }
+    private Set<Processo> processos = new HashSet<>();
 }

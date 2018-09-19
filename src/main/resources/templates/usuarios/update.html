@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
@@ -22,7 +23,7 @@
                   novalidate>
 
                 <input type="hidden" th:field="*{id}">
-                <input type="hidden" th:field="*{version}">
+                <input type="hidden" th:field="*{versao}">
 
                 <div class="card ">
                     <div class="card-header ">
@@ -60,18 +61,21 @@
                                 Please input a valid email.
                             </label>
                         </div>
-                        <!--<div class="form-group has-label">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Confirma Email <span
-                                    class="required">*</span>
+                        <div class="from-group has-label col-md-3 pl-0 pr-0"
+                             th:classappend="${#fields.hasErrors('cargos') ? 'has-error' : ''}">
+                            <label for="roles">
+                                Roles
+                                <star class="star">*</star>
                             </label>
-                            ">
-                                <input type="email" id="email2"
-                                       name="confirm_email"
-                                       placeholder="seuemail@mail.com"
-                                       required="required"
-                                       class="form-control">
-                            </div>
-                        </div>-->
+                            <select id="roles" th:field="*{cargos}" multiple
+                                    data-style="btn-default btn-outline">
+                                <option th:each="role : ${cargos}"
+                                        th:value="${role.id}"
+                                        th:text="${role.nome}">
+                                    roleOption
+                                </option>
+                            </select>
+                        </div>
                         <div class="card-category form-category">
                             <star class="star">*</star>
                             Required fields
@@ -88,4 +92,45 @@
     </div>
 </div>
 
-<!-- /page content -->
+<template layout:fragment="scripts">
+
+    <!--  Bootstrap Select  -->
+    <script th:src="@{/webjars/bootstrap-select/1.12.4/dist/js/bootstrap-select.min.js}"
+            type="text/javascript"></script>
+
+    <!--  jQueryValidate  -->
+    <script th:src="@{/webjars/jquery-validation/1.17.0-1/jquery.validate.min.js}"
+            type="text/javascript"></script>
+
+    <script>
+
+        function setFormValidation(id) {
+            $(id).validate({
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    $(element).closest('.form-check').removeClass('has-success').addClass('has-error');
+                },
+                success: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                    $(element).closest('.form-check').removeClass('has-error').addClass('has-success');
+                },
+                errorPlacement: function (error, element) {
+                    $(element).closest('.form-group').append(error).addClass('has-error');
+                },
+                rules: {
+                    senha: {
+                        required: true,
+                        minlength: 6
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('select').selectpicker();
+
+            setFormValidation('#usuarioForm');
+        })
+    </script>
+
+    <!-- /page content -->

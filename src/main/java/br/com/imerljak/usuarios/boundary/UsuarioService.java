@@ -1,6 +1,6 @@
 package br.com.imerljak.usuarios.boundary;
 
-import br.com.imerljak.usuarios.entity.Role;
+import br.com.imerljak.usuarios.entity.Cargo;
 import br.com.imerljak.usuarios.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,15 +36,12 @@ public class UsuarioService {
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        usuario.setRoles(new HashSet<>(Collections.singleton(Role.USER_ROLE)));
+        usuario.setCargos(new HashSet<>(Collections.singleton(Cargo.ADMINISTRADOR)));
 
         return this.save(usuario);
     }
 
     public Usuario save(Usuario usuario) {
-
-        System.out.println("usuario.getId() = " + usuario.getId());
-        System.out.println("usuario.getVersion() = " + usuario.getVersion());
 
         if (usuario.isNew()) {
             usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));

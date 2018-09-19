@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +38,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UsuarioController {
 
     private UsuarioRepository repository;
+    private CargoRepository cargoRepository;
 
     @Autowired
-    public UsuarioController(UsuarioRepository repository) {
+    public UsuarioController(UsuarioRepository repository, CargoRepository cargoRepository) {
         this.repository = repository;
+        this.cargoRepository = cargoRepository;
     }
 
     @GetMapping
@@ -56,11 +57,16 @@ public class UsuarioController {
     public ModelAndView novoUsuarioForm() {
         ModelAndView modelAndView = new ModelAndView("usuarios/create");
         modelAndView.addObject("usuario", new Usuario());
+        modelAndView.addObject("cargos", cargoRepository.findAll());
         return modelAndView;
     }
 
     @PostMapping(value = "/adicionar")
     public String registraNovoUsuario(@Validated Usuario usuario, BindingResult bindingResult, RedirectAttributes attributes) {
+
+        if (repository.existsByEmail(usuario.getEmail())) {
+            bindingResult.rejectValue("email", "Unique.usuario.email");
+        }
 
         if (bindingResult.hasErrors()) {
             return "usuarios/create";
@@ -79,11 +85,12 @@ public class UsuarioController {
 
         ModelAndView modelAndView = new ModelAndView("usuarios/update");
         modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("cargos", cargoRepository.findAll());
         return modelAndView;
     }
 
     @PutMapping(value = "/editar")
-    public String salvaEdicaoUsuario(@Validated Usuario usuario, BindingResult bindingResult, Model model) {
+    public String salvaEdicaoUsuario(@Validated Usuario usuario, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "/usuarios/update";
@@ -93,6 +100,7 @@ public class UsuarioController {
                 .ifPresent(u -> {
                     u.setNome(usuario.getNome());
                     u.setEmail(usuario.getEmail());
+                    u.setCargos(usuario.getCargos());
 
                     repository.save(u);
                 });

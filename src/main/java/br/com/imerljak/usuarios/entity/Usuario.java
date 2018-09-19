@@ -1,10 +1,16 @@
 
 package br.com.imerljak.usuarios.entity;
 
+import br.com.imerljak.common.entity.BaseEntity;
 import br.com.imerljak.processos.entity.Processo;
-import br.com.imerljak.share.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -16,7 +22,13 @@ import java.util.Set;
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
+@Data
 @Entity
+@NoArgsConstructor
+@ToString(callSuper = true,
+        exclude = {"cargos", "processosRelator", "processosRevisor"})
+@EqualsAndHashCode(callSuper = true,
+        exclude = {"cargos", "processosRelator", "processosRevisor"})
 public class Usuario extends BaseEntity {
 
     private static final long serialVersionUID = 3391331287260381725L;
@@ -32,7 +44,7 @@ public class Usuario extends BaseEntity {
     @Basic(optional = false)
     private String email;
 
-//    @JsonIgnore
+    @JsonIgnore
     @Size(min = 6, message = "A senha deve ter mais que 6 caracteres")
     @Basic(optional = false)
     private String senha;
@@ -47,77 +59,10 @@ public class Usuario extends BaseEntity {
     @OneToMany(mappedBy = "revisor")
     private List<Processo> processosRevisor = new ArrayList<>();
 
+    @Valid
+    @NotEmpty
+    @OrderBy("nivel")
     @ManyToMany(cascade = CascadeType.REFRESH)
-    @JoinTable(name = "usuario_role")
-    private Set<Role> roles = new HashSet<>();
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return this.senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public List<Processo> getProcessosRelator() {
-        return new ArrayList<>(this.processosRelator);
-    }
-
-    public void addProcessosRelator(Processo processosRelator) {
-        this.processosRelator.add(processosRelator);
-        processosRelator.setRelator(this);
-    }
-
-    public void removeProcessosRelator(Processo processosRelator) {
-        this.processosRelator.remove(processosRelator);
-        processosRelator.setRelator(null);
-    }
-
-    public List<Processo> getProcessosRevisor() {
-        return new ArrayList<>(this.processosRevisor);
-    }
-
-    public void addProcessosRevisor(Processo processosRevisor) {
-        this.processosRevisor.add(processosRevisor);
-        processosRevisor.setRevisor(this);
-    }
-
-    public void removeProcessosRevisor(Processo processosRevisor) {
-        this.processosRevisor.remove(processosRevisor);
-        processosRevisor.setRevisor(null);
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", ativo=" + ativo +
-                '}';
-    }
+    @JoinTable(name = "usuario_cargo")
+    private Set<Cargo> cargos = new HashSet<>();
 }

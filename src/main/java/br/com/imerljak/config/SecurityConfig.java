@@ -1,5 +1,6 @@
 package br.com.imerljak.config;
 
+import br.com.imerljak.usuarios.entity.Cargo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
@@ -30,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public SecurityConfig(DataSource dataSource) {this.dataSource = dataSource;}
 
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -44,8 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/assets/**").permitAll()
+//                .expressionHandler(new NoRolePrefixSecurityExpressionHandler())
                 .antMatchers("/login").permitAll()
+                .antMatchers("/usuarios/**").hasRole(Cargo.CARGO_ADMINISTRADOR)
+                .antMatchers("/concessionarias/**").hasRole(Cargo.CARGO_GERENTE)
+                .antMatchers("/denuncias/**").hasRole(Cargo.CARGO_GERENTE)
+                .antMatchers("/processos/**").hasAnyRole(Cargo.CARGO_GERENTE, Cargo.CARGO_REVISOR_RELATOR)
                 .anyRequest().authenticated()
                 .and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
@@ -54,8 +63,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
+                .logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling()
+                //                .accessDeniedPage("/access-denied.html");
+                .accessDeniedHandler(accessDeniedHandler);
     }
 
     @Override
@@ -64,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         "/resources/**",
+                        "/assets/**",
                         "/static/**",
                         "/css/**",
                         "/js/**",

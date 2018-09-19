@@ -16,7 +16,7 @@
                     <h4 class="card-title">Lista de Denuncias</h4>
                     <p class="class-category">Denuncias cadastradas no sistema.</p>
 
-                    <a class="btn" th:href="@{/usuarios/adicionar}"><i class="fa fa-user-plus"></i> Nova Denuncia</a>
+                    <a class="btn" th:href="@{/denuncias/adicionar}"><i class="fa fa-plus"></i> Nova Denuncia</a>
                 </div>
 
                 <div class="card-body table-full-width table-responsive">
@@ -53,7 +53,7 @@
                                       th:action="@{/denuncia/remover}">
 
                                     <input type="hidden" th:name="id" th:value="*{id}">
-                                    <input type="hidden" th:name="version" th:value="*{version}">
+                                    <input type="hidden" th:name="version" th:value="*{versao}">
 
                                     <button type="submit" class="btn btn-danger btn-link btn-xs" rel="tooltip"
                                             data-original-title="Remover Denuncia">

@@ -1,7 +1,11 @@
 
 package br.com.imerljak.concessionarias.entity;
 
-import br.com.imerljak.share.entity.Pessoa;
+import br.com.imerljak.common.entity.Pessoa;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorValue;
@@ -11,7 +15,11 @@ import javax.validation.constraints.NotEmpty;
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
+@Data
 @Entity
+@NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("REPRESENTANTE")
 public class Representante extends Pessoa {
 
@@ -20,20 +28,4 @@ public class Representante extends Pessoa {
     @Basic
     @NotEmpty
     private String cargo;
-
-    public String getCargo() {
-        return this.cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
-    @Override
-    public String toString() {
-        return "Representante{" +
-                super.toString() +
-                "cargo='" + cargo + '\'' +
-                '}';
-    }
 }
