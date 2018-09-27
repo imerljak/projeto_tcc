@@ -54,7 +54,7 @@ public class UsuarioService {
             usuarioExistente.setEmail(usuario.getEmail());
             usuarioExistente.setCargos(usuario.getCargos());
 
-            if (!usuarioExistente.getSenha().equals(usuario.getSenha())) {
+            if (usuario.getSenha() != null && !usuarioExistente.getSenha().equals(usuario.getSenha())) {
                 encodePassword(usuarioExistente, usuario.getSenha());
             }
 
