@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.NONE)
 @EqualsAndHashCode(exclude = {"usuarios"})
 public class Cargo implements Serializable {
@@ -48,7 +48,7 @@ public class Cargo implements Serializable {
     @ManyToMany(mappedBy = "cargos")
     private Set<Usuario> usuarios = new HashSet<>();
 
-    private Cargo(@NotEmpty String id) {this.id = "ROLE_".concat(id);}
+    private Cargo(String id) {this.id = "ROLE_".concat(id);}
 
     @Override
     public String toString() {

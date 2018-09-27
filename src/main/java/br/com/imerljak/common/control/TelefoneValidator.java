@@ -1,5 +1,6 @@
 package br.com.imerljak.common.control;
 
+import br.com.caelum.stella.DigitoGenerator;
 import br.com.caelum.stella.MessageProducer;
 import br.com.caelum.stella.SimpleMessageProducer;
 import br.com.caelum.stella.ValidationMessage;
@@ -102,5 +103,14 @@ public class TelefoneValidator implements Validator<String> {
         }
 
         return FORMATED.matcher(s).matches();
+    }
+
+    @Override
+    public String generateRandomValid() {
+        final String randomDigitos = new DigitoGenerator().generate(10);
+        if (isFormatted) {
+            return String.format(randomDigitos, "(##) ####-####");
+        }
+        return randomDigitos;
     }
 }

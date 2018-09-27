@@ -160,6 +160,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+
+            <!--Setting up version cause of: https://github.com/rzwitserloot/lombok/issues/1703-->
+            <!--Since boot 2.0.5 comes with 1.16.22 that has a breaking bug-->
+            <version>1.18.2</version>
         </dependency>
         <!--./Lombok-->
 
