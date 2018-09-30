@@ -1,5 +1,6 @@
 package br.com.imerljak.common.control;
 
+import org.springframework.stereotype.Component;
 import org.thymeleaf.context.IExpressionContext;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
@@ -8,6 +9,7 @@ import org.thymeleaf.expression.IExpressionObjectFactory;
 import java.util.Collections;
 import java.util.Set;
 
+@Component
 public class SidebarUtilsDialect extends AbstractDialect implements IExpressionObjectDialect {
 
 

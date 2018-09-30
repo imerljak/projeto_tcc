@@ -28,12 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     public SecurityConfig(DataSource dataSource) {this.dataSource = dataSource;}
-
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,10 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers(
+                        "/resources/**",
+                        "/assets/**",
+                        "/static/**",
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/webjars/**"
+                );
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-//                .expressionHandler(new NoRolePrefixSecurityExpressionHandler())
+                //                .expressionHandler(new NoRolePrefixSecurityExpressionHandler())
                 .antMatchers("/login").permitAll()
                 .antMatchers("/usuarios/**").hasRole(Cargo.CARGO_ADMINISTRADOR)
                 .antMatchers("/concessionarias/**").hasRole(Cargo.CARGO_GERENTE)
@@ -68,21 +82,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 //                .accessDeniedPage("/access-denied.html");
                 .accessDeniedHandler(accessDeniedHandler);
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers(
-                        "/resources/**",
-                        "/assets/**",
-                        "/static/**",
-                        "/css/**",
-                        "/js/**",
-                        "/images/**",
-                        "/webjars/**"
-                );
     }
 
     @Bean

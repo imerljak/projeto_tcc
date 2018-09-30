@@ -1,6 +1,5 @@
 package br.com.imerljak;
 
-import br.com.imerljak.common.control.SidebarUtilsDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,11 +20,6 @@ public class Application {
     @Bean
     public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();
-    }
-
-    @Bean
-    public SidebarUtilsDialect sidebarUtilsDialect() {
-        return new SidebarUtilsDialect();
     }
 
 }

@@ -1,9 +1,8 @@
-
 package br.com.imerljak.processos.entity;
 
+import br.com.imerljak.common.entity.BaseEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.denuncias.entity.Denuncia;
-import br.com.imerljak.common.entity.BaseEntity;
 import br.com.imerljak.usuarios.entity.Usuario;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

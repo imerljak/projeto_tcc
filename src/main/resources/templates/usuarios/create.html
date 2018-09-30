@@ -87,10 +87,10 @@
                                     multiple
                                     data-style="btn-info btn-fill btn-block"
                                     data-menu-style="dropdown-blue">
-                                <option th:each="role : ${cargos}"
-                                        th:value="${role.id}"
-                                        th:text="${role.nome}">
-                                    roleOption
+                                <option th:each="cargo : ${cargos}"
+                                        th:value="${cargo.id}"
+                                        th:text="${cargo.nome}">
+                                    Nome do Cargo
                                 </option>
                             </select>
                             <label class="error" for="cargos"

@@ -1,4 +1,3 @@
-
 package br.com.imerljak.common.entity;
 
 import lombok.Data;

@@ -58,6 +58,15 @@ public class TelefoneValidator implements Validator<String> {
         this.messageProducer = messageProducer;
     }
 
+    @Override
+    public void assertValid(String s) {
+
+        List<ValidationMessage> errors = getInvalidValues(s);
+        if (!errors.isEmpty()) {
+            throw new InvalidStateException(errors);
+        }
+    }
+
     private List<ValidationMessage> getInvalidValues(String telefone) {
         List<ValidationMessage> errors = new ArrayList<>();
 
@@ -80,15 +89,6 @@ public class TelefoneValidator implements Validator<String> {
         }
 
         return errors;
-    }
-
-    @Override
-    public void assertValid(String s) {
-
-        List<ValidationMessage> errors = getInvalidValues(s);
-        if (!errors.isEmpty()) {
-            throw new InvalidStateException(errors);
-        }
     }
 
     @Override

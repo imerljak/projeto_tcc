@@ -1,4 +1,3 @@
-
 package br.com.imerljak.common.entity;
 
 import lombok.Data;
@@ -30,7 +29,7 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
+    @Column(updatable = false)
     @CreatedDate
     private LocalDateTime dataCriacao;
 
@@ -39,6 +38,7 @@ public class BaseEntity implements Serializable {
     private LocalDateTime dataUltimaAtualizacao;
 
     @CreatedBy
+    @Column(updatable = false)
     private String criadoPor;
 
     @LastModifiedBy

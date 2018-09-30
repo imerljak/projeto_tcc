@@ -1,24 +1,9 @@
-/*
- * Copyright (C) 2018 Israel Merljak <imerljak@gmail.com.br>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package br.com.imerljak.denuncias.boundary;
 
 import br.com.imerljak.concessionarias.boundary.ConcessionariaRepository;
 import br.com.imerljak.denuncias.entity.Denuncia;
 import br.com.imerljak.denuncias.entity.Denunciante;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,12 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
+@Slf4j
 @Controller
 @RequestMapping("/denuncias")
 public class DenunciaController {
@@ -41,27 +28,19 @@ public class DenunciaController {
     private final ConcessionariaRepository concessionariaRepository;
 
     @Autowired
-    public DenunciaController(DenunciaService repository, ConcessionariaRepository concessionariaRepository) {
-        this.denunciaService = repository;
+    public DenunciaController(DenunciaService service, ConcessionariaRepository concessionariaRepository) {
+        this.denunciaService = service;
         this.concessionariaRepository = concessionariaRepository;
     }
 
     // == private methods ==
-
-    private Object novaDenuncia() {
-        Denuncia denuncia = new Denuncia();
-        denuncia.setDenunciante(new Denunciante());
-        return denuncia;
-    }
-
-    // == model attributes ==
 
     @ModelAttribute
     public void atributos(Model model) {
         model.addAttribute("concessionarias", concessionariaRepository.findAll());
     }
 
-    // == list ==
+    // == model attributes ==
 
     @GetMapping
     public ModelAndView findAllDenuncia(@PageableDefault Pageable pageable) {
@@ -70,7 +49,7 @@ public class DenunciaController {
         return modelAndView;
     }
 
-    // == create ==
+    // == list ==
 
     @GetMapping("/adicionar")
     public ModelAndView formCadastroDenuncia() {
@@ -79,16 +58,27 @@ public class DenunciaController {
         return modelAndView;
     }
 
+    // == create ==
+
+    private Object novaDenuncia() {
+        Denuncia denuncia = new Denuncia();
+        denuncia.setDenunciante(new Denunciante());
+        return denuncia;
+    }
+
     @PostMapping("/adicionar")
-    public String postNovaDenuncia(@Validated Denuncia denuncia, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String postNovaDenuncia(@Validated Denuncia denuncia, @RequestParam("anexos_files") MultipartFile file, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.info("Nova Denuncia = {}", denuncia);
+        log.info("files = {}", file);
 
         if (bindingResult.hasErrors()) {
+            log.info("validation errors = {}", bindingResult.getAllErrors());
             return "/denuncias/create";
         }
 
         denunciaService.save(denuncia);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia salva com sucesso!");
-        return "redirect:denuncias";
+        return "redirect:/denuncias";
     }
 
     // == update ==
@@ -101,19 +91,25 @@ public class DenunciaController {
     }
 
     @PutMapping("/editar")
-    public String putAlterarDenuncia(@Validated Denuncia denuncia, RedirectAttributes redirectAttributes) {
+    public String putAlterarDenuncia(@Validated Denuncia denuncia, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            log.debug("errors = {}", bindingResult.getAllErrors());
+            return "/denuncias/editar/" + denuncia.getId();
+        }
+
         denunciaService.save(denuncia);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia atualizada com sucesso!");
-        return "redirect:denuncias";
+        return "redirect:/denuncias";
     }
 
     // == delete ==
 
-    @DeleteMapping("/remover/{id}")
-    public String deleteDenuncia(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @DeleteMapping("/remover")
+    public String deleteDenuncia(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         denunciaService.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Denuncia removida com sucesso!");
-        return "redirect:denuncias";
+        return "redirect:/denuncias";
     }
 
     // == view ==

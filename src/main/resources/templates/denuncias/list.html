@@ -23,19 +23,17 @@
                     <table class="table full-width table-hover table-striped" id="usuarios_table">
                         <thead>
                         <tr>
-                            <th class="text-left">Data</th>
-                            <th class="text-left">Concessionária</th>
-                            <th class="text-center">Reclamação</th>
-                            <th class="text-right">Local</th>
-                            <th class="text-right">Ações</th>
+                            <th scope="col" class="text-left">Protocolo</th>
+                            <th scope="col" class="text-left">Concessionária</th>
+                            <th scope="col" class="text-right">Data</th>
+                            <th scope="col" class="text-right">Ações</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="denuncia : ${denuncias}">
-                            <td class="text-left" th:text="${denuncia.dataCriacao}"></td>
+                            <td scope="row" class="text-left font-weight-bold" th:text="${denuncia.protocolo}"></td>
                             <td class="text-left" th:text="${denuncia.concessionaria.nome}"></td>
-                            <td class="text-left" th:text="${denuncia.reclamacao}"></td>
-                            <td class="text-left" th:text="${denuncia.localOcorrencia}"></td>
+                            <td class="text-right" th:text="${{denuncia.dataCriacao}}"></td>
                             <td class="td-actions text-right">
                                 <a href="#" class="btn btn-info btn-link btn-xs" rel="tooltip"
                                    data-original-title="Ver Denuncia">

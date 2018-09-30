@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SidebarUtils {
 
+    public String activeClass(String urlPath) {
+        return isActive(urlPath) ? "active" : "";
+    }
+
     public boolean isActive(String urlPath) {
         return isActive(urlPath, false);
     }
@@ -20,10 +24,6 @@ public class SidebarUtils {
         }
 
         return request.getRequestURI().contains(urlPath);
-    }
-
-    public String activeClass(String urlPath) {
-        return isActive(urlPath) ? "active" : "";
     }
 
     public String activeClass(String urlPath, boolean endsWith) {

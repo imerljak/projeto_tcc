@@ -1,4 +1,3 @@
-
 package br.com.imerljak.common.entity;
 
 import br.com.imerljak.usuarios.entity.Usuario;

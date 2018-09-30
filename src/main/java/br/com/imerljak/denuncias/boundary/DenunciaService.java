@@ -1,6 +1,6 @@
 package br.com.imerljak.denuncias.boundary;
 
-import br.com.imerljak.denuncias.control.ProtocoloGenerator;
+import br.com.imerljak.denuncias.control.StringGenerator;
 import br.com.imerljak.denuncias.entity.Denuncia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,17 +13,20 @@ import java.util.Optional;
 @Service
 public class DenunciaService {
 
-    private final ProtocoloGenerator protocoloGenerator;
+    private final StringGenerator protocoloGenerator;
     private final DenunciaRepository denunciaRepository;
 
     @Autowired
-    public DenunciaService(@Qualifier("denuncia") ProtocoloGenerator protocoloGenerator, DenunciaRepository denunciaRepository) {
+    public DenunciaService(@Qualifier("protocoloDenuncia") StringGenerator protocoloGenerator, DenunciaRepository denunciaRepository) {
         this.protocoloGenerator = protocoloGenerator;
         this.denunciaRepository = denunciaRepository;
     }
 
     public <S extends Denuncia> S save(S entity) {
-        entity.setProtocolo(protocoloGenerator.generate());
+        if (entity.isNew()) {
+            entity.setProtocolo(protocoloGenerator.generate());
+        }
+
         return denunciaRepository.save(entity);
     }
 

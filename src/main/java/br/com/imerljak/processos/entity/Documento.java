@@ -1,4 +1,3 @@
-
 package br.com.imerljak.processos.entity;
 
 import br.com.imerljak.common.entity.Arquivo;

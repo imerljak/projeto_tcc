@@ -1,12 +1,11 @@
-
 package br.com.imerljak.concessionarias.entity;
 
 import br.com.caelum.stella.bean.validation.CNPJ;
-import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
-import br.com.imerljak.denuncias.entity.Denuncia;
 import br.com.imerljak.common.control.Telefone;
 import br.com.imerljak.common.control.TelefoneFormatConverter;
 import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
+import br.com.imerljak.denuncias.entity.Denuncia;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +23,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = {"representantes", "denuncias", "servicos"})
 @EqualsAndHashCode(callSuper = true,
         exclude = {"representantes", "denuncias", "servicos"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cnpj"}))

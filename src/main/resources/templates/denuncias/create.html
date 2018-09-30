@@ -18,7 +18,8 @@
             <form id="RegisterValidation" class="form-horizontal form-label-left"
                   th:action="@{/denuncias/adicionar}"
                   th:object="${denuncia}"
-                  th:method="post">
+                  th:method="post"
+                  enctype="multipart/form-data">
 
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{versao}">
@@ -57,7 +58,7 @@
                         <div class="form-group has-label"
                              th:classappend="${#fields.hasErrors('denunciante.email')?'has-error':''}">
                             <label for="denunciante.email">Email</label>
-                            <input type="text" class="form-control" id="denunciante.email"
+                            <input type="email" class="form-control" id="denunciante.email"
                                    th:field="*{denunciante.email}">
                         </div>
 
@@ -148,7 +149,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="file" name="anexos" >
+                            <input type="file" name="anexos_files">
                         </div>
                     </div>
 

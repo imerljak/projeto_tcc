@@ -1,4 +1,3 @@
-
 package br.com.imerljak.concessionarias.entity;
 
 import br.com.imerljak.common.entity.Tipo;

@@ -1,16 +1,16 @@
-
 package br.com.imerljak.denuncias.entity;
 
+import br.com.imerljak.common.entity.BaseEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.processos.entity.Processo;
-import br.com.imerljak.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ public class Denuncia extends BaseEntity {
     private String ocorrencia;
 
     @Basic
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataOcorrencia;
 
     @Basic
@@ -52,12 +53,14 @@ public class Denuncia extends BaseEntity {
     @Basic
     private String providencia;
 
-    @NotEmpty
+    @Valid
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Concessionaria concessionaria;
 
+    @Valid
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Denunciante denunciante;
 
     @OneToMany(mappedBy = "denuncia")

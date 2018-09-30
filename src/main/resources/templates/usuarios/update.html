@@ -64,15 +64,15 @@
                         <div class="from-group has-label col-md-3 pl-0 pr-0"
                              th:classappend="${#fields.hasErrors('cargos') ? 'has-error' : ''}">
                             <label for="roles">
-                                Roles
+                                Cargos
                                 <star class="star">*</star>
                             </label>
                             <select id="roles" th:field="*{cargos}" multiple
                                     data-style="btn-default btn-outline">
-                                <option th:each="role : ${cargos}"
-                                        th:value="${role.id}"
-                                        th:text="${role.nome}">
-                                    roleOption
+                                <option th:each="cargo : ${cargos}"
+                                        th:value="${cargo.id}"
+                                        th:text="${cargo.nome}">
+                                    Nome do Cargo
                                 </option>
                             </select>
                         </div>
