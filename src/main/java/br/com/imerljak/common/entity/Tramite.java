@@ -1,17 +1,14 @@
 package br.com.imerljak.common.entity;
 
-import br.com.imerljak.usuarios.entity.Usuario;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -20,27 +17,13 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @DiscriminatorColumn
-@ToString(callSuper = true, exclude = {"anexos"})
-@EqualsAndHashCode(callSuper = true, exclude = {"anexos"})
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public abstract class Tramite extends AuditableEntity {
 
     private static final long serialVersionUID = 8695715051300957310L;
 
-    @Basic
-    @FutureOrPresent
-    private LocalDateTime dataVigencia;
-
-    @Basic
-    @FutureOrPresent
-    private LocalDateTime dataLimite;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoTramite tipoTramite;
 
-    @CreatedBy
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Usuario usuario;
-
-    @OneToMany(mappedBy = "tramite")
-    private List<AnexoTramite> anexos = new ArrayList<>();
 }
