@@ -19,8 +19,8 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("REPRESENTANTE")
-public class Representante extends Pessoa {
+@DiscriminatorValue("RESPONSAVEL")
+public class Responsavel extends Pessoa {
 
     private static final long serialVersionUID = 5136286368992534275L;
 

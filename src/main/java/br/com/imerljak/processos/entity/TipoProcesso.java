@@ -1,13 +1,11 @@
 package br.com.imerljak.processos.entity;
 
 import br.com.imerljak.common.entity.Tipo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -20,4 +18,9 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class TipoProcesso extends Tipo {
     private static final long serialVersionUID = -3717858585377329684L;
+
+    @Builder
+    public TipoProcesso(@NotNull String nome, String descricao) {
+        super(nome, descricao);
+    }
 }

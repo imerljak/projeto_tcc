@@ -20,7 +20,7 @@ import javax.validation.constraints.NotEmpty;
 @DiscriminatorColumn
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class Pessoa extends BaseEntity {
+public abstract class Pessoa extends AuditableEntity {
 
     private static final long serialVersionUID = -1231437318555494389L;
 

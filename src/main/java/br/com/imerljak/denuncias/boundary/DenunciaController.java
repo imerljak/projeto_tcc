@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
+
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
@@ -86,11 +88,11 @@ public class DenunciaController {
     @GetMapping("/editar/{id}")
     public ModelAndView formEditarDenuncia(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("denuncias/update");
-        modelAndView.addObject("denuncia", denunciaService.findById(id));
+        modelAndView.addObject("denuncia", denunciaService.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 
-    @PutMapping("/editar")
+    @PatchMapping("/editar")
     public String putAlterarDenuncia(@Validated Denuncia denuncia, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {

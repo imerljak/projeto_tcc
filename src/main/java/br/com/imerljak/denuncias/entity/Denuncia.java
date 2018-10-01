@@ -1,7 +1,8 @@
 package br.com.imerljak.denuncias.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.AuditableEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
+import br.com.imerljak.denuncias.control.SituacaoDenuncia;
 import br.com.imerljak.processos.entity.Processo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(callSuper = true, exclude = {"tramites", "anexos", "processos"})
 @EqualsAndHashCode(callSuper = true, exclude = {"tramites", "anexos", "processos"})
-public class Denuncia extends BaseEntity {
+public class Denuncia extends AuditableEntity {
 
     private static final long serialVersionUID = 8340651480291045404L;
 
@@ -52,6 +53,10 @@ public class Denuncia extends BaseEntity {
 
     @Basic
     private String providencia;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SituacaoDenuncia situacao = SituacaoDenuncia.AGUARDANDO;
 
     @Valid
     @NotNull

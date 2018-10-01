@@ -1,8 +1,9 @@
 package br.com.imerljak.processos.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.AuditableEntity;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
 import br.com.imerljak.denuncias.entity.Denuncia;
+import br.com.imerljak.processos.control.SituacaoProcesso;
 import br.com.imerljak.usuarios.entity.Usuario;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,7 @@ import java.util.Set;
         exclude = {"tramites", "documentos", "denuncias"})
 @EqualsAndHashCode(callSuper = true,
         exclude = {"tramites", "documentos", "denuncias"})
-public class Processo extends BaseEntity {
+public class Processo extends AuditableEntity {
 
     private static final long serialVersionUID = -7779592815770774218L;
 
@@ -35,17 +36,17 @@ public class Processo extends BaseEntity {
     private String protocolo;
 
     @NotNull
-    @Column(nullable = false, length = 191)
-    private String nome;
+    @Column(nullable = false)
+    private String assunto;
 
     @Lob
     @Column
     private String observacoes;
 
-    // TODO: Enumerar os valores de status
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String status;
+    private SituacaoProcesso situacao; // todo: inicializar valor padrão.
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Concessionaria concessionaria;

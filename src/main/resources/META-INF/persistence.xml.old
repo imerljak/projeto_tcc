@@ -11,7 +11,7 @@
         <class>br.com.imerljak.concessionarias.entity.Concessionaria</class>
         <class>br.com.imerljak.common.entity.Pessoa</class>
         <class>br.com.imerljak.denuncias.entity.Denunciante</class>
-        <class>br.com.imerljak.concessionarias.entity.Representante</class>
+        <class>br.com.imerljak.concessionarias.entity.Responsavel</class>
         <class>br.com.imerljak.concessionarias.entity.TipoServico</class>
         <class>br.com.imerljak.denuncias.entity.Denuncia</class>
         <class>br.com.imerljak.common.entity.Tramite</class>

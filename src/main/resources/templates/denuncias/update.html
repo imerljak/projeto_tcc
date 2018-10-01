@@ -18,15 +18,16 @@
             <form id="RegisterValidation" class="form-horizontal form-label-left"
                   th:action="@{/denuncias/adicionar}"
                   th:object="${denuncia}"
-                  th:method="post"
+                  th:method="patch"
                   enctype="multipart/form-data">
 
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{versao}">
 
                 <div class="card ">
-
-                    <div class="card-header with-border">
+                    <h4 th:text="*{protocolo}"></h4>
+                    <hr>
+                    <div class="card-header">
                         <h4 class="card-title">Concessionária</h4>
                     </div>
                     <div class="card-body">

@@ -1,6 +1,6 @@
 package br.com.imerljak.usuarios.entity;
 
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.AuditableEntity;
 import br.com.imerljak.processos.entity.Processo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -28,7 +28,7 @@ import java.util.Set;
         exclude = {"cargos", "processosRelator", "processosRevisor"})
 @EqualsAndHashCode(callSuper = true,
         exclude = {"cargos", "processosRelator", "processosRevisor"})
-public class Usuario extends BaseEntity {
+public class Usuario extends AuditableEntity {
 
     private static final long serialVersionUID = 3391331287260381725L;
 

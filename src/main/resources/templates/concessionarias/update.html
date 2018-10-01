@@ -105,71 +105,71 @@
                         <h5 class="card-title">Dados Representantes</h5>
                         <hr>
 
-                        <div th:each="representante, row : *{representantes}">
+                        <div th:each="responsavel, row : *{responsaveis}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group has-label"
-                                         th:classappend="${#fields.hasErrors('representantes['+row.index+'].nome')?'has-error':''}">
-                                        <label th:for="${'representantes['+row.index+'].nome'}">Nome
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].nome')?'has-error':''}">
+                                        <label th:for="${'responsaveis['+row.index+'].nome'}">Nome
                                             <span class="star">*</span>
                                         </label>
-                                        <input th:id="${'representantes['+row.index+'].nome'}" type="text"
+                                        <input th:id="${'responsaveis['+row.index+'].nome'}" type="text"
                                                class="form-control"
                                                required="required"
-                                               th:field="*{representantes[__${row.index}__].nome}"
+                                               th:field="*{responsaveis[__${row.index}__].nome}"
                                                th:placeholder="'Fulano da Silva __${row.index}__'">
                                         <label class="error"
-                                               th:if="${#fields.hasErrors('representantes[__${row.index}__].nome')}"
-                                               th:errors="*{representantes[__${row.index}__].nome}">
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].nome')}"
+                                               th:errors="*{responsaveis[__${row.index}__].nome}">
                                             Erros de validação
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group has-label"
-                                         th:classappend="${#fields.hasErrors('representantes['+row.index+'].cargo')?'has-error':''}">
-                                        <label th:for="${'representantes[__${row.index}__].cargo'}">Cargo
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].cargo')?'has-error':''}">
+                                        <label th:for="${'responsaveis[__${row.index}__].cargo'}">Cargo
                                             <span class="star">*</span>
                                         </label>
-                                        <input th:id="${'representantes['+row.index+'].cargo'}" type="text"
+                                        <input th:id="${'responsaveis['+row.index+'].cargo'}" type="text"
                                                class="form-control"
                                                required="required"
-                                               th:field="*{representantes[__${row.index}__].cargo}"
+                                               th:field="*{responsaveis[__${row.index}__].cargo}"
                                                placeholder="Gerente">
                                         <label class="error"
-                                               th:if="${#fields.hasErrors('representantes[__${row.index}__].cargo')}"
-                                               th:errors="*{representantes[__${row.index}__].cargo}">
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].cargo')}"
+                                               th:errors="*{responsaveis[__${row.index}__].cargo}">
                                             Erros de validação
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group has-label"
-                                         th:classappend="${#fields.hasErrors('representantes['+row.index+'].email')?'has-error':''}">
-                                        <label th:for="${'representantes['+row.index+'].email'}">Email</label>
-                                        <input th:id="${'representantes[__${row.index}__].email'}" type="email"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].email')?'has-error':''}">
+                                        <label th:for="${'responsaveis['+row.index+'].email'}">Email</label>
+                                        <input th:id="${'responsaveis[__${row.index}__].email'}" type="email"
                                                class="form-control"
-                                               th:field="*{representantes[__${row.index}__].email}"
+                                               th:field="*{responsaveis[__${row.index}__].email}"
                                                placeholder="email@empresa.com">
                                         <label class="error"
-                                               th:if="${#fields.hasErrors('representantes[__${row.index}__].email')}"
-                                               th:errors="*{representantes[__${row.index}__].email}">
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].email')}"
+                                               th:errors="*{responsaveis[__${row.index}__].email}">
                                             Erros de validação
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group has-label"
-                                         th:classappend="${#fields.hasErrors('representantes['+row.index+'].telefone')?'has-error':''}">
-                                        <label th:for="${'representantes[__${row.index}__].telefone'}">Telefone</label>
-                                        <input th:id="${'representantes[__${row.index}__].telefone'}" type="tel"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].telefone')?'has-error':''}">
+                                        <label th:for="${'responsaveis[__${row.index}__].telefone'}">Telefone</label>
+                                        <input th:id="${'responsaveis[__${row.index}__].telefone'}" type="tel"
                                                class="form-control"
-                                               th:field="*{representantes[__${row.index}__].telefone}"
+                                               th:field="*{responsaveis[__${row.index}__].telefone}"
                                                data-masktype="tel"
                                                placeholder="(55) 9876-12349">
                                         <label class="error"
-                                               th:if="${#fields.hasErrors('representantes[__${row.index}__].telefone')}"
-                                               th:errors="*{representantes[__${row.index}__].telefone}">
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].telefone')}"
+                                               th:errors="*{responsaveis[__${row.index}__].telefone}">
                                             Erros de validação
                                         </label>
                                     </div>

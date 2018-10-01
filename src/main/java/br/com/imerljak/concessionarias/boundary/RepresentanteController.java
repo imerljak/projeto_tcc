@@ -1,6 +1,6 @@
 package br.com.imerljak.concessionarias.boundary;
 
-import br.com.imerljak.concessionarias.entity.Representante;
+import br.com.imerljak.concessionarias.entity.Responsavel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Israel Merljak <imerljak@gmail.com.br>
  */
 @Controller
-@RequestMapping("/representantes")
+@RequestMapping("/responsaveis")
 public class RepresentanteController {
 
     private RepresentanteRepository repository;
@@ -27,54 +27,54 @@ public class RepresentanteController {
     @GetMapping("/novo")
     public ModelAndView createRepresentante() {
 
-        ModelAndView modelAndView = new ModelAndView("representantes/create");
-        modelAndView.addObject("representante", new Representante());
+        ModelAndView modelAndView = new ModelAndView("responsaveis/create");
+        modelAndView.addObject("representante", new Responsavel());
 
         return modelAndView;
     }
 
     @PostMapping("/novo")
-    public String saveRepresentante(Representante representante, RedirectAttributes redirectAttributes) {
-        repository.save(representante);
+    public String saveRepresentante(Responsavel responsavel, RedirectAttributes redirectAttributes) {
+        repository.save(responsavel);
 
-        redirectAttributes.addFlashAttribute("mensagem", "Representante gravado com sucesso!");
+        redirectAttributes.addFlashAttribute("mensagem", "Responsavel gravado com sucesso!");
 
-        return "redirect:/representantes";
+        return "redirect:/responsaveis";
     }
 
     @GetMapping("/editar/{id}")
     public ModelAndView editRepresentante(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("representantes/edit");
+        ModelAndView modelAndView = new ModelAndView("responsaveis/edit");
         modelAndView.addObject("representante", repository.findById(id));
 
         return modelAndView;
     }
 
     @PostMapping("/editar")
-    public String saveEditedRepresentante(Representante representante, RedirectAttributes redirectAttributes) {
-        repository.save(representante);
-        redirectAttributes.addFlashAttribute("mensagem", "Representante alterado com sucesso!");
-        return "redirect:/representantes";
+    public String saveEditedRepresentante(Responsavel responsavel, RedirectAttributes redirectAttributes) {
+        repository.save(responsavel);
+        redirectAttributes.addFlashAttribute("mensagem", "Responsavel alterado com sucesso!");
+        return "redirect:/responsaveis";
     }
 
     @GetMapping("/remover/{id}")
     public String removeRepresentante(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         repository.deleteById(id);
-        redirectAttributes.addFlashAttribute("mensagem", "Representante removido com sucesso!");
-        return "redirect:/representantes";
+        redirectAttributes.addFlashAttribute("mensagem", "Responsavel removido com sucesso!");
+        return "redirect:/responsaveis";
     }
 
     @GetMapping("/{id}")
     public ModelAndView findRepresentante(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("representantes/view");
+        ModelAndView modelAndView = new ModelAndView("responsaveis/view");
         modelAndView.addObject("representante", repository.findById(id));
         return modelAndView;
     }
 
     @GetMapping
     public ModelAndView listRepresentantes() {
-        ModelAndView modelAndView = new ModelAndView("representantes/list");
-        modelAndView.addObject("representantes", repository.findAll());
+        ModelAndView modelAndView = new ModelAndView("responsaveis/list");
+        modelAndView.addObject("responsaveis", repository.findAll());
         return modelAndView;
     }
 

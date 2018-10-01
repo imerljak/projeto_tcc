@@ -1,7 +1,9 @@
 package br.com.imerljak.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -9,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -17,17 +18,14 @@ import java.time.LocalDateTime;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @MappedSuperclass
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity implements Serializable {
+public class AuditableEntity extends BasicEntity {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private static final long serialVersionUID = 2L;
 
     @Column(updatable = false)
     @CreatedDate
@@ -48,7 +46,9 @@ public class BaseEntity implements Serializable {
     private Long versao;
 
     @Transient
+    @Override
     public boolean isNew() {
-        return (getId() == null) && (getVersao() == null);
+        return super.isNew() && (getVersao() == null);
     }
+
 }

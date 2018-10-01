@@ -1,9 +1,6 @@
 package br.com.imerljak.common.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,17 +13,19 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @DiscriminatorColumn
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class Tipo extends BaseEntity {
+public abstract class Tipo extends BasicEntity {
 
     private static final long serialVersionUID = 6330763506497934608L;
 
     @Column(unique = true, nullable = false)
     @Basic
     @NotNull
+    @NonNull
     private String nome;
 
     @Basic

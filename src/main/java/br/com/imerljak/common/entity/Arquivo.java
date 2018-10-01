@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Arquivo extends BaseEntity {
+public class Arquivo extends AuditableEntity {
 
     private static final long serialVersionUID = 3950662525028096532L;
 

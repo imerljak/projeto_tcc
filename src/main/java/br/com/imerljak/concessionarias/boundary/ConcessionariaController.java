@@ -2,7 +2,7 @@ package br.com.imerljak.concessionarias.boundary;
 
 import br.com.imerljak.concessionarias.control.CnpjUtil;
 import br.com.imerljak.concessionarias.entity.Concessionaria;
-import br.com.imerljak.concessionarias.entity.Representante;
+import br.com.imerljak.concessionarias.entity.Responsavel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -41,7 +41,7 @@ public class ConcessionariaController {
         ModelAndView modelAndView = new ModelAndView("concessionarias/create");
 
         Concessionaria concessionaria = new Concessionaria();
-        concessionaria.getRepresentantes().add(new Representante());
+        concessionaria.getResponsaveis().add(new Responsavel());
         modelAndView.addObject("concessionaria", concessionaria);
         return modelAndView;
     }

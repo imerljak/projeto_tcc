@@ -3,7 +3,7 @@ package br.com.imerljak.concessionarias.entity;
 import br.com.caelum.stella.bean.validation.CNPJ;
 import br.com.imerljak.common.control.Telefone;
 import br.com.imerljak.common.control.TelefoneFormatConverter;
-import br.com.imerljak.common.entity.BaseEntity;
+import br.com.imerljak.common.entity.AuditableEntity;
 import br.com.imerljak.concessionarias.control.CnpjFormatConverter;
 import br.com.imerljak.denuncias.entity.Denuncia;
 import lombok.*;
@@ -23,11 +23,11 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true, exclude = {"representantes", "denuncias", "servicos"})
+@ToString(callSuper = true, exclude = {"responsaveis", "denuncias", "servicos"})
 @EqualsAndHashCode(callSuper = true,
-        exclude = {"representantes", "denuncias", "servicos"})
+        exclude = {"responsaveis", "denuncias", "servicos"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cnpj"}))
-public class Concessionaria extends BaseEntity {
+public class Concessionaria extends AuditableEntity {
 
     private static final long serialVersionUID = -210267340348887485L;
 
@@ -53,13 +53,13 @@ public class Concessionaria extends BaseEntity {
     private String telefone;
 
     @Email
-    @Column(length = 191)
+    @Column(nullable = false)
     private String email;
 
     @Valid
     @NotEmpty
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Representante> representantes = new ArrayList<>();
+    private List<Responsavel> responsaveis = new ArrayList<>();
 
     @OneToMany(mappedBy = "concessionaria")
     private List<Denuncia> denuncias = new ArrayList<>();

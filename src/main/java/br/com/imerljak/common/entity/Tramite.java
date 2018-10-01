@@ -22,7 +22,7 @@ import java.util.List;
 @DiscriminatorColumn
 @ToString(callSuper = true, exclude = {"anexos"})
 @EqualsAndHashCode(callSuper = true, exclude = {"anexos"})
-public abstract class Tramite extends BaseEntity {
+public abstract class Tramite extends AuditableEntity {
 
     private static final long serialVersionUID = 8695715051300957310L;
 
