@@ -11,7 +11,6 @@ import br.com.imerljak.processos.entity.TipoProcesso;
 import br.com.imerljak.usuarios.boundary.UsuarioService;
 import br.com.imerljak.usuarios.entity.Cargo;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 @Configuration
 public class JpaInitialData {
 
-    @Bean
+//    @Bean
     public CommandLineRunner loadUsuarioAdmin(UsuarioService service) {
         return args -> {
             service.createWith(
@@ -32,7 +31,7 @@ public class JpaInitialData {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner loadTiposServico(TipoServicoRepository repository) {
         return (args) -> {
             repository.saveIfNotExistsByNome(TipoServico.builder().nome("Transporte Público").build());
@@ -40,7 +39,7 @@ public class JpaInitialData {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner loadTiposDocumento(TipoDocumentoRepository repository) {
         return (args) -> {
             repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Despacho Abertura").build());
@@ -53,7 +52,7 @@ public class JpaInitialData {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner loadTiposProcesso(TipoProcessoRepository repository) {
         return (args) -> {
             repository.saveIfNotExistsByNome(TipoProcesso.builder().nome("Fiscalização").build());
@@ -62,7 +61,7 @@ public class JpaInitialData {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner loadTiposTramite(TipoTramiteRepository repository) {
         return (args) -> {
             repository.saveIfNotExistsByNome(TipoTramite.builder().nome("Abertura").build());
