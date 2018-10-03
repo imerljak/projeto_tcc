@@ -14,11 +14,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public ModelAndView login() {
-
-        if (!usuarioService.existsByEmail("imerljak@gmail.com")) {
-            usuarioService.createWith("Israel Merljak", "imerljak@gmail.com", "123456");
-        }
-
         return new ModelAndView("login");
     }
 }

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 
-    public Integer countDenunciasByDataCriacaoAfter(LocalDateTime date);
+    Integer countDenunciasByDataCriacaoAfter(LocalDateTime dateTime);
+
+    Integer countDenunciasByDataCriacaoBetween(LocalDateTime start, LocalDateTime end);
 
 }

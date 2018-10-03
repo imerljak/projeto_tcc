@@ -8,49 +8,65 @@ import br.com.imerljak.processos.boundary.TipoDocumentoRepository;
 import br.com.imerljak.processos.boundary.TipoProcessoRepository;
 import br.com.imerljak.processos.entity.TipoDocumento;
 import br.com.imerljak.processos.entity.TipoProcesso;
+import br.com.imerljak.usuarios.boundary.UsuarioService;
+import br.com.imerljak.usuarios.entity.Cargo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Arrays;
 
 @Configuration
 public class JpaInitialData {
 
     @Bean
+    public CommandLineRunner loadUsuarioAdmin(UsuarioService service) {
+        return args -> {
+            service.createWith(
+                    "Israel Merljak",
+                    "imerljak@gmail.com",
+                    "123456",
+                    Arrays.asList(Cargo.ADMINISTRADOR,
+                                  Cargo.GERENTE,
+                                  Cargo.REVISOR_RELATOR));
+        };
+    }
+
+    @Bean
     public CommandLineRunner loadTiposServico(TipoServicoRepository repository) {
         return (args) -> {
-            repository.save(TipoServico.builder().nome("Transporte Público").build());
-            repository.save(TipoServico.builder().nome("Água e Esgoto").build());
+            repository.saveIfNotExistsByNome(TipoServico.builder().nome("Transporte Público").build());
+            repository.saveIfNotExistsByNome(TipoServico.builder().nome("Água e Esgoto").build());
         };
     }
 
     @Bean
     public CommandLineRunner loadTiposDocumento(TipoDocumentoRepository repository) {
         return (args) -> {
-            repository.save(TipoDocumento.builder().nome("Despacho Abertura").build());
-            repository.save(TipoDocumento.builder().nome("Despacho Requerimento").build());
-            repository.save(TipoDocumento.builder().nome("Despacho Decisões").build());
-            repository.save(TipoDocumento.builder().nome("Notificação").build());
-            repository.save(TipoDocumento.builder().nome("Oficio").build());
-            repository.save(TipoDocumento.builder().nome("Auto de Infração").build());
-            repository.save(TipoDocumento.builder().nome("Relatório").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Despacho Abertura").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Despacho Requerimento").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Despacho Decisões").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Notificação").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Oficio").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Auto de Infração").build());
+            repository.saveIfNotExistsByNome(TipoDocumento.builder().nome("Relatório").build());
         };
     }
 
     @Bean
     public CommandLineRunner loadTiposProcesso(TipoProcessoRepository repository) {
         return (args) -> {
-            repository.save(TipoProcesso.builder().nome("Fiscalização").build());
-            repository.save(TipoProcesso.builder().nome("Reajuste Tarifário").build());
-            repository.save(TipoProcesso.builder().nome("Revisão Tarifária").build());
+            repository.saveIfNotExistsByNome(TipoProcesso.builder().nome("Fiscalização").build());
+            repository.saveIfNotExistsByNome(TipoProcesso.builder().nome("Reajuste Tarifário").build());
+            repository.saveIfNotExistsByNome(TipoProcesso.builder().nome("Revisão Tarifária").build());
         };
     }
 
     @Bean
     public CommandLineRunner loadTiposTramite(TipoTramiteRepository repository) {
         return (args) -> {
-            repository.save(TipoTramite.builder().nome("Abertura").build());
-            repository.save(TipoTramite.builder().nome("Fechamento").build());
+            repository.saveIfNotExistsByNome(TipoTramite.builder().nome("Abertura").build());
+            repository.saveIfNotExistsByNome(TipoTramite.builder().nome("Fechamento").build());
         };
     }
-
 }

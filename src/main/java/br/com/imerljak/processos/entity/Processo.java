@@ -46,7 +46,7 @@ public class Processo extends AuditableEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private SituacaoProcesso situacao; // todo: inicializar valor padrão.
+    private SituacaoProcesso situacao = SituacaoProcesso.EM_ANDAMENTO; // todo: inicializar valor padrão.
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Concessionaria concessionaria;

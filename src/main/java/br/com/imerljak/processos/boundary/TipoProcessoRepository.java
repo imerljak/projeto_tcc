@@ -1,8 +1,10 @@
 package br.com.imerljak.processos.boundary;
 
+import br.com.imerljak.common.boundary.TipoRepository;
 import br.com.imerljak.processos.entity.TipoProcesso;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface TipoProcessoRepository extends JpaRepository<TipoProcesso, Long> {
+import java.util.Optional;
 
+public interface TipoProcessoRepository extends TipoRepository<TipoProcesso, Long> {
 }

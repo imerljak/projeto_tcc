@@ -83,10 +83,8 @@
                             </label>
                             <select th:field="*{cargos}" id="cargos"
                                     required="required"
-                                    th:attr="data-title=#{Usuario.msg.selectRole}"
-                                    multiple
-                                    data-style="btn-info btn-fill btn-block"
-                                    data-menu-style="dropdown-blue">
+                                    data-title="Selecione um Cargo"
+                                    multiple>
                                 <option th:each="cargo : ${cargos}"
                                         th:value="${cargo.id}"
                                         th:text="${cargo.nome}">

@@ -9,8 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -31,15 +30,16 @@ public class UsuarioService {
 
     public Page<Usuario> findAll(Pageable pageable) {return usuarioRepository.findAll(pageable);}
 
-    public <S extends Usuario> Usuario createWith(String nome, String email, String senha) {
+    public void createWith(String nome, String email, String senha, Collection<Cargo> cargos) {
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setSenha(senha);
+        usuario.getCargos().addAll(cargos);
 
-        usuario.setCargos(new HashSet<>(Collections.singleton(Cargo.ADMINISTRADOR)));
-
-        return this.save(usuario);
+        if (!this.findByEmail(usuario.getEmail()).isPresent()) {
+            this.save(usuario);
+        }
     }
 
     public Usuario save(Usuario usuario) {

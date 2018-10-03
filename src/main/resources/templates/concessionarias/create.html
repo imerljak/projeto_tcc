@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-12">
-            <form id="wizardForm" class="form-horizontal form-label-left"
+            <form id="concessionaria-form" class="form"
                   th:action="@{/concessionarias/adicionar}"
                   th:object="${concessionaria}"
                   th:method="post"
@@ -23,184 +23,186 @@
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{versao}">
 
-                <div class="card card-wizard">
+                <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Nova Concessionária</h4>
+                        Formulário de Cadastro de Concessionária
                     </div>
+                    <hr>
 
-                    <div class="card-body" id="rootWizard">
-
-                        <ul class="nav nav-tabs nav-pills">
-                            <li class="nav-item w-50">
-                                <a href="#dados-gerais" data-toggle="tab" role="tab" aria-controls="dados-gerais"
-                                   aria-selected="true" class="nav-link">Dados Gerais</a>
-                            </li>
-                            <li class="nav-item w-50">
-                                <a href="#responsavel" data-toggle="tab" role="tab" aria-controls="responsavel"
-                                   aria-selected="true" class="nav-link">Dados Representante</a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <div id="dados-gerais" class="tab-pane fade" role="tabpanel">
-                                <div class="row ">
-                                    <div class="col-md-6">
-                                        <div class="form-group has-label"
-                                             th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
-                                            <label for="nome">Nome
-                                                <span class="star">*</span>
-                                            </label>
-                                            <input id="nome" class="form-control"
-                                                   th:field="*{nome}" placeholder="Distribuidora de Água Ltda."
-                                                   autofocus
-                                                   required="required" type="text">
-                                            <label class="error" th:if="${#fields.hasErrors('nome')}"
-                                                   th:errors="*{nome}">
-                                                Informe um nome
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-label"
-                                             th:classappend="${#fields.hasErrors('cnpj')?'has-error':''}">
-                                            <label for="cnpj">Cnpj
-                                                <span class="star">*</span>
-                                            </label>
-                                            <input type="text" id="cnpj" th:field="*{cnpj}" required="required"
-                                                   placeholder="00.000.000/0000-00"
-                                                   data-inputmask="'mask': '99.999.999/9999-99'"
-                                                   class="form-control">
-                                            <label class="error" th:if="${#fields.hasErrors('cnpj')}"
-                                                   th:errors="*{cnpj}">
-                                                Erros de validação
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-label"
-                                             th:classappend="${#fields.hasErrors('telefone')?'has-error':''}">
-                                            <label for="telefone">Telefone
-                                                <span class="star">*</span>
-                                            </label>
-                                            <input type="text" id="telefone" th:field="*{telefone}"
-                                                   required="required"
-                                                   placeholder="(55) 3210-6543"
-                                                   class="form-control telefone">
-                                            <label class="error" th:if="${#fields.hasErrors('telefone')}"
-                                                   th:errors="*{telefone}">
-                                                Erros de validação
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group has-label"
-                                             th:classappend="${#fields.hasErrors('email')?'has-error':''}">
-                                            <label for="email">Email
-                                                <span class="star">*</span>
-                                            </label>
-                                            <input type="email" id="email" th:field="*{email}"
-                                                   required="required"
-                                                   placeholder="contato@concessionaria.com.br"
-                                                   class="form-control">
-                                            <label class="error" th:if="${#fields.hasErrors('email')}"
-                                                   th:errors="*{email}">
-                                                Erros de validação
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group has-label"
-                                             th:classappend="${#fields.hasErrors('endereco')?'has-error':''}">
-                                            <label for="endereco">Endereço
-                                                <span class="star">*</span>
-                                            </label>
-                                            <input type="text" id="endereco" th:field="*{endereco}"
-                                                   required="required"
-                                                   placeholder="Rua do Brasil, 1234"
-                                                   class="form-control">
-                                            <label class="error" th:if="${#fields.hasErrors('endereco')}"
-                                                   th:errors="*{endereco}">
-                                                Erros de validação
-                                            </label>
-                                        </div>
-                                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Dados Gerais</h5>
+                        <div class="row ">
+                            <div class="col-md-6">
+                                <div class="form-group has-label"
+                                     th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
+                                    <label for="nome">Razão Social
+                                        <span class="star">*</span>
+                                    </label>
+                                    <input id="nome" class="form-control"
+                                           th:field="*{nome}" placeholder="Distribuidora de Água Ltda."
+                                           autofocus
+                                           required="required" type="text">
+                                    <label class="error" th:if="${#fields.hasErrors('nome')}"
+                                           th:errors="*{nome}">
+                                        Informe um nome
+                                    </label>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-label"
+                                     th:classappend="${#fields.hasErrors('cnpj')?'has-error':''}">
+                                    <label for="cnpj">Cnpj
+                                        <span class="star">*</span>
+                                    </label>
+                                    <input type="text" id="cnpj" th:field="*{cnpj}" required="required"
+                                           placeholder="00.000.000/0000-00"
+                                           data-inputmask="'mask': '99.999.999/9999-99'"
+                                           class="form-control">
+                                    <label class="error" th:if="${#fields.hasErrors('cnpj')}"
+                                           th:errors="*{cnpj}">
+                                        Erros de validação
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group has-label">
+                                    <label for="servicos">Serviço(s)
+                                        <span class="star">*</span></label>
+                                    <select th:field="*{servicos}" id="servicos"
+                                            required="required"
+                                            data-title="Selecione um Serviço"
+                                            multiple>
+                                        <option th:each="servico : ${servicos}"
+                                                th:value="${servico.id}"
+                                                th:text="${servico.nome}">
+                                            Nome do Serviço
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-label"
+                                     th:classappend="${#fields.hasErrors('telefone')?'has-error':''}">
+                                    <label for="telefone">Telefone
+                                        <span class="star">*</span>
+                                    </label>
+                                    <input type="text" id="telefone" th:field="*{telefone}"
+                                           required="required"
+                                           placeholder="(55) 3210-6543"
+                                           class="form-control telefone">
+                                    <label class="error" th:if="${#fields.hasErrors('telefone')}"
+                                           th:errors="*{telefone}">
+                                        Erros de validação
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-label"
+                                     th:classappend="${#fields.hasErrors('email')?'has-error':''}">
+                                    <label for="email">Email
+                                        <span class="star">*</span>
+                                    </label>
+                                    <input type="email" id="email" th:field="*{email}"
+                                           required="required"
+                                           placeholder="contato@concessionaria.com.br"
+                                           class="form-control">
+                                    <label class="error" th:if="${#fields.hasErrors('email')}"
+                                           th:errors="*{email}">
+                                        Erros de validação
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group has-label"
+                                     th:classappend="${#fields.hasErrors('endereco')?'has-error':''}">
+                                    <label for="endereco">Endereço
+                                        <span class="star">*</span>
+                                    </label>
+                                    <input type="text" id="endereco" th:field="*{endereco}"
+                                           required="required"
+                                           placeholder="Rua do Brasil, 1234"
+                                           class="form-control">
+                                    <label class="error" th:if="${#fields.hasErrors('endereco')}"
+                                           th:errors="*{endereco}">
+                                        Erros de validação
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div id="responsavel" class="tab-pane fade" role="tabpanel">
-                                <div th:each="responsavel, row : *{responsaveis}">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group has-label"
-                                                 th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].nome')?'has-error':''}">
-                                                <label th:for="${'responsaveis[__${row.index}__].nome'}">Nome
-                                                    <span class="star">*</span>
-                                                </label>
-                                                <input th:id="${'responsaveis['+row.index+'].nome'}" type="text"
-                                                       class="form-control"
-                                                       required="required"
-                                                       th:field="*{responsaveis[__${row.index}__].nome}"
-                                                       th:placeholder="'Fulano da Silva __${row.index}__'">
-                                                <label class="error"
-                                                       th:if="${#fields.hasErrors('responsaveis[__${row.index}__].nome')}"
-                                                       th:errors="*{responsaveis[__${row.index}__].nome}">
-                                                    Erros de validação
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-label"
-                                                 th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].cargo')?'has-error':''}">
-                                                <label th:for="${'responsaveis[__${row.index}__].cargo'}">Cargo
-                                                    <span class="star">*</span>
-                                                </label>
-                                                <input th:id="${'responsaveis['+row.index+'].cargo'}" type="text"
-                                                       class="form-control"
-                                                       required="required"
-                                                       th:field="*{responsaveis[__${row.index}__].cargo}"
-                                                       placeholder="Gerente">
-                                                <label class="error"
-                                                       th:if="${#fields.hasErrors('responsaveis[__${row.index}__].cargo')}"
-                                                       th:errors="*{responsaveis[__${row.index}__].cargo}">
-                                                    Erros de validação
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-label"
-                                                 th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].email')?'has-error':''}">
-                                                <label th:for="${'responsaveis['+row.index+'].email'}">Email</label>
-                                                <input th:id="${'responsaveis[__${row.index}__].email'}" type="email"
-                                                       class="form-control contato-group"
-                                                       th:field="*{responsaveis[__${row.index}__].email}"
-                                                       placeholder="email@empresa.com">
-                                                <label class="error"
-                                                       th:if="${#fields.hasErrors('responsaveis[__${row.index}__].email')}"
-                                                       th:errors="*{responsaveis[__${row.index}__].email}">
-                                                    Erros de validação
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group has-label"
-                                                 th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].telefone')?'has-error':''}">
-                                                <label th:for="${'responsaveis[__${row.index}__].telefone'}">Telefone</label>
-                                                <input th:id="${'responsaveis[__${row.index}__].telefone'}"
-                                                       type="text"
-                                                       class="form-control telefone contato-group"
-                                                       th:field="*{responsaveis[__${row.index}__].telefone}"
-                                                       placeholder="(XX) 9999-9999">
-                                                <label class="error"
-                                                       th:if="${#fields.hasErrors('responsaveis[__${row.index}__].telefone')}"
-                                                       th:errors="*{responsaveis[__${row.index}__].telefone}">
-                                                    Erros de validação
-                                                </label>
-                                            </div>
-                                        </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Dados do Responsável</h5>
+                        <div th:each="responsavel, row : *{responsaveis}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-label"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].nome')?'has-error':''}">
+                                        <label th:for="${'responsaveis[__${row.index}__].nome'}">Nome
+                                            <span class="star">*</span>
+                                        </label>
+                                        <input th:id="${'responsaveis['+row.index+'].nome'}" type="text"
+                                               class="form-control"
+                                               required="required"
+                                               th:field="*{responsaveis[__${row.index}__].nome}"
+                                               th:placeholder="'Fulano da Silva __${row.index}__'">
+                                        <label class="error"
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].nome')}"
+                                               th:errors="*{responsaveis[__${row.index}__].nome}">
+                                            Erros de validação
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-label"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].cargo')?'has-error':''}">
+                                        <label th:for="${'responsaveis[__${row.index}__].cargo'}">Cargo
+                                            <span class="star">*</span>
+                                        </label>
+                                        <input th:id="${'responsaveis['+row.index+'].cargo'}" type="text"
+                                               class="form-control"
+                                               required="required"
+                                               th:field="*{responsaveis[__${row.index}__].cargo}"
+                                               placeholder="Gerente">
+                                        <label class="error"
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].cargo')}"
+                                               th:errors="*{responsaveis[__${row.index}__].cargo}">
+                                            Erros de validação
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-label"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].email')?'has-error':''}">
+                                        <label th:for="${'responsaveis['+row.index+'].email'}">Email</label>
+                                        <input th:id="${'responsaveis[__${row.index}__].email'}" type="email"
+                                               class="form-control contato-group"
+                                               th:field="*{responsaveis[__${row.index}__].email}"
+                                               placeholder="email@empresa.com">
+                                        <label class="error"
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].email')}"
+                                               th:errors="*{responsaveis[__${row.index}__].email}">
+                                            Erros de validação
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-label"
+                                         th:classappend="${#fields.hasErrors('responsaveis['+row.index+'].telefone')?'has-error':''}">
+                                        <label th:for="${'responsaveis[__${row.index}__].telefone'}">Telefone</label>
+                                        <input th:id="${'responsaveis[__${row.index}__].telefone'}"
+                                               type="text"
+                                               class="form-control telefone contato-group"
+                                               th:field="*{responsaveis[__${row.index}__].telefone}"
+                                               placeholder="(XX) 9999-9999">
+                                        <label class="error"
+                                               th:if="${#fields.hasErrors('responsaveis[__${row.index}__].telefone')}"
+                                               th:errors="*{responsaveis[__${row.index}__].telefone}">
+                                            Erros de validação
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -208,10 +210,10 @@
                     </div>
 
                     <div class="card-footer">
-                        <input class="btn btn-wd float-left btn-default btn-back" type="button" value="Voltar"/>
-                        <input class="btn btn-wd float-right btn-info btn-next" type="button" value="Avançar"/>
-                        <input class="btn btn-wd float-right btn-default btn-finish disabled" type="submit"
-                               value="Finalizar"/>
+                        <button class="btn float-left btn-outline btn-outline-light" type="reset"><i
+                                class="fa fa-broom"></i>Limpar
+                        </button>
+                        <button class="btn float-right btn-default btn-primary" type="submit">Confirmar</button>
                     </div>
                 </div>
             </form>
@@ -244,15 +246,17 @@
         $(document).ready(function () {
 
             $("#cnpj").inputmask("99.999.999/9999-99");
+
             $("input.telefone").inputmask({
                 mask: ["(99) 9999-9999", "(99) 99999-9999"],
                 keepStatic: true
             });
 
+            $('select').selectpicker();
 
-            var wizardForm = $("#wizardForm");
+            var form = $("#concessionaria-form");
 
-            var $validator = wizardForm.validate({
+            var $validator = form.validate({
                 rules: {
                     cnpj: {
                         pattern: /\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/
@@ -266,52 +270,17 @@
                 }
             });
 
-            wizardForm.find(".telefone").each(function () {
+            form.find(".telefone").each(function () {
                 $(this).rules("add", {
                     pattern: /\(\d{2}\)\s\d{4,5}-\d{4}/
                 })
-            })
+            });
 
-            wizardForm.find(".contato-group").each(function () {
+            form.find(".contato-group").each(function () {
                 $(this).rules("add", {
                     require_from_group: [1, '.contato-group']
                 })
             });
-
-            wizardForm.bootstrapWizard({
-                tabClass: '.nav .nav-pills',
-                nextSelector: '.btn-next',
-                previousSelector: '.btn-back',
-
-                onTabClick: function () {
-                    var $valid = $('#wizardForm').valid();
-
-                    if (!$valid) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                },
-
-                onTabShow: function (tab, nav, index) {
-                    var $total = nav.find('li').length;
-                    var $current = index + 1;
-
-                    if ($current >= $total) {
-                        $(".btn-wd.btn-finish").removeClass('disabled');
-                    } else {
-                        $(".btn-wd.btn-finish").addClass('disabled');
-                    }
-                },
-
-                onNext: function (tab, navigation, index) {
-                    var $valid = $('#wizardForm').valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    }
-                }
-            })
         });
     </script>
 </template>

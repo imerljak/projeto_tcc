@@ -67,8 +67,7 @@
                                 Cargos
                                 <star class="star">*</star>
                             </label>
-                            <select id="roles" th:field="*{cargos}" multiple
-                                    data-style="btn-default btn-outline">
+                            <select id="roles" th:field="*{cargos}" multiple>
                                 <option th:each="cargo : ${cargos}"
                                         th:value="${cargo.id}"
                                         th:text="${cargo.nome}">

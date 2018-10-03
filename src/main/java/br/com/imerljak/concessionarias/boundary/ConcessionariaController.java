@@ -22,11 +22,13 @@ import javax.persistence.EntityNotFoundException;
 @RequestMapping("/concessionarias")
 public class ConcessionariaController {
 
-    private ConcessionariaRepository repository;
+    private final ConcessionariaRepository repository;
+    private final TipoServicoRepository tipoServicoRepository;
 
     @Autowired
-    public ConcessionariaController(ConcessionariaRepository repository) {
+    public ConcessionariaController(ConcessionariaRepository repository, TipoServicoRepository tipoServicoRepository) {
         this.repository = repository;
+        this.tipoServicoRepository = tipoServicoRepository;
     }
 
     @GetMapping
@@ -43,6 +45,7 @@ public class ConcessionariaController {
         Concessionaria concessionaria = new Concessionaria();
         concessionaria.getResponsaveis().add(new Responsavel());
         modelAndView.addObject("concessionaria", concessionaria);
+        modelAndView.addObject("servicos", tipoServicoRepository.findAll());
         return modelAndView;
     }
 
@@ -63,8 +66,10 @@ public class ConcessionariaController {
     @GetMapping("/editar/{id}")
     public ModelAndView editConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/update");
-        modelAndView.addObject("concessionaria",
-                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
+        modelAndView.addObject("concessionaria", repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
+        modelAndView.addObject("servicos", tipoServicoRepository.findAll());
+
         return modelAndView;
     }
 

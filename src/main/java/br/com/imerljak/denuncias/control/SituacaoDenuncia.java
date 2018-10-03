@@ -11,6 +11,7 @@ public enum SituacaoDenuncia {
     NAO_CONFIRMADA("Não Confirmada"),
     CORFIRMADA("Confirmada"),
     REDUNDANTE("Redundante"),
+    REVOGADA("Revogada"),
     AGUARDANDO_CONCESSIONARIA("Aguardando Concessionária"),
     GEROU_PROCESSO("Gerou Processo"),
     RESOLVIDO("Resolvido");

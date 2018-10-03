@@ -10,27 +10,27 @@
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-12">
-
-
             <a class="btn" th:href="@{/denuncias}"><i class="fa fa-arrow-left"></i> Lista de Denuncias</a>
 
             <!--/*@thymesVar id="denuncia" type="br.com.imerljak.denuncias.entity.Denuncia"*/-->
             <form id="RegisterValidation" class="form-horizontal form-label-left"
-                  th:action="@{/denuncias/adicionar}"
+                  th:action="@{/denuncias/editar}"
                   th:object="${denuncia}"
-                  th:method="patch"
+                  th:method="put"
                   enctype="multipart/form-data">
 
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{versao}">
 
                 <div class="card ">
-                    <h4 th:text="*{protocolo}"></h4>
-                    <hr>
+
                     <div class="card-header">
-                        <h4 class="card-title">Concessionária</h4>
+                        Edição de Denúncia: <strong th:text="${denuncia.protocolo}"></strong>
                     </div>
+                    <hr>
                     <div class="card-body">
+                        <h4 class="card-title">Concessionária</h4>
+
                         <div class="form-group has-label">
                             <label for="concessionaria">Concessionária
                                 <star class="star">*</star>
@@ -44,11 +44,9 @@
                         </div>
                     </div>
 
-                    <hr>
-                    <div class="card-header ">
-                        <h4 class="card-title">Dados Denunciante</h4>
-                    </div>
                     <div class="card-body ">
+                        <h4 class="card-title">Dados Denunciante</h4>
+
                         <div class="form-group has-label"
                              th:classappend="${#fields.hasErrors('denunciante.nome')?'has-error':''}">
                             <label for="denunciante.nome">Nome</label>
@@ -71,11 +69,9 @@
                         </div>
                     </div>
 
-                    <hr>
-                    <div class="card-header ">
-                        <h4 class="card-title">Dados Denuncia</h4>
-                    </div>
                     <div class="card-body">
+                        <h4 class="card-title">Dados Denuncia</h4>
+
                         <div class="form-group has-label"
                              th:classappend="${#fields.hasErrors('reclamacao')?'has-error':''}">
                             <label for="reclamacao">Reclamação
@@ -144,20 +140,17 @@
                         </div>
                     </div>
 
-                    <hr>
-                    <div class="card-header">
-                        <h4 class="card-title">Anexos</h4>
-                    </div>
                     <div class="card-body">
+                        <h4 class="card-title">Anexos</h4>
+
                         <div class="form-group">
                             <input type="file" name="anexos_files">
                         </div>
                     </div>
 
                     <div class="card-footer text-right">
-                        <button type="submit" class="btn btn-info btn-fill pull-right" th:text="'Registrar'">Register
-                        </button>
-                        <div class="clearfix"></div>
+                        <button type="reset" class="btn btn-outline-light float-left">Limpar</button>
+                        <button type="submit" class="btn btn-info btn-fill float-right">Confirmar</button>
                     </div>
                 </div>
             </form>
