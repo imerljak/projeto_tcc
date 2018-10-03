@@ -26,12 +26,6 @@ values
   (10, 1, '2018-05-15 20:52:11', '2018-08-17 10:50:55', 60, '14579927907095', 'n/a', '69442048770', 'contact@mail.com')
 on conflict do nothing;
 
--- Insert Root user
-INSERT INTO public.usuario (id, criado_por, data_criacao, data_ultima_atualizacao, ultima_atualizacao_por, versao, ativo, email, nome, senha)
-VALUES (16, 'anonymousUser', '2018-10-03 18:05:11.492000', '2018-10-03 18:05:11.492000', 'anonymousUser', 0, true,
-        'imerljak@gmail.com', 'Israel Merljak', '$2a$10$qVH./f6KjoBQ0ay7MvIvHORHS64Od.EaGH2OAnZbfoc4U9j8lNiZ2')
-on conflict do nothing;
-
 -- Initialize tipos
 INSERT INTO public.tipo (dtype, id, descricao, nome) VALUES ('SERVICO', 1, null, 'Transporte Público')
 on conflict do nothing;
