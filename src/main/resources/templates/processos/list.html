@@ -34,6 +34,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <!--/*@thymesVar id="processos" type="br.com.imerljak.processos.model.Processo[]"*/-->
                         <tr th:each="processo : ${processos}">
                             <td class="text-left" th:text="${processo.dataCriacao}"></td>
                             <td class="text-left" th:text="${processo.protocolo}"></td>
@@ -41,7 +42,7 @@
                             <td class="text-left" th:text="${processo.relator.nome}"></td>
                             <td class="text-left" th:text="${processo.revisor.nome}"></td>
                             <td class="text-center" th:text="${processo.tipoProcesso.nome}"></td>
-                            <td class="text-center" th:text="${processo.status}"></td>
+                            <td class="text-center" th:text="${processo.situacao.descricao}"></td>
                             <td class="td-actions text-right">
                                 <a href="#" class="btn btn-info btn-link btn-xs" rel="tooltip"
                                    data-original-title="Ver Processo">
@@ -67,10 +68,10 @@
                                     </button>
                                 </form>
                             </td>
-                            <p th:text="${processos.getPageable()}"></p>
                         </tr>
                         </tbody>
                     </table>
+                    <!--/*@thymesVar id="processos" type="java.awt.print.Pageable<br.com.imerljak.processos.model.Processo>"*/-->
                     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${processos}, url='/processos')}"></nav>
                 </div>
             </div>

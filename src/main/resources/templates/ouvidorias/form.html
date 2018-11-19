@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Nova Denuncia</title>
+</head>
+
+<!-- page content -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn" th:href="@{/ouvidorias}"><i class="fa fa-arrow-left"></i> Retornar para Ouvidorias</a>
+
+            <!--/*@thymesVar id="ouvidoria" type="br.com.imerljak.ouvidorias.model.Ouvidoria"*/-->
+            <form id="RegisterValidation" class="form-horizontal form-label-left"
+                  th:action="@{ ${ouvidoria.isNew() ? '/ouvidorias/adicionar' : '/ouvidorias/editar/' + ouvidoria.id} }"
+                  th:object="${ouvidoria}"
+                  th:method="${ouvidoria.isNew() ? 'post' : 'put'}"
+                  enctype="multipart/form-data">
+
+
+                <div th:if="${#fields.hasErrors()}">
+                    <div class="alert alert-warning" role="alert"
+                         th:each="error : ${#fields.errors()}" th:text="${error}">
+                        Something has occurred O_O
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Selecione o tipo de Ouvidoria
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group has-label">
+                            <label for="tipo">Tipo de Ouvidoria
+                                <start class="star">*</start>
+                            </label>
+                            <select id="tipo"
+                                    autofocus
+                                    class="form-control"
+                                    th:field="*{tipo}">
+                                <option th:value="${null}">-- Selecione --</option>
+                                <!--/*@thymesVar id="tiposOuvidoria" type="br.com.imerljak.ouvidorias.value.TipoOuvidoria[]"*/-->
+                                <option th:each="tipo : ${tiposOuvidoria}"
+                                        th:text="${tipo.descricao}"
+                                        th:value="${tipo}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{versao}">
+
+
+                <div class="card" id="secret-form" style="display: none;">
+                    <div class="card-header">Alterar Situação</div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="form-group has-label">
+                            <label for="situacao">Situação
+                                <star class="star">*</star>
+                            </label>
+                            <select id="situacao"
+                                    class="form-control"
+                                    th:field="*{situacao}">
+
+                                <!--/*@thymesVar id="situacoesOuvidoria" type="br.com.imerljak.ouvidorias.value.SituacaoOuvidoria[]"*/-->
+                                <option th:each="situacao : ${situacoesOuvidoria}" th:text="${situacao.descricao}"
+                                        th:value="${situacao}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card " id="corpo-form" style="display: none;">
+
+                    <div class="card-header">
+                        Formulário de <span th:remove="tag"
+                                            th:text="${ouvidoria.isNew() ? 'Cadastro' : 'Edição'}"></span> de <span
+                            id="tipo-ouvidoria">Ouvidoria</span>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <h4 class="card-title">Concessionária</h4>
+
+                        <div class="form-group has-label">
+                            <label for="concessionaria">Concessionária
+                                <star class="star">*</star>
+                            </label>
+                            <select th:field="*{concessionaria}"
+                                    class="form-control"
+                                    id="concessionaria">
+
+                                <!--/*@thymesVar id="concessionarias" type="br.com.imerljak.concessionarias.model.Concessionaria[]"*/-->
+                                <option th:each="cons : ${concessionarias}"
+                                        th:value="${cons.id}" th:text="${cons.nome}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-body ">
+                        <h4 class="card-title">Dados Cidadão</h4>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('cidadao.nome')?'has-error':''}">
+                            <label for="cidadao.nome">Nome
+                                <star class="star">*</star>
+                            </label>
+                            <input type="text" class="form-control" id="cidadao.nome"
+                                   required
+                                   th:field="*{cidadao.nome}">
+                        </div>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('cidadao.documento')?'has-error':''}">
+                            <label for="cidadao.documento">Documento
+                                <star class="star">*</star>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select id="cidadao.tipoDocumento" th:field="*{cidadao.tipoDocumento}" required>
+                                        <option th:each="tipo : ${T(br.com.imerljak.ouvidorias.value.TipoDocumentoPessoa).values()}"
+                                                th:text="${tipo}" th:value="${tipo}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <input id="cidadao.documento" type="text" th:field="*{cidadao.documento}"
+                                       class="form-control"
+                                       required>
+
+                                <label class="error" for="cidadao.documento"
+                                       th:if="${#fields.hasErrors('cidadao.documento')}"
+                                       th:errors="*{cidadao.documento}">
+                                    Please input a valid dataOcorrencia.
+                                </label>
+                                <label class="error" for="cidadao.tipoDocumento"
+                                       th:if="${#fields.hasErrors('cidadao.tipoDocumento')}"
+                                       th:errors="*{cidadao.tipoDocumento}"></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('cidadao.email')?'has-error':''}">
+                            <label for="cidadao.email">Email
+                                <star class="star">*</star>
+                            </label>
+                            <input type="email" class="form-control" id="cidadao.email"
+                                   required
+                                   th:field="*{cidadao.email}">
+                            <label class="error" for="cidadao.email" th:if="${#fields.hasErrors('cidadao.email')}"
+                                   th:errors="*{cidadao.email}"></label>
+                        </div>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('cidadao.telefone')?'has-error':''}">
+                            <label for="cidadao.telefone">Telefone</label>
+                            <input type="text" class="form-control telefone" id="cidadao.telefone"
+                                   th:field="*{cidadao.telefone}">
+                            <label class="error" for="cidadao.telefone" th:if="${#fields.hasErrors('cidadao.telefone')}"
+                                   th:errors="*{cidadao.telefone}"></label>
+                        </div>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('cidadao.endereco') ? 'has-error' : ''}">
+                            <label for="cidadao.endereco">Endereço
+                                <star class="star">*</star>
+                            </label>
+                            <input id="cidadao.endereco" th:field="*{cidadao.endereco}"
+                                   required
+                                   type="text"
+                                   class="form-control">
+                            <label for="cidadao.endereco" class="error"
+                                   th:if="${#fields.hasErrors('cidadao.endereco')}"
+                                   th:errors="*{cidadao.endereco}"></label>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title" data-visible-on="DENUNCIA">Dados Denuncia</h4>
+                        <h4 class="card-title" data-visible-on="SUGESTAO">Dados Sugestão</h4>
+                        <h4 class="card-title" data-visible-on="ELOGIO">Dados Elogio</h4>
+                        <h4 class="card-title" data-visible-on="RECLAMACAO">Dados Reclamação</h4>
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('manifestacao')?'has-error':''}">
+                            <label for="ocorrencia">
+                                <span data-visible-on="DENUNCIA">Ocorrência</span>
+                                <span data-visible-on="SUGESTAO">Sugestão</span>
+                                <span data-visible-on="ELOGIO RECLAMACAO">Manifestação</span>
+
+                                <star class="star">*</star>
+                            </label>
+                            <textarea id="ocorrencia"
+                                      th:field="*{manifestacao}"
+                                      required="required"
+                                      class="form-control"></textarea>
+                            <label class="error" for="ocorrencia" th:if="${#fields.hasErrors('manifestacao')}"
+                                   th:errors="*{manifestacao}"></label>
+                        </div>
+                        <div class="form-group has-label"
+                             data-visible-on="DENUNCIA RECLAMACAO"
+                             th:classappend="${#fields.hasErrors('dataOcorrencia')?'has-error':''}">
+                            <label for="dataOcorrencia">
+                                Data da Ocorrência
+                                <star class="star">*</star>
+                            </label>
+                            <input id="dataOcorrencia"
+                                   type="date"
+                                   th:field="*{dataOcorrencia}"
+                                   class="form-control"
+                                   required="required">
+                            <label class="error" for="dataOcorrencia" th:if="${#fields.hasErrors('dataOcorrencia')}"
+                                   th:errors="*{dataOcorrencia}"></label>
+                        </div>
+                        <div class="form-group has-label"
+                             data-visible-on="DENUNCIA RECLAMACAO"
+                             th:classappend="${#fields.hasErrors('localOcorrencia')?'has-error':''}">
+                            <label for="localOcorrencia">
+                                Local da Ocorrência
+                                <star class="star">*</star>
+                            </label>
+                            <input id="localOcorrencia"
+                                   type="text"
+                                   th:field="*{localOcorrencia}"
+                                   class="form-control"
+                                   required="required">
+                            <label class="error" for="localOcorrencia" th:if="${#fields.hasErrors('localOcorrencia')}"
+                                   th:errors="*{localOcorrencia}"></label>
+                        </div>
+                        <div class="card-category form-category">
+                            <star class="star">*</star>
+                            Required fields
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title">Anexos</h4>
+
+                        <div class="form-group">
+                            <input type="file" class="custom-file" name="anexos_files">
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-right">
+                        <button type="reset" class="btn btn-outline-light float-left">Limpar</button>
+                        <button type="submit" class="btn btn-info btn-fill float-right">Confirmar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<template layout:fragment="scripts" th:remove="tag">
+
+    <!--  jQueryValidate  -->
+    <script th:src="@{/webjars/jquery-validation/1.17.0-1/jquery.validate.min.js}"
+            type="text/javascript"></script>
+
+    <script th:src="@{/webjars/jquery-validation/1.17.0-1/additional-methods.min.js}"
+            type="text/javascript"></script>
+
+    <!-- InputMask -->
+    <script th:src="@{/webjars/jquery.inputmask/4.0.0/jquery.inputmask.bundle.js}"
+            type="text/javascript"></script>
+
+    <script>
+        function setFormValidation(id) {
+            $(id).validate({
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    $(element).closest('.form-check').removeClass('has-success').addClass('has-error');
+                },
+                success: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                    $(element).closest('.form-check').removeClass('has-error').addClass('has-success');
+                },
+                errorPlacement: function (error, element) {
+                    $(element).closest('.form-group').append(error).addClass('has-error');
+                },
+                rules: {
+                    "cidadao.telefone": {
+                        pattern: /\(\d{2}\)\s\d{4,5}-\d{4}/
+                    }
+                }
+            });
+        }
+
+        function getMask(value) {
+            if (value === "CNPJ") {
+                return ["99.999.999/9999-99"]
+            }
+
+            return ["999.999.999-99"]
+        }
+
+        var form = $("#corpo-form");
+
+        var secret = $("#secret-form");
+
+        var tituloForm = $("#tipo-ouvidoria");
+
+        var tipoSelect = $("#tipo");
+        var todosCampos = $('*[data-visible-on]');
+        var campos = {
+            DENUNCIA: {
+                title: "Denuncias",
+                el: $("*[data-visible-on~='DENUNCIA']")
+            },
+            RECLAMACAO: {
+                title: "Reclamações",
+                el: $("*[data-visible-on~='RECLAMACAO']")
+            },
+            SUGESTAO: {
+                title: "Sugestões",
+                el: $("*[data-visible-on~='SUGESTAO']")
+            },
+            ELOGIO: {
+                title: "Elogios",
+                el: $("*[data-visible-on~='ELOGIO']")
+            }
+        };
+
+        tipoSelect.on('change', function () {
+
+            var tipo = $(this).val();
+
+            if (tipo === "") {
+                form.hide();
+                return;
+            }
+
+            form.show();
+
+            todosCampos.hide();
+            todosCampos.find(":input").attr('disabled', true);
+
+            campos[tipo].el.show();
+            campos[tipo].el.find(':input').attr('disabled', false);
+
+            tituloForm.text(campos[tipo].title);
+        });
+
+        // Verifica se é edição ou n...
+        // (campo tipo deverá estar pré-populado nesses casos..
+        // (sei, poderia checar o id tbm ''-.-))
+        if (tipoSelect.val() !== '') {
+            form.show();
+            tipoSelect.trigger('change');
+            tipoSelect.prop('disabled', true);
+
+            secret.show();
+
+            form.find(':input:not(button):not(:file):not([type="hidden"])').prop('disabled', true);
+
+            $("#concessionaria").prop('disabled', true);
+        }
+
+
+        $("input.telefone").inputmask({
+            mask: ["(99) 9999-9999", "(99) 99999-9999"],
+            keepStatic: true
+        });
+
+        var documento = $("#cidadao\\.documento");
+        var tipoDocumento = $("#cidadao\\.tipoDocumento");
+
+
+        documento.inputmask({
+            mask: getMask(tipoDocumento.val())
+        });
+
+        tipoDocumento.on('change', function () {
+            documento.inputmask({
+                mask: getMask($(this).val())
+            });
+
+            documento.focus();
+        });
+
+        setFormValidation("RegisterValidation");
+
+    </script>
+</template>
+
+<!-- /page content -->

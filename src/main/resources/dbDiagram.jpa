@@ -124,7 +124,7 @@
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:one-to-many>
-            <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_15241663650202815" v="true" name="denuncias" id="_15241663649182814"/>
+            <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_15241663650202815" v="true" name="ouvidorias" id="_15241663649182814"/>
             <jpa:version attribute-type="long" v="true" xvt="" name="revisao" ft="false" id="_1524159735417127">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -265,7 +265,7 @@
             </jpa:basic>
             <jpa:basic attribute-type="String" v="true" name="telefone" id="_1524161936288224"/>
             <jpa:one-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162198514236" v="true" name="representantes" id="_1524162286703244"/>
-            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_1524163045241592" v="true" xvt="" name="denuncias" id="_1524163045242593">
+            <jpa:one-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_1524162965027581" connected-attribute-id="_1524163045241592" v="true" xvt="" name="ouvidorias" id="_1524163045242593">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:one-to-many>
@@ -335,7 +335,7 @@
     <jpa:entity compositePrimaryKeyClass="DenunciantePK" abs="false" class="Denunciante" superclassId="_1524162067373226" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524162193287233">
         <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
         <jpa:attributes>
-            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241665269133217" v="true" name="denuncia" id="_15241665269123216"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241665269133217" v="true" name="ouvidoria" id="_15241665269123216"/>
         </jpa:attributes>
         <jpa:nq e="false" name="Denunciante.findAll">
             <jpa:query>Select e from Denunciante e</jpa:query>
@@ -463,7 +463,7 @@
     <jpa:entity compositePrimaryKeyClass="TramiteDenunciaPK" abs="false" class="TramiteDenuncia" superclassId="_1524163549145608" v="true" xre="false" m="false" rootElement="_15241577926631" id="_1524163912798615">
         <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
         <jpa:attributes>
-            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_1524164155848633" v="true" name="denuncia" id="_1524164155847632"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_1524164155848633" v="true" name="ouvidoria" id="_1524164155847632"/>
         </jpa:attributes>
         <jpa:nq e="false" name="TramiteDenuncia.findAll">
             <jpa:query>Select e from TramiteDenuncia e</jpa:query>
@@ -572,7 +572,7 @@
     <jpa:entity compositePrimaryKeyClass="AnexoDenunciaPK" abs="false" class="AnexoDenuncia" superclassId="_15241649065151586" v="true" xre="false" m="false" rootElement="_15241577926631" id="_15241652042961994">
         <jpa:ath>Israel Merljak &lt;imerljak@gmail.com.br&gt;</jpa:ath>
         <jpa:attributes>
-            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241652395272002" v="true" name="denuncia" id="_15241652395262001"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1524162965027581" connected-attribute-id="_15241652395272002" v="true" name="ouvidoria" id="_15241652395262001"/>
         </jpa:attributes>
         <jpa:nq e="false" name="AnexoDenuncia.findAll">
             <jpa:query>Select e from AnexoDenuncia e</jpa:query>

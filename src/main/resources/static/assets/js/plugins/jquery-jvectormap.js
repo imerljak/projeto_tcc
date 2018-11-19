@@ -2567,7 +2567,7 @@ jvm.Map.prototype = {
             }
         });
 
-        /* Can not use common class selectors here because of the bug in jQuery
+        /* Can not use shared class selectors here because of the bug in jQuery
            SVG handling, use with caution. */
         this.container.delegate("[class~='jvectormap-element']", 'mouseover mouseout', function(e) {
             var baseVal = jvm.$(this).attr('class').baseVal || jvm.$(this).attr('class'),
@@ -2598,7 +2598,7 @@ jvm.Map.prototype = {
             }
         });
 
-        /* Can not use common class selectors here because of the bug in jQuery
+        /* Can not use shared class selectors here because of the bug in jQuery
            SVG handling, use with caution. */
         this.container.delegate("[class~='jvectormap-element']", 'mousedown', function(e) {
             pageX = e.pageX;
@@ -2606,7 +2606,7 @@ jvm.Map.prototype = {
             mouseMoved = false;
         });
 
-        /* Can not use common class selectors here because of the bug in jQuery
+        /* Can not use shared class selectors here because of the bug in jQuery
            SVG handling, use with caution. */
         this.container.delegate("[class~='jvectormap-element']", 'mouseup', function() {
             var baseVal = jvm.$(this).attr('class').baseVal ? jvm.$(this).attr('class').baseVal : jvm.$(this).attr('class'),

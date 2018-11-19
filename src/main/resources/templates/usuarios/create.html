@@ -13,7 +13,7 @@
 
             <a class="btn" th:href="@{/usuarios}"><i class="fa fa-arrow-left"></i> Lista de Usuários</a>
 
-            <!--/*@thymesVar id="usuario" type="br.com.imerljak.usuarios.entity.Usuario"*/-->
+            <!--/*@thymesVar id="usuario" type="br.com.imerljak.usuarios.model.Usuario"*/-->
             <form id="usuarioForm" class="form-horizontal form-label-left"
                   th:action="@{/usuarios/adicionar}"
                   th:object="${usuario}"

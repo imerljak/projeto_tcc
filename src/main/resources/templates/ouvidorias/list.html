@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Denuncias</title>
+</head>
+
+<!-- page content -->
+<div layout:fragment="content" th:remove="tag">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!--/*@thymesVar id="message" type="br.com.imerljak.visao.AlertMessage"*/-->
+            <div th:if="${message}"
+                 th:text="${message.message}"
+                 class="alert"
+                 th:classappend="${message.status.styleClass}"
+                 role="alert"></div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Lista de Ouvidorias</h4>
+                    <p class="class-category">Ouvidorias cadastradas no sistema.</p>
+
+                    <a th:href="@{/ouvidorias/adicionar}" id="nova-ouvidoria-btn" class="btn">
+                        <span class="btn-label"><i class="fa fa-plus"></i></span>
+                        Nova Ouvidoria
+                    </a>
+
+                </div>
+
+                <div class="card-body table-responsive">
+                    <table class="table full-width table-hover table-striped" id="usuarios_table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="text-left">Protocolo</th>
+                            <th scope="col" class="text-left">Concessionária</th>
+                            <th scope="col" class="text-right">Tipo</th>
+                            <th scope="col" class="text-right">Data Registro</th>
+                            <th scope="col" class="text-right">Situação</th>
+                            <th scope="col" class="text-right">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--/*@thymesVar id="ouvidorias" type="br.com.imerljak.ouvidorias.model.Ouvidoria[]"*/-->
+                        <tr th:each="ouvidoria : ${ouvidorias}">
+                            <td scope="row" class="text-left font-weight-bold"
+                                th:text="${ouvidoria.protocolo.asString()}"></td>
+                            <td class="text-left" th:text="${ouvidoria.concessionaria.nome}"></td>
+                            <td class="text-right" th:text="${ouvidoria.tipo.descricao}"></td>
+                            <td class="text-right" th:text="${{ouvidoria.dataCriacao}}"></td>
+                            <td class="text-right" th:text="${ouvidoria.situacao.descricao}"></td>
+                            <td class="td-actions text-right">
+
+                                <a href="#" class="text-muted btn-block" type="button"
+                                   th:id="'acoes-ouvidoria' + ${ouvidoria.id}" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <span class="btn-label"><i class="fa fa-ellipsis-v"></i></span>
+                                </a>
+
+                                <div class="dropdown-menu"
+                                     th:attr="aria-labelled-by='acoes-ouvidoria-' + ${ouvidoria.id}">
+                                    <a href="#"
+                                       class="dropdown-item">
+                                        <span class="btn-label text-primary"><i class="fa fa-eye"></i></span>
+                                        <span th:remove="tag" th:text="#{actions.view(__${ouvidoria.tipo.descricao}__)}"></span>
+                                    </a>
+                                    <a th:href="@{/ouvidorias/editar/{id}(id=${ouvidoria.id})}"
+                                       class="dropdown-item">
+                                        <span class="btn-label text-info"><i class="fa fa-edit"></i></span>
+                                        <span th:remove="tag" th:text="#{actions.edit(__${ouvidoria.tipo.descricao}__)}"></span>
+                                    </a>
+
+                                    <button class="dropdown-item"
+                                            th:onclick="'$(\'#delete-ouvidoria-' + ${ouvidoria.id} + '\').submit()'">
+                                        <span class="btn-label text-danger"><i class="fa fa-trash-alt"></i></span>
+                                        <span th:remove="tag" th:text="#{actions.delete(__${ouvidoria.tipo.descricao}__)}"></span>
+                                    </button>
+
+                                    <form th:id="'delete-ouvidoria-' + ${ouvidoria.id}"
+                                          th:method="delete" class="d-inline deleteForm"
+                                          th:object="${ouvidoria}"
+                                          th:action="@{/ouvidorias/remover}">
+                                        <input type="hidden" th:name="id" th:value="*{id}">
+                                        <input type="hidden" th:name="version" th:value="*{versao}">
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--/*@thymesVar id="ouvidorias" type="org.springframework.data.domain.Page<br.com.imerljak.ouvidorias.model.Ouvidoria>"*/-->
+                    <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${ouvidorias}, url='/ouvidorias')}"></nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template layout:fragment="scripts" th:remove="tag">
+    <script>
+        $(document).ready(function () {
+            var preventDelete = true;
+            $(".deleteForm").submit(function (evt) {
+
+                if (preventDelete) {
+                    evt.preventDefault();
+
+                    var that = $(this);
+
+                    swal({
+                        title: "Tem certeza?",
+                        text: "Esta ação não pode ser desfeita!",
+                        type: "warning",
+                        // timer: 10000,
+                        allowEnterKey: false,
+                        showConfirmButton: true,
+                        confirmButtonText: "Confirmar",
+                        confirmButtonClass: "bg-danger",
+                        showCancelButton: true,
+                        cancelButtonText: "Cancelar",
+                        focusCancel: true
+                    })
+                        .then(function (result) {
+                            if (result.dismiss === swal.DismissReason.timer) {
+                                swal({
+                                    type: "info",
+                                    text: "Ação cancelada!",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                })
+                            }
+
+                            if (result.value) {
+                                preventDelete = false;
+                                that.submit();
+                            }
+                        });
+                } else {
+                    preventDelete = true;
+                }
+            });
+        });
+
+        function coalesce(val, opt) {
+            if (!val) return opt;
+            return val;
+        }
+    </script>
+</template>
+<!-- /page content -->

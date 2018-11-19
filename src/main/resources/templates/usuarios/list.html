@@ -30,42 +30,102 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <!--/*@thymesVar id="usuarios" type="br.com.imerljak.usuarios.model.Usuario[]"*/-->
                         <tr th:each="usuario : ${usuarios}">
                             <td class="text-left" th:text="${usuario.nome}"></td>
                             <td class="text-left" th:text="${usuario.email}"></td>
                             <td class="text-center" th:text="${#strings.listJoin(usuario.cargos, ', ')}">[Roles...]</td>
                             <td class="td-actions text-right">
-                                <a href="#" class="btn btn-info btn-link btn-xs" rel="tooltip"
-                                   data-original-title="Ver Perfil">
-                                    <i class="fa fa-user"></i>
-                                </a>
 
-                                <a href="#" th:href="@{usuarios/editar/{id}(id=${usuario.id})}"
-                                   class="btn btn-success btn-link btn-xs" rel="tooltip"
-                                   data-original-title="Editar Usuário">
-                                    <i class="fa fa-edit"></i>
-                                </a>
+                                <div class="dropdown">
+                                    <a href="#" class="text-muted btn-block" type="button"
+                                       th:id="'acoes-usuario' + ${usuario.id}" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <span class="btn-label"><i class="fa fa-ellipsis-v"></i></span>
+                                    </a>
 
-                                <form th:method="delete" class="d-inline"
-                                      th:object="${usuario}"
-                                      th:action="@{/usuarios/remover}">
+                                    <div class="dropdown-menu"
+                                         th:attr="aria-labelled-by='acoes-usuario-' + ${usuario.id}">
 
-                                    <input type="hidden" th:name="id" th:value="*{id}">
-                                    <input type="hidden" th:name="version" th:value="*{versao}">
+                                        <a href="#" th:href="@{usuarios/editar/{id}(id=${usuario.id})}"
+                                           class="dropdown-item">
+                                            <span class="btn-label text-info"><i class="fa fa-edit"></i></span>
+                                            <span th:remove="tag" th:text="#{actions.edit('Usuário')}"></span>
+                                        </a>
 
-                                    <button type="submit" class="btn btn-danger btn-link btn-xs" rel="tooltip"
-                                            data-original-title="Remover Usuário">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </form>
+                                        <button type="button" class="dropdown-item"
+                                                th:onclick="'$(\'#delete-usuario-' + ${usuario.id} + '\').submit()'">
+                                            <span class="btn-label text-danger"><i class="fa fa-trash-alt"></i></span>
+                                            <span th:remove="tag" th:text="#{actions.delete('Usuário')}"></span>
+                                        </button>
+
+                                        <form th:id="'delete-usuario-' + ${usuario.id}"
+                                              th:method="delete" class="d-inline deleteForm"
+                                              th:object="${usuario}"
+                                              th:action="@{/usuarios/remover}">
+
+                                            <input type="hidden" th:name="id" th:value="*{id}">
+                                            <input type="hidden" th:name="version" th:value="*{versao}">
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <!--/*@thymesVar id="usuarios" type="java.awt.print.Pageable<Usuario>"*/-->
                     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${usuarios}, url='/usuarios')}"></nav>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<template layout:fragment="scripts">
+    <script>
+        $(document).ready(function () {
+
+            var preventDelete = true;
+            $(".deleteForm").submit(function (evt) {
+
+                if (preventDelete) {
+                    evt.preventDefault();
+
+                    var that = $(this);
+
+                    swal({
+                        title: "Tem certeza?",
+                        text: "Esta ação não pode ser desfeita!",
+                        type: "warning",
+                        // timer: 10000,
+                        allowEnterKey: false,
+                        showConfirmButton: true,
+                        confirmButtonText: "Confirmar",
+                        confirmButtonClass: "bg-danger",
+                        showCancelButton: true,
+                        cancelButtonText: "Cancelar",
+                        focusCancel: true
+                    })
+                        .then(function (result) {
+                            if (result.dismiss === swal.DismissReason.timer) {
+                                swal({
+                                    type: "info",
+                                    text: "Ação cancelada!",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                })
+                            }
+
+                            if (result.value) {
+                                preventDelete = false;
+                                that.submit();
+                            }
+                        });
+                } else {
+                    preventDelete = true;
+                }
+            });
+        });
+    </script>
+</template>
 <!-- /page content -->

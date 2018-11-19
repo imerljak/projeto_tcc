@@ -26,46 +26,60 @@
                         <tr>
                             <th>Nome</th>
                             <th>CNPJ</th>
-                            <th>Telefone/Email</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
                             <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <!--/*@thymesVar id="concessionarias" type="br.com.imerljak.concessionarias.model.Concessionaria[]"*/-->
                         <tr th:each="concessionaria : ${concessionarias}" th:object="${concessionaria}">
                             <td th:text="*{nome}"></td>
                             <td th:text="*{cnpj}"></td>
-                            <td th:text="*{telefone} + (*{email != null} ? '/' + *{email} : '')"></td>
+                            <td th:text="*{telefone}"></td>
+                            <td th:text="*{email}"></td>
                             <td class="td-actions text-right">
-                                <a href=""
-                                   class="btn btn-info btn-link btn-xs"
-                                   rel="tooltip"
-                                   data-original-title="Ver Concessionária">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                                <a th:href="@{/concessionarias/editar/{id}(id=*{id})}"
-                                   class="btn btn-success btn-link btn-xs"
-                                   rel="tooltip"
-                                   data-original-title="Editar Concessionária">
-                                    <i class="fa fa-edit"></i>
-                                </a>
+                                <div class="dropdown">
+                                    <a href="#" class="text-muted btn-block" type="button"
+                                       th:id="'acoes-concessionaria' + ${concessionaria.id}" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <span class="btn-label"><i class="fa fa-ellipsis-v"></i></span>
+                                    </a>
 
-                                <form th:method="delete" class="d-inline deleteForm"
-                                      th:object="${concessionaria}"
-                                      th:action="@{/concessionarias/remover}">
+                                    <div class="dropdown-menu"
+                                         th:attr="aria-labelled-by='acoes-concessionaria-' + ${concessionaria.id}">
+                                        <a href="#"
+                                           class="dropdown-item">
+                                            <span class="btn-label text-primary"><i class="fa fa-eye"></i></span>
+                                            <span th:remove="tag" th:text="#{actions.view('Concessionária')}"></span>
+                                        </a>
+                                        <a th:href="@{/concessionarias/editar/{id}(id=*{id})}"
+                                           class="dropdown-item">
+                                            <span class="btn-label text-info"><i class="fa fa-edit"></i></span>
+                                            <span th:remove="tag" th:text="#{actions.edit('Concessionária')}"></span>
+                                        </a>
 
-                                    <input type="hidden" th:name="id" th:value="*{id}">
-                                    <input type="hidden" th:name="version" th:value="*{versao}">
+                                        <button class="dropdown-item"
+                                                th:onclick="'$(\'#delete-concessionaria-' + ${concessionaria.id} + '\').submit()'">
+                                            <span class="btn-label text-danger"><i class="fa fa-trash-alt"></i></span>
+                                            <span th:remove="tag" th:text="#{actions.delete('Concessionária')}"></span>
+                                        </button>
 
-                                    <button type="submit" class="btn btn-danger btn-link btn-xs" rel="tooltip"
-                                            data-original-title="Remover Concessionária">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </form>
+                                        <form th:id="'delete-concessionaria-' + ${concessionaria.id}"
+                                              th:method="delete" class="d-inline deleteForm"
+                                              th:object="${concessionaria}"
+                                              th:action="@{/concessionarias/remover}">
+                                            <input type="hidden" th:name="id" th:value="*{id}">
+                                            <input type="hidden" th:name="version" th:value="*{versao}">
+                                        </form>
 
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <!--/*@thymesVar id="concessionarias" type="java.awt.print.Pageable<br.com.imerljak.concessionarias.model.Concessionaria>"*/-->
                     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${concessionarias}, url='/concessionarias')}"></nav>
                 </div>
             </div>
@@ -95,6 +109,7 @@
                         allowEnterKey: false,
                         showConfirmButton: true,
                         confirmButtonText: "Confirmar",
+                        confirmButtonClass: "bg-danger",
                         showCancelButton: true,
                         cancelButtonText: "Cancelar",
                         focusCancel: true

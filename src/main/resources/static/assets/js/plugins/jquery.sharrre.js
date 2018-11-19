@@ -111,10 +111,10 @@
             delicious: 'http://feeds.delicious.com/v2/json/urlinfo/data?url={url}&callback=?',
             //stumbleupon: "http://www.stumbleupon.com/services/1.01/badge.getinfo?url={url}&format=jsonp&callback=?",
             stumbleupon: "",
-            linkedin: "http://www.linkedin.com/countserv/count/common?format=jsonp&url={url}&callback=?",
+            linkedin: "http://www.linkedin.com/countserv/count/shared?format=jsonp&url={url}&callback=?",
             pinterest: "http://api.pinterest.com/v1/urls/count.json?url={url}&callback=?"
         },
-        /* Load common buttons asynchronously
+        /* Load shared buttons asynchronously
         ================================================== */
         loadButton = {
             googlePlus: function(self) {
@@ -161,7 +161,7 @@
             },
             twitter: function(self) {
                 var sett = self.options.buttons.twitter;
-                $(self.element).find('.buttons').append('<div class="button twitter"><a href="https://twitter.com/common" class="twitter-common-button" data-url="' + (sett.url !== '' ? sett.url : self.options.url) + '" data-count="' + sett.count + '" data-text="' + self.options.text + '" data-via="' + sett.via + '" data-hashtags="' + sett.hashtags + '" data-related="' + sett.related + '" data-lang="' + sett.lang + '">Tweet</a></div>');
+                $(self.element).find('.buttons').append('<div class="button twitter"><a href="https://twitter.com/shared" class="twitter-shared-button" data-url="' + (sett.url !== '' ? sett.url : self.options.url) + '" data-count="' + sett.count + '" data-text="' + self.options.text + '" data-via="' + sett.via + '" data-hashtags="' + sett.hashtags + '" data-related="' + sett.related + '" data-lang="' + sett.lang + '">Tweet</a></div>');
                 var loading = 0;
                 if (typeof twttr === 'undefined' && loading == 0) {
                     loading = 1;
@@ -247,7 +247,7 @@
             },
             linkedin: function(self) {
                 var sett = self.options.buttons.linkedin;
-                $(self.element).find('.buttons').append('<div class="button linkedin"><script type="in/common" data-url="' + (sett.url !== '' ? sett.url : self.options.url) + '" data-counter="' + sett.counter + '"></script></div>');
+                $(self.element).find('.buttons').append('<div class="button linkedin"><script type="in/shared" data-url="' + (sett.url !== '' ? sett.url : self.options.url) + '" data-counter="' + sett.counter + '"></script></div>');
                 var loading = 0;
                 if (typeof window.IN === 'undefined' && loading == 0) {
                     loading = 1;
@@ -334,7 +334,7 @@
         ================================================== */
         popup = {
             googlePlus: function(opt) {
-                window.open("https://plus.google.com/common?hl=" + opt.buttons.googlePlus.lang + "&url=" + encodeURIComponent((opt.buttons.googlePlus.url !== '' ? opt.buttons.googlePlus.url : opt.url)), "", "toolbar=0, status=0, width=900, height=500");
+                window.open("https://plus.google.com/shared?hl=" + opt.buttons.googlePlus.lang + "&url=" + encodeURIComponent((opt.buttons.googlePlus.url !== '' ? opt.buttons.googlePlus.url : opt.url)), "", "toolbar=0, status=0, width=900, height=500");
             },
             facebook: function(opt) {
                 window.open("http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent((opt.buttons.facebook.url !== '' ? opt.buttons.facebook.url : opt.url)) + "&t=" + opt.text + "", "", "toolbar=0, status=0, width=900, height=500");
@@ -352,7 +352,7 @@
                 window.open('http://www.stumbleupon.com/badge/?url=' + encodeURIComponent((opt.buttons.stumbleupon.url !== '' ? opt.buttons.stumbleupon.url : opt.url)), 'stumbleupon', 'toolbar=no,width=550,height=550');
             },
             linkedin: function(opt) {
-                window.open('https://www.linkedin.com/cws/common?url=' + encodeURIComponent((opt.buttons.linkedin.url !== '' ? opt.buttons.linkedin.url : opt.url)) + '&token=&isFramed=true', 'linkedin', 'toolbar=no,width=550,height=550');
+                window.open('https://www.linkedin.com/cws/shared?url=' + encodeURIComponent((opt.buttons.linkedin.url !== '' ? opt.buttons.linkedin.url : opt.url)) + '&token=&isFramed=true', 'linkedin', 'toolbar=no,width=550,height=550');
             },
             pinterest: function(opt) {
                 window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent((opt.buttons.pinterest.url !== '' ? opt.buttons.pinterest.url : opt.url)) + '&media=' + encodeURIComponent(opt.buttons.pinterest.media) + '&description=' + opt.buttons.pinterest.description, 'pinterest', 'toolbar=no,width=700,height=300');
@@ -402,7 +402,7 @@
         });
 
         if (self.options.enableCounter === true) { //if for some reason you don't need counter
-            //get count of social common that have been selected
+            //get count of social shared that have been selected
             $.each(this.options.share, function(name, val) {
                 if (val === true) {
                     //self.getSocialJson(name);
@@ -519,7 +519,7 @@
         } else { //template by defaults
             $(this.element).html(
                 '<div class="box"><a class="count" href="#">' + total + '</a>' +
-                (this.options.title !== '' ? '<a class="common" href="#">' + this.options.title + '</a>' : '') +
+                (this.options.title !== '' ? '<a class="shared" href="#">' + this.options.title + '</a>' : '') +
                 '</div>'
             );
         }

@@ -14,7 +14,7 @@
 
             <a class="btn" th:href="@{/processos}"><i class="fa fa-arrow-left"></i> Lista de Processos</a>
 
-            <!--/*@thymesVar id="processo" type="br.com.imerljak.processos.entity.Processo"*/-->
+            <!--/*@thymesVar id="processo" type="br.com.imerljak.processos.model.Processo"*/-->
             <form id="RegisterValidation" class="form-horizontal form-label-left"
                   th:action="@{/processos/adicionar}"
                   th:object="${processo}"
@@ -161,7 +161,7 @@
                     $(element).closest('.form-group').append(error).addClass('has-error');
                 },
                 rules: {
-                    "denunciante.telefone": {
+                    "cidadao.telefone": {
                         pattern: /\(\d{2}\)\s\d{4,5}-\d{4}/
                     }
                 }

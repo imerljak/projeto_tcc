@@ -9,9 +9,9 @@ Tip 2: you can also add an image using data-image tag
 -->
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a th:href="@{/}" class="simple-text logo-mini" th:text="'G|A'">
+            <a th:href="@{/}" class="simple-text logo-mini" th:text="#{application.name.short}">
             </a>
-            <a th:href="@{/}" class="simple-text logo-normal" th:text="'GED | Agesb'">
+            <a th:href="@{/}" class="simple-text logo-normal" th:text="#{application.name.full}">
                 Creative Tim
             </a>
         </div>
@@ -33,44 +33,50 @@ Tip 2: you can also add an image using data-image tag
         <ul class="nav">
             <li class="nav-item"
                 th:classappend="${#sidebarUtils.activeClass('/', true)}">
-                <a class="nav-link" href="dashboard.html" th:href="@{/}">
+                <a class="nav-link" th:href="@{/}">
                     <i class="nc-icon nc-chart-pie-35"></i>
                     <p th:text="'Dashboard'">Dashboard</p>
-                </a>
-            </li>
-            <li class="nav-item"
-                sec:authorize="hasRole('ADMINISTRADOR')"
-                th:classappend="${#sidebarUtils.activeClass('/usuarios')}">
-                <a class="nav-link" href="./user.html" th:href="@{/usuarios}">
-                    <i class="nc-icon nc-circle-09"></i>
-                    <p th:text="'Usuários'">User Profile</p>
                 </a>
             </li>
 
             <li class="nav-item"
                 sec:authorize="hasRole('GERENTE')"
                 th:classappend="${#sidebarUtils.activeClass('/concessionarias')}">
-                <a class="nav-link" href="./icons.html" th:href="@{/concessionarias}">
+                <a class="nav-link" th:href="@{/concessionarias}">
                     <i class="nc-icon nc-bus-front-12"></i>
                     <p th:text="'Concessionárias'">Icons</p>
                 </a>
             </li>
+
+
+            <li class="nav-item"
+                sec:authorize="hasRole('GERENTE')"
+                th:classappend="${#sidebarUtils.activeClass('/ouvidorias')}">
+                <a class="nav-link"  th:href="@{/ouvidorias}">
+                    <i class="nc-icon nc-tap-01"></i>
+                    <p th:text="'Ouvidorias'">Typography</p>
+                </a>
+            </li>
+
+
             <li class="nav-item"
                 sec:authorize="hasAnyRole('GERENTE', 'REVISOR_RELATOR')"
                 th:classappend="${#sidebarUtils.activeClass('/processos')}">
-                <a class="nav-link" href="./table.html" th:href="@{/processos}">
+                <a class="nav-link" th:href="@{/processos}">
                     <i class="nc-icon nc-notes"></i>
                     <p th:text="'Processos'">Table List</p>
                 </a>
             </li>
+
             <li class="nav-item"
-                sec:authorize="hasRole('GERENTE')"
-                th:classappend="${#sidebarUtils.activeClass('/denuncias')}">
-                <a class="nav-link" href="./typography.html" th:href="@{/denuncias}">
-                    <i class="nc-icon nc-tap-01"></i>
-                    <p th:text="'Denuncias'">Typography</p>
+                sec:authorize="hasRole('ADMINISTRADOR')"
+                th:classappend="${#sidebarUtils.activeClass('/usuarios')}">
+                <a class="nav-link" th:href="@{/usuarios}">
+                    <i class="nc-icon nc-circle-09"></i>
+                    <p th:text="'Usuários'">User Profile</p>
                 </a>
             </li>
+
         </ul>
     </div>
 </div>
