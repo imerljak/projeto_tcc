@@ -34,7 +34,7 @@ public class UsuarioPerfilController {
     @GetMapping
     public ModelAndView findUsuario(ModelAndView modelAndView, Principal principal) {
 
-        modelAndView.setViewName("/usuarios/profile");
+        modelAndView.setViewName("usuarios/profile.html");
         modelAndView.addObject("usuario", repository.findByEmail(principal.getName()));
         modelAndView.addObject("cargos", cargoRepository.findAll());
 
