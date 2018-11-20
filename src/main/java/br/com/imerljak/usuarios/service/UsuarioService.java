@@ -73,4 +73,8 @@ public class UsuarioService {
     public void deleteById(Long id) {usuarioRepository.deleteById(id);}
 
     public void delete(Usuario usuario) {usuarioRepository.delete(usuario);}
+
+    public boolean haveUsers() {
+        return usuarioRepository.count() > 0;
+    }
 }

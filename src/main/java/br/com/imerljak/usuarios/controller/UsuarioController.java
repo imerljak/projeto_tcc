@@ -1,8 +1,8 @@
 package br.com.imerljak.usuarios.controller;
 
-import br.com.imerljak.usuarios.service.CargoRepository;
-import br.com.imerljak.usuarios.model.Usuario;
 import br.com.imerljak.usuarios.exception.UsuarioNotFoundException;
+import br.com.imerljak.usuarios.model.Usuario;
+import br.com.imerljak.usuarios.service.CargoRepository;
 import br.com.imerljak.usuarios.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -94,10 +94,4 @@ public class UsuarioController {
         return "redirect:/usuarios";
     }
 
-    @GetMapping(value = "/perfil/{id}")
-    public ModelAndView findUsuario(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("usuarios/view");
-        modelAndView.addObject("usuario", repository.findById(id));
-        return modelAndView;
-    }
 }

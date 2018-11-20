@@ -20,6 +20,13 @@
                 </div>
                 <div class="card fat">
                     <div class="card-body">
+
+                        <!--/*@thymesVar id="alert" type="br.com.imerljak.visao.AlertMessage"*/-->
+                        <div class="alert"
+                             th:if="${alert}"
+                             th:classappend="${alert.status.styleClass}"
+                             th:text="${alert.message}"></div>
+
                         <h4 class="card-title">Login</h4>
                         <form method="POST" th:action="@{/login}">
 

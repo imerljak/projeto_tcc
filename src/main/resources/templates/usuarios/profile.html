@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Perfil</title>
+</head>
+
+<!-- page content -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+
+            <!--/*@thymesVar id="usuario" type="br.com.imerljak.usuarios.model.Usuario"*/-->
+            <form id="usuarioForm" class="form-horizontal form-label-left"
+                  th:action="@{/perfil}"
+                  th:object="${usuario}"
+                  th:method="put" novalidate>
+
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{versao}">
+
+                <div class="card ">
+                    <div class="card-header ">
+                        <h4 class="card-title">Editar Perfil</h4>
+                    </div>
+                    <div class="card-body ">
+
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
+                            <label for="name">Nome
+                                <star class="star">*</star>
+                            </label>
+                            <input id="name"
+                                   class="form-control"
+                                   th:field="*{nome}"
+                                   placeholder="Fulano da Silva"
+                                   required="true"
+                                   type="text">
+                            <label class="error" for="name" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
+                                Please choose a username
+                            </label>
+                        </div>
+                        <div class="form-group has-label"
+                             th:classappend="${#fields.hasErrors('email')?'has-error':''}">
+                            <label for="email">Email
+                                <star class="star">*</star>
+                            </label>
+                            <input type="email"
+                                   id="email"
+                                   placeholder="seuemail@mail.com"
+                                   th:field="*{email}"
+                                   required="required"
+                                   class="form-control">
+                            <label class="error" for="email" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                                Please input a valid email.
+                            </label>
+                        </div>
+
+                        <div class="form-group has-label col-lg-4 pl-0 pr-0"
+                             th:classappend="${#fields.hasErrors('cargos') ? 'has-error' : ''}">
+                            <label for="cargos">
+                                Cargo(s)
+                                <star class="star">*</star>
+                            </label>
+                            <!--/*@thymesVar id="cargos" type="java.util.Set<br.com.imerljak.usuarios.model.Cargo>"*/-->
+                            <input id="cargos" type="text" th:value="${#strings.arrayJoin(cargos, ', ')}"
+                                   class="form-control" disabled>
+                            <label class="error" for="cargos"
+                                   th:errors="*{cargos}">
+                                Please inform the user role.
+                            </label>
+                        </div>
+
+
+                        <div class="card-category form-category">
+                            <star class="star">*</star>
+                            Required fields
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+
+                        <button type="button"
+                                class="btn btn-dribbble">
+                            <i class="fa fa-key"></i>
+                            <span th:remove="tag" th:text="#{actions.resetPassword}"></span>
+
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-info btn-fill pull-right">
+                            <i class="fa fa-edit"></i>
+                            <span th:remove="tag" th:text="#{actions.update('Perfil')}"></span>
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<template layout:fragment="scripts">
+
+    <!--  Bootstrap Select  -->
+    <script th:src="@{/webjars/bootstrap-select/1.12.4/dist/js/bootstrap-select.min.js}"
+            type="text/javascript"></script>
+
+    <!--  jQueryValidate  -->
+    <script th:src="@{/webjars/jquery-validation/1.17.0-1/jquery.validate.min.js}"
+            type="text/javascript"></script>
+
+
+    <script>
+
+        function setFormValidation(id) {
+            $(id).validate({
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    $(element).closest('.form-check').removeClass('has-success').addClass('has-error');
+                },
+                success: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                    $(element).closest('.form-check').removeClass('has-error').addClass('has-success');
+                },
+                errorPlacement: function (error, element) {
+                    $(element).closest('.form-group').append(error).addClass('has-error');
+                },
+                rules: {
+                    senha: {
+                        required: true,
+                        minlength: 6
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('select').selectpicker();
+
+            setFormValidation('#usuarioForm');
+        })
+    </script>
+</template>
+
+<!-- /page content -->
