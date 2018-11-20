@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>br.com.imerljak.shared.model.AuditableEntity</OriginalElement>
+  <nodes>
+    <node x="1772.0" y="769.5">br.com.imerljak.concessionarias.model.Responsavel</node>
+    <node x="1265.5" y="742.5">br.com.imerljak.processos.model.Documento</node>
+    <node x="320.0" y="876.0">br.com.imerljak.shared.Tipo</node>
+    <node x="251.5" y="329.5">br.com.imerljak.shared.Tramite</node>
+    <node x="120.5" y="1023.0">br.com.imerljak.processos.model.TipoDocumento</node>
+    <node x="2546.0" y="194.5">br.com.imerljak.processos.model.Processo</node>
+    <node x="906.0" y="555.0">br.com.imerljak.concessionarias.model.Concessionaria</node>
+    <node x="1545.5" y="449.5">br.com.imerljak.ouvidorias.model.AnexoOuvidoria</node>
+    <node x="330.0" y="743.0">br.com.imerljak.processos.model.TipoProcesso</node>
+    <node x="2163.0" y="262.0">br.com.imerljak.shared.model.AuditableEntity</node>
+    <node x="542.5" y="501.0">br.com.imerljak.ouvidorias.model.Ouvidoria</node>
+    <node x="2184.5" y="-31.5">br.com.imerljak.usuarios.model.Usuario</node>
+    <node x="336.0" y="1063.0">br.com.imerljak.concessionarias.model.TipoServico</node>
+    <node x="1322.0" y="542.5">br.com.imerljak.shared.model.Arquivo</node>
+    <node x="265.5" y="449.5">br.com.imerljak.ouvidorias.model.TramiteOuvidoria</node>
+    <node x="1594.0" y="583.0">br.com.imerljak.shared.model.Anexo</node>
+    <node x="1961.5" y="569.0">br.com.imerljak.ouvidorias.model.Cidadao</node>
+    <node x="2470.5" y="862.5">br.com.imerljak.shared.model.Protocolo</node>
+    <node x="1765.5" y="582.5">br.com.imerljak.shared.model.Pessoa</node>
+    <node x="2249.5" y="876.0">br.com.imerljak.shared.model.BasicEntity</node>
+    <node x="14.5" y="903.0">br.com.imerljak.shared.TipoTramite</node>
+    <node x="-7.5" y="329.5">br.com.imerljak.processos.model.TramiteProcesso</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="br.com.imerljak.processos.model.Processo" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="-134.0" y="-0.0" />
+      <point x="157.0" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Arquivo" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="-57.5" />
+      <point x="1400.0" y="420.0" />
+      <point x="-157.0" y="60.0" />
+    </edge>
+    <edge source="br.com.imerljak.concessionarias.model.Responsavel" target="br.com.imerljak.shared.model.Pessoa">
+      <point x="0.0" y="-30.5" />
+      <point x="0.0" y="57.5" />
+    </edge>
+    <edge source="br.com.imerljak.shared.TipoTramite" target="br.com.imerljak.shared.Tipo">
+      <point x="65.5" y="-0.0" />
+      <point x="-80.0" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Pessoa" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="-57.5" />
+      <point x="1840.0" y="440.0" />
+      <point x="-157.0" y="80.0" />
+    </edge>
+    <edge source="br.com.imerljak.concessionarias.model.Concessionaria" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="-125.0" />
+      <point x="1040.0" y="400.0" />
+      <point x="-157.0" y="40.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.AnexoOuvidoria" target="br.com.imerljak.shared.model.Anexo">
+      <point x="0.0" y="30.5" />
+      <point x="0.0" y="-17.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Ouvidoria" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="-179.0" />
+      <point x="680.0" y="380.0" />
+      <point x="-157.0" y="20.0" />
+    </edge>
+    <edge source="br.com.imerljak.processos.model.Documento" target="br.com.imerljak.shared.model.Arquivo">
+      <point x="0.0" y="-57.5" />
+      <point x="0.0" y="57.5" />
+    </edge>
+    <edge source="br.com.imerljak.concessionarias.model.TipoServico" target="br.com.imerljak.shared.Tipo">
+      <point x="0.0" y="-17.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.Tramite" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="108.5" y="-0.0" />
+      <point x="-157.0" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Cidadao" target="br.com.imerljak.shared.model.Pessoa">
+      <point x="-158.5" y="-0.0" />
+      <point x="74.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.processos.model.TipoDocumento" target="br.com.imerljak.shared.Tipo">
+      <point x="0.0" y="-17.0" />
+      <point x="200.0" y="940.0" />
+      <point x="-80.0" y="20.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.TramiteOuvidoria" target="br.com.imerljak.shared.Tramite">
+      <point x="0.0" y="-30.5" />
+      <point x="0.0" y="30.5" />
+    </edge>
+    <edge source="br.com.imerljak.processos.model.TramiteProcesso" target="br.com.imerljak.shared.Tramite">
+      <point x="87.5" y="-0.0" />
+      <point x="-108.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Anexo" target="br.com.imerljak.shared.model.Arquivo">
+      <point x="-46.0" y="-0.0" />
+      <point x="78.0" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.usuarios.model.Usuario" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="111.5" />
+      <point x="0.0" y="-98.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Protocolo" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="-89.5" y="-0.0" />
+      <point x="70.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.AuditableEntity" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="0.0" y="98.0" />
+      <point x="0.0" y="-44.0" />
+    </edge>
+    <edge source="br.com.imerljak.processos.model.TipoProcesso" target="br.com.imerljak.shared.Tipo">
+      <point x="0.0" y="17.0" />
+      <point x="0.0" y="-44.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.Tipo" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="80.0" y="-0.0" />
+      <point x="-70.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4630541871921182" x="1403.0" y="532.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

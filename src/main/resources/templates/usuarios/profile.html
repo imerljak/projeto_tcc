@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}">
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle=${'Perfil'}">
 <head>
-    <title>Perfil</title>
+    <title th:text="${pageTitle}"></title>
 </head>
+
+<h3 layout:fragment="page-title-toolbar" th:text="'Olá Mundo!!'"></h3>
 
 <!-- page content -->
 <div layout:fragment="content">
@@ -21,7 +24,7 @@
                 <input type="hidden" th:field="*{versao}">
 
                 <div class="card ">
-                    <div class="card-header ">
+                    <div class="card-header">
                         <h4 class="card-title">Editar Perfil</h4>
                     </div>
                     <div class="card-body ">

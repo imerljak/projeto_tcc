@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>br.com.imerljak.ouvidorias.model.AnexoOuvidoria</OriginalElement>
+  <nodes>
+    <node x="159.0" y="782.5">br.com.imerljak.shared.Tramite</node>
+    <node x="-14.5" y="209.5">br.com.imerljak.ouvidorias.model.AnexoOuvidoria</node>
+    <node x="443.0" y="569.0">br.com.imerljak.shared.model.AuditableEntity</node>
+    <node x="462.5" y="61.0">br.com.imerljak.ouvidorias.model.Ouvidoria</node>
+    <node x="443.0" y="969.0">br.com.imerljak.shared.model.Arquivo</node>
+    <node x="185.5" y="489.5">br.com.imerljak.ouvidorias.model.TramiteOuvidoria</node>
+    <node x="34.0" y="1023.0">br.com.imerljak.shared.model.Anexo</node>
+    <node x="841.5" y="169.0">br.com.imerljak.ouvidorias.model.Cidadao</node>
+    <node x="925.5" y="782.5">br.com.imerljak.shared.model.Pessoa</node>
+    <node x="529.5" y="782.5">br.com.imerljak.shared.model.BasicEntity</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="br.com.imerljak.shared.model.Arquivo" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="0.0" y="-71.0" />
+      <point x="0.0" y="57.5" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Ouvidoria" target="br.com.imerljak.ouvidorias.model.TramiteOuvidoria">
+      <point x="-40.0" y="179.0" />
+      <point x="560.0" y="520.0" />
+      <point x="94.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Ouvidoria" target="br.com.imerljak.shared.model.AuditableEntity">
+      <point x="0.0" y="179.0" />
+      <point x="0.0" y="-71.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Cidadao" target="br.com.imerljak.ouvidorias.model.Ouvidoria">
+      <point x="0.0" y="-71.0" />
+      <point x="1000.0" y="0.0" />
+      <point x="600.0" y="0.0" />
+      <point x="0.0" y="-179.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Cidadao" target="br.com.imerljak.shared.model.Pessoa">
+      <point x="0.0" y="71.0" />
+      <point x="0.0" y="-57.5" />
+    </edge>
+    <edge source="br.com.imerljak.shared.Tramite" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="121.0" y="-0.0" />
+      <point x="-70.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.TramiteOuvidoria" target="br.com.imerljak.shared.Tramite">
+      <point x="0.0" y="30.5" />
+      <point x="0.0" y="-57.5" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Anexo" target="br.com.imerljak.shared.model.Arquivo">
+      <point x="46.0" y="-0.0" />
+      <point x="-157.0" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.TramiteOuvidoria" target="br.com.imerljak.ouvidorias.model.Ouvidoria">
+      <point x="0.0" y="-30.5" />
+      <point x="280.0" y="280.0" />
+      <point x="-137.5" y="40.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.AnexoOuvidoria" target="br.com.imerljak.shared.model.Anexo">
+      <point x="0.0" y="30.5" />
+      <point x="0.0" y="-17.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Ouvidoria" target="br.com.imerljak.ouvidorias.model.Cidadao">
+      <point x="137.5" y="-0.0" />
+      <point x="-158.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.Ouvidoria" target="br.com.imerljak.ouvidorias.model.AnexoOuvidoria">
+      <point x="-137.5" y="-0.0" />
+      <point x="94.5" y="-0.0" />
+    </edge>
+    <edge source="br.com.imerljak.ouvidorias.model.AnexoOuvidoria" target="br.com.imerljak.ouvidorias.model.Ouvidoria">
+      <point x="0.0" y="-30.5" />
+      <point x="80.0" y="0.0" />
+      <point x="560.0" y="0.0" />
+      <point x="-40.0" y="-179.0" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.AuditableEntity" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="0.0" y="71.0" />
+      <point x="0.0" y="-57.5" />
+    </edge>
+    <edge source="br.com.imerljak.shared.model.Pessoa" target="br.com.imerljak.shared.model.BasicEntity">
+      <point x="-74.5" y="-0.0" />
+      <point x="70.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.88636763412489" x="394.39023411244017" y="291.9473109743997" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
