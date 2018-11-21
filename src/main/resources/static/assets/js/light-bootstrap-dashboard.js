@@ -28,7 +28,7 @@ var mobile_menu_visible = 0,
     $sidebar,
     isWindows;
 
-$(document).ready(function() {
+$(function() {
     window_width = $(window).width();
 
     // check if there is an image set for the sidebar's background
