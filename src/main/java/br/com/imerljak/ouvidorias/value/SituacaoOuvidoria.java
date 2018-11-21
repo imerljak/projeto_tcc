@@ -9,7 +9,7 @@ public enum SituacaoOuvidoria {
     AGUARDANDO("Aguardando"),
     EM_ANALISE("Em Análise"),
     NAO_CONFIRMADA("Não Confirmada"),
-    CORFIRMADA("Confirmada"),
+    CONFIRMADA("Confirmada"),
     REDUNDANTE("Redundante"),
     REVOGADA("Revogada"),
     AGUARDANDO_CONCESSIONARIA("Aguardando Concessionária"),

@@ -2,11 +2,11 @@ package br.com.imerljak.ouvidorias.controller;
 
 import br.com.imerljak.concessionarias.service.ConcessionariaRepository;
 import br.com.imerljak.ouvidorias.model.Ouvidoria;
-import br.com.imerljak.ouvidorias.service.OuvidoriaRepository;
+import br.com.imerljak.ouvidorias.service.OuvidoriaService;
 import br.com.imerljak.ouvidorias.value.SituacaoOuvidoria;
 import br.com.imerljak.ouvidorias.value.TipoOuvidoria;
-import br.com.imerljak.visao.AlertMessage;
 import br.com.imerljak.utils.Redirect;
+import br.com.imerljak.visao.AlertMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -31,13 +31,12 @@ import javax.persistence.EntityNotFoundException;
 @RequestMapping("/ouvidorias")
 public class OuvidoriaController {
 
-    private final OuvidoriaRepository repository;
+    private final OuvidoriaService service;
     private final ConcessionariaRepository concessionariaRepository;
 
     @Autowired
-    public OuvidoriaController(OuvidoriaRepository repository, ConcessionariaRepository concessionariaRepository) {
-        this.repository = repository;
-        System.out.println("repository = " + repository);
+    public OuvidoriaController(OuvidoriaService service, ConcessionariaRepository concessionariaRepository) {
+        this.service = service;
         this.concessionariaRepository = concessionariaRepository;
     }
 
@@ -50,7 +49,15 @@ public class OuvidoriaController {
 
 
     @GetMapping
-    public ModelAndView index(@PageableDefault Pageable pageable) {
+    public ModelAndView index(
+            @RequestParam(required = false) TipoOuvidoria tipoOuvidoria,
+            @RequestParam(required = false) SituacaoOuvidoria situacaoOuvidoria,
+            @RequestParam(required = false) Long concessionaria,
+            @PageableDefault Pageable pageable) {
+
+        log.info("tipoOuvidoria = {}", tipoOuvidoria);
+        log.info("situacaoOuvidoria = {}", situacaoOuvidoria);
+        log.info("concessionaria = {}", concessionaria);
 
         final PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
@@ -58,13 +65,18 @@ public class OuvidoriaController {
                 Sort.by("dataCriacao").descending());
 
         ModelAndView modelAndView = new ModelAndView("ouvidorias/list");
-        modelAndView.addObject("ouvidorias", repository.findAll(pageRequest));
+        modelAndView.addObject("ouvidorias", service.search(tipoOuvidoria, situacaoOuvidoria, concessionaria, pageRequest));
+
+        modelAndView.addObject("tipoOuvidoria", tipoOuvidoria);
+        modelAndView.addObject("situacaoOuvidoria", situacaoOuvidoria);
+        modelAndView.addObject("concessionaria", concessionaria);
+
         return modelAndView;
     }
 
     @DeleteMapping("/remover")
     public String destroy(@RequestParam Long id, RedirectAttributes redirectAttributes) {
-        repository.deleteById(id);
+        service.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Ouvidoria removida com sucesso!");
         return "redirect:/ouvidorias";
     }
@@ -72,7 +84,7 @@ public class OuvidoriaController {
     @GetMapping("/{id}")
     public ModelAndView view(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("ouvidorias/view");
-        modelAndView.addObject("ouvidoria", repository.findById(id));
+        modelAndView.addObject("ouvidoria", service.findById(id));
         return modelAndView;
     }
 
@@ -90,7 +102,7 @@ public class OuvidoriaController {
             return "/ouvidorias/form";
         }
 
-        repository.save(ouvidoria);
+        service.save(ouvidoria);
 
         redirectAttributes.addFlashAttribute("success", successSaveMessage(ouvidoria));
         return Redirect.to("/ouvidorias");
@@ -98,7 +110,7 @@ public class OuvidoriaController {
 
     @GetMapping("/editar/{id}")
     public ModelAndView updateForm(@PathVariable Long id, ModelAndView modelAndView) {
-        final Ouvidoria ouvidoria = repository.findById(id)
+        final Ouvidoria ouvidoria = service.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
 
@@ -110,10 +122,10 @@ public class OuvidoriaController {
 
     @PutMapping("/editar/{id}")
     public String save(@PathVariable Long id, Ouvidoria ouvidoria, RedirectAttributes redirectAttributes) {
-        final Ouvidoria old = repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        final Ouvidoria old = service.getOne(id);
         old.setSituacao(ouvidoria.getSituacao());
 
-        repository.save(old);
+        service.save(old);
 
         redirectAttributes.addFlashAttribute("message", succesUpdateMessage(old));
         return Redirect.to("/ouvidorias");

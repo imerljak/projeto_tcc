@@ -24,10 +24,53 @@
                     <h4 class="card-title">Lista de Ouvidorias</h4>
                     <p class="class-category">Ouvidorias cadastradas no sistema.</p>
 
-                    <a th:href="@{/ouvidorias/adicionar}" id="nova-ouvidoria-btn" class="btn">
-                        <span class="btn-label"><i class="fa fa-plus"></i></span>
-                        Nova Ouvidoria
-                    </a>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 pb-3">
+                            <a th:href="@{/ouvidorias/adicionar}" class="btn">
+                                <i class="fa fa-plus"></i>
+                                <span th:remove="tag" th:text="#{buttons.new('Ouvidoria')}"></span>
+                            </a>
+                        </div>
+                        <div class="col-sm-12 col-md-8 pb-3">
+
+                            <!--/*@thymesVar id="tipoOuvidoria" type="br.com.imerljak.ouvidorias.value.TipoOuvidoria"*/-->
+                            <!--/*@thymesVar id="tiposOuvidoria" type="br.com.imerljak.ouvidorias.value.TipoOuvidoria[]"*/-->
+                            <!--/*@thymesVar id="situacaoOuvidoria" type="br.com.imerljak.ouvidorias.value.SituacaoOuvidoria"*/-->
+                            <!--/*@thymesVar id="situacoesOuvidoria" type="br.com.imerljak.ouvidorias.value.SituacaoOuvidoria[]"*/-->
+                            <!--/*@thymesVar id="concessionarias" type="br.com.imerljak.concessionarias.model.Concessionaria[]"*/-->
+                            <!--/*@thymesVar id="concessionaria" type="java.lang.Long"*/-->
+                            <form class="form-inline" th:action="@{/ouvidorias}" method="get">
+                                <div class="form-group col-md-4">
+                                    <select name="tipoOuvidoria" class="form-control" onchange="this.form.submit()">
+                                        <option value="">-- Tipo de Ouvidoria --</option>
+                                        <option th:each="tipo : ${tiposOuvidoria}"
+                                                th:value="${tipo.name()}"
+                                                th:text="${tipo.descricao}"
+
+                                                th:selected="${tipoOuvidoria == tipo}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <select name="situacaoOuvidoria" class="form-control" onchange="this.form.submit()">
+                                        <option value="">-- Situação da Ouvidoria --</option>
+                                        <option th:each="situacao : ${situacoesOuvidoria}"
+                                                th:value="${situacao.name()}"
+                                                th:text="${situacao.descricao}"
+                                                th:selected="${situacaoOuvidoria == situacao}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <select name="concessionaria" class="form-control" onchange="this.form.submit()">
+                                        <option value="">-- Concessionária --</option>
+                                        <option th:each="c : ${concessionarias}"
+                                                th:value="${c.id}"
+                                                th:text="${c.nome}"
+                                                th:selected="${c.id == concessionaria}"></option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -65,18 +108,21 @@
                                     <a href="#"
                                        class="dropdown-item">
                                         <span class="btn-label text-primary"><i class="fa fa-eye"></i></span>
-                                        <span th:remove="tag" th:text="#{actions.view(__${ouvidoria.tipo.descricao}__)}"></span>
+                                        <span th:remove="tag"
+                                              th:text="#{actions.view(__${ouvidoria.tipo.descricao}__)}"></span>
                                     </a>
                                     <a th:href="@{/ouvidorias/editar/{id}(id=${ouvidoria.id})}"
                                        class="dropdown-item">
                                         <span class="btn-label text-info"><i class="fa fa-edit"></i></span>
-                                        <span th:remove="tag" th:text="#{actions.edit(__${ouvidoria.tipo.descricao}__)}"></span>
+                                        <span th:remove="tag"
+                                              th:text="#{actions.edit(__${ouvidoria.tipo.descricao}__)}"></span>
                                     </a>
 
                                     <button class="dropdown-item"
                                             th:onclick="'$(\'#delete-ouvidoria-' + ${ouvidoria.id} + '\').submit()'">
                                         <span class="btn-label text-danger"><i class="fa fa-trash-alt"></i></span>
-                                        <span th:remove="tag" th:text="#{actions.delete(__${ouvidoria.tipo.descricao}__)}"></span>
+                                        <span th:remove="tag"
+                                              th:text="#{actions.delete(__${ouvidoria.tipo.descricao}__)}"></span>
                                     </button>
 
                                     <form th:id="'delete-ouvidoria-' + ${ouvidoria.id}"

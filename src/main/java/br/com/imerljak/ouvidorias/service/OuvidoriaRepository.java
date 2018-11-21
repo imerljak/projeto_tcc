@@ -1,7 +1,7 @@
 package br.com.imerljak.ouvidorias.service;
 
-import br.com.imerljak.ouvidorias.value.TipoOuvidoria;
 import br.com.imerljak.ouvidorias.model.Ouvidoria;
+import br.com.imerljak.ouvidorias.value.TipoOuvidoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
