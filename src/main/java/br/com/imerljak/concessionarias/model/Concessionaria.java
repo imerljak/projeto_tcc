@@ -8,6 +8,8 @@ import br.com.imerljak.vendor.jpa.converter.CnpjFormatConverter;
 import br.com.imerljak.vendor.jpa.converter.TelefoneFormatConverter;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -24,6 +26,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@Where(clause = "ativo = true")
 @ToString(callSuper = true, exclude = {"responsaveis", "ouvidorias", "servicos"})
 @EqualsAndHashCode(callSuper = true,
         exclude = {"responsaveis", "ouvidorias", "servicos"})
@@ -68,5 +71,8 @@ public class Concessionaria extends BasicEntity {
 
     @ManyToMany
     private Set<TipoServico> servicos = new HashSet<>();
+
+    @Column
+    private boolean ativo = true;
 
 }

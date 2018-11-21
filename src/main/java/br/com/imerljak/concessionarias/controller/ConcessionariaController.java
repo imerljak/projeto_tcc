@@ -1,9 +1,9 @@
 package br.com.imerljak.concessionarias.controller;
 
-import br.com.imerljak.concessionarias.service.ConcessionariaRepository;
-import br.com.imerljak.concessionarias.model.Responsavel;
-import br.com.imerljak.concessionarias.service.TipoServicoRepository;
 import br.com.imerljak.concessionarias.model.Concessionaria;
+import br.com.imerljak.concessionarias.model.Responsavel;
+import br.com.imerljak.concessionarias.service.ConcessionariaService;
+import br.com.imerljak.concessionarias.service.TipoServicoRepository;
 import br.com.imerljak.concessionarias.util.CnpjUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,12 @@ import javax.persistence.EntityNotFoundException;
 @RequestMapping("/concessionarias")
 public class ConcessionariaController {
 
-    private final ConcessionariaRepository repository;
+    private final ConcessionariaService service;
     private final TipoServicoRepository tipoServicoRepository;
 
     @Autowired
-    public ConcessionariaController(ConcessionariaRepository repository, TipoServicoRepository tipoServicoRepository) {
-        this.repository = repository;
+    public ConcessionariaController(ConcessionariaService service, TipoServicoRepository tipoServicoRepository) {
+        this.service = service;
         this.tipoServicoRepository = tipoServicoRepository;
     }
 
@@ -43,10 +43,10 @@ public class ConcessionariaController {
     }
 
     @GetMapping
-    public ModelAndView listConcessionarias(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ModelAndView listConcessionarias(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String search) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/list");
 
-        modelAndView.addObject("concessionarias", repository.findAll(pageable));
+        modelAndView.addObject("concessionarias", service.search(search, pageable));
         return modelAndView;
     }
 
@@ -62,14 +62,14 @@ public class ConcessionariaController {
 
     @PostMapping("/adicionar")
     public String createConcessionaria(@Validated Concessionaria concessionaria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        repository.findByCnpj(CnpjUtil.unformat(concessionaria.getCnpj()))
+        service.findByCnpj(CnpjUtil.unformat(concessionaria.getCnpj()))
                 .ifPresent(c -> bindingResult.rejectValue("cnpj", "{Duplicate.concessionaria.cnpj}"));
 
         if (bindingResult.hasErrors()) {
             return "concessionarias/create";
         }
 
-        repository.save(concessionaria);
+        service.save(concessionaria);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionaria gravada com sucesso!");
         return "redirect:/concessionarias";
     }
@@ -79,7 +79,7 @@ public class ConcessionariaController {
         ModelAndView modelAndView = new ModelAndView("concessionarias/update");
 
 
-        Concessionaria concessionaria = repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Concessionaria concessionaria = service.findById(id).orElseThrow(EntityNotFoundException::new);
         if (concessionaria.getResponsaveis().isEmpty()) {
             concessionaria.getResponsaveis().add(new Responsavel());
         }
@@ -98,14 +98,18 @@ public class ConcessionariaController {
             return "concessionarias/update";
         }
 
-        repository.save(concessionaria);
+        service.save(concessionaria);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária alterada com sucesso!");
         return "redirect:/concessionarias";
     }
 
     @DeleteMapping("/remover")
     public String removeConcessionaria(Long id, RedirectAttributes redirectAttributes) {
-        repository.deleteById(id);
+        final Concessionaria one = service.getOne(id);
+        one.setAtivo(false);
+        service.save(one);
+
+        //        service.deleteById(id);
         redirectAttributes.addFlashAttribute("mensagem", "Concessionária removida com sucesso!");
         return "redirect:/concessionarias";
     }
@@ -114,7 +118,7 @@ public class ConcessionariaController {
     public ModelAndView viewConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/view");
         modelAndView.addObject("concessionaria",
-                               repository.findById(id).orElseThrow(EntityNotFoundException::new));
+                               service.findById(id).orElseThrow(EntityNotFoundException::new));
         return modelAndView;
     }
 

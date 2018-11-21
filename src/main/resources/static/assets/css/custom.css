@@ -9,3 +9,7 @@
 .full-width {
     width: 100%;
 }
+
+.disabled {
+    text-decoration: line-through;
+}

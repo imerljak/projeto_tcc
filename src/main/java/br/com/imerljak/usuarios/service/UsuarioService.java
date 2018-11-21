@@ -24,6 +24,8 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public Usuario getOne(Long aLong) {return usuarioRepository.getOne(aLong);}
+
     public Optional<Usuario> findByEmail(String email) {return usuarioRepository.findByEmail(email);}
 
     public boolean existsByEmail(String email) {return usuarioRepository.existsByEmail(email);}

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@Where(clause = "ativo = true")
 @ToString(callSuper = true,
         exclude = {"cargos", "processosRelator", "processosRevisor"})
 @EqualsAndHashCode(callSuper = true,

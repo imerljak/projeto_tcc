@@ -4,6 +4,7 @@ import br.com.imerljak.usuarios.exception.UsuarioNotFoundException;
 import br.com.imerljak.usuarios.model.Usuario;
 import br.com.imerljak.usuarios.service.CargoRepository;
 import br.com.imerljak.usuarios.service.UsuarioService;
+import br.com.imerljak.visao.AlertMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,19 +24,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private UsuarioService repository;
+    private UsuarioService service;
     private CargoRepository cargoRepository;
 
     @Autowired
-    public UsuarioController(UsuarioService repository, CargoRepository cargoRepository) {
-        this.repository = repository;
+    public UsuarioController(UsuarioService service, CargoRepository cargoRepository) {
+        this.service = service;
         this.cargoRepository = cargoRepository;
     }
 
     @GetMapping
     public ModelAndView listaUsuarios(@PageableDefault Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("usuarios/list");
-        modelAndView.addObject("usuarios", repository.findAll(pageable));
+        modelAndView.addObject("usuarios", service.findAll(pageable));
         return modelAndView;
     }
 
@@ -50,7 +51,7 @@ public class UsuarioController {
     @PostMapping(value = "/adicionar")
     public String registraNovoUsuario(@Validated Usuario usuario, BindingResult bindingResult, RedirectAttributes attributes) {
 
-        if (repository.existsByEmail(usuario.getEmail())) {
+        if (service.existsByEmail(usuario.getEmail())) {
             bindingResult.rejectValue("email", "Unique.usuario.email");
         }
 
@@ -58,7 +59,7 @@ public class UsuarioController {
             return "usuarios/create";
         }
 
-        repository.save(usuario);
+        service.save(usuario);
 
         attributes.addFlashAttribute("message", "Usuário adicionado com sucesso!");
         return "redirect:/usuarios";
@@ -67,7 +68,7 @@ public class UsuarioController {
     @GetMapping(value = "/editar/{id}")
     public ModelAndView editaUsuarioForm(@PathVariable Long id) {
 
-        Usuario usuario = repository.findById(id).orElseThrow(UsuarioNotFoundException::new);
+        Usuario usuario = service.findById(id).orElseThrow(UsuarioNotFoundException::new);
 
         ModelAndView modelAndView = new ModelAndView("usuarios/update");
         modelAndView.addObject("usuario", usuario);
@@ -82,15 +83,23 @@ public class UsuarioController {
             return "/usuarios/update";
         }
 
-        repository.save(usuario);
+        service.save(usuario);
 
         return "redirect:/usuarios";
     }
 
     @DeleteMapping(value = "/remover")
     public String removeUsuario(Long id, RedirectAttributes redirectAttributes) {
-        repository.deleteById(id);
-        redirectAttributes.addFlashAttribute("mensagem", "Usuário removido com sucesso!");
+
+        final Usuario one = service.getOne(id);
+        one.setAtivo(false);
+        service.save(one);
+
+        redirectAttributes.addFlashAttribute("alert", AlertMessage.with()
+                .status(AlertMessage.Status.SUCCESS)
+                .message("Usuário desativado com sucesso!")
+                .build());
+
         return "redirect:/usuarios";
     }
 
