@@ -1,6 +1,7 @@
 package br.com.imerljak.shared.model;
 
 import br.com.imerljak.shared.TipoProtocolo;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,6 +40,7 @@ public class Protocolo extends BasicEntity {
         return protocolo;
     }
 
+    @JsonValue
     public String asString() {
         return ano + "/" + String.format("%04d", sequencia);
     }

@@ -18,8 +18,8 @@ import javax.persistence.ManyToOne;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 @DiscriminatorValue(DTypes.Anexo.OUVIDORIA)
 public class AnexoOuvidoria extends Anexo {
 

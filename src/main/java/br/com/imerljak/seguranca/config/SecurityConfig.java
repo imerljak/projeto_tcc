@@ -66,25 +66,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                //                .expressionHandler(new NoRolePrefixSecurityExpressionHandler())
+                .antMatchers("/cidadao/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/usuarios/**").hasRole(Cargo.CARGO_ADMINISTRADOR)
                 .antMatchers("/concessionarias/**").hasRole(Cargo.CARGO_GERENTE)
                 .antMatchers("/ouvidorias/**").hasRole(Cargo.CARGO_GERENTE)
                 .antMatchers("/processos/**").hasAnyRole(Cargo.CARGO_GERENTE, Cargo.CARGO_REVISOR_RELATOR)
                 .anyRequest().authenticated()
+
                 .and().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/")
+
                 .usernameParameter("email")
                 .passwordParameter("password")
+
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
+
                 .and()
                 .exceptionHandling()
-                //                .accessDeniedPage("/access-denied.html");
                 .accessDeniedHandler(accessDeniedHandler);
-
     }
 }

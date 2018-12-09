@@ -1,5 +1,6 @@
 package br.com.imerljak.shared.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of = {})
 @ToString(callSuper = true)
 @MappedSuperclass
 @NoArgsConstructor
@@ -37,10 +38,12 @@ public class AuditableEntity extends BasicEntity {
     @LastModifiedDate
     private LocalDateTime dataUltimaAtualizacao;
 
+    @JsonIgnore
     @CreatedBy
     @Column(updatable = false)
     private String criadoPor;
 
+    @JsonIgnore
     @LastModifiedBy
     private String ultimaAtualizacaoPor;
 

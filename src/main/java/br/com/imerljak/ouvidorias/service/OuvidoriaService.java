@@ -1,22 +1,18 @@
 package br.com.imerljak.ouvidorias.service;
 
 import br.com.imerljak.ouvidorias.model.Ouvidoria;
-import br.com.imerljak.ouvidorias.value.SituacaoOuvidoria;
 import br.com.imerljak.ouvidorias.value.TipoOuvidoria;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.Optional;
 
 @Service
@@ -40,33 +36,39 @@ public class OuvidoriaService {
 
     public Page<Ouvidoria> findAll(Pageable pageable) {return repository.findAll(pageable);}
 
-    public Page<Ouvidoria> search(TipoOuvidoria tipoOuvidoria, SituacaoOuvidoria situacaoOuvidoria, Long idConcessionaria, Pageable pageable) {
-        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        final CriteriaQuery<Ouvidoria> query = builder.createQuery(Ouvidoria.class);
-        final Root<Ouvidoria> from = query.from(Ouvidoria.class);
+    public Page<Ouvidoria> search(Ouvidoria ouvidoria, Pageable pageable) {
+        return repository.findAll(Example.of(ouvidoria), pageable);
+    }
 
-        final CriteriaQuery<Ouvidoria> select = query.select(from);
+    public Long countBy(TipoOuvidoria tipoOuvidoria) {
 
-        List<Predicate> predicates = new ArrayList<>();
+        final Ouvidoria ouvidoria = new Ouvidoria();
+        ouvidoria.setTipo(tipoOuvidoria);
+        ouvidoria.setSituacao(null);
 
-        if (Objects.nonNull(tipoOuvidoria)) {
-            predicates.add(builder.and(builder.equal(from.get("tipo"), tipoOuvidoria)));
-        }
+        final Specification<Ouvidoria> specification =
+                Specification
+                        .<Ouvidoria>where((root, query, builder) ->
+                                                  builder.between(root.get("dataCriacao"), startOfMonth(), endOfMonth()))
 
-        if (Objects.nonNull(situacaoOuvidoria)) {
-            predicates.add(builder.and(builder.equal(from.get("situacao"), situacaoOuvidoria)));
-        }
+                        .and((root, query, builder) ->
+                                     builder.equal(root.get("tipo"), tipoOuvidoria));
 
-        if (Objects.nonNull(idConcessionaria)) {
-            predicates.add(builder.and(builder.equal(from.join("concessionaria").get("id"), idConcessionaria)));
-        }
+        return repository.count(specification);
+    }
 
-        final TypedQuery<Ouvidoria> typedQuery = entityManager.createQuery(select.where(predicates.toArray(new Predicate[0])));
-        typedQuery.setFirstResult((int) pageable.getOffset());
-        typedQuery.setMaxResults(pageable.getPageSize());
+    private LocalDateTime endOfMonth() {
+        final LocalDateTime date = LocalDateTime.now();
 
-        return new PageImpl<>(typedQuery.getResultList());
+        return date
+                .withDayOfMonth(Month.from(date).maxLength())
+                .with(LocalTime.MAX);
+    }
 
+    private LocalDateTime startOfMonth() {
+        return LocalDate.now()
+                .atStartOfDay()
+                .withDayOfMonth(1);
     }
 }
 

@@ -1,10 +1,10 @@
 package br.com.imerljak.ouvidorias.model;
 
-import br.com.imerljak.shared.values.DTypes;
-import br.com.imerljak.vendor.jpa.converter.DocumentoJpaConverter;
-import br.com.imerljak.vendor.jpa.annotation.DocumentoValido;
 import br.com.imerljak.ouvidorias.value.TipoDocumentoPessoa;
 import br.com.imerljak.shared.model.Pessoa;
+import br.com.imerljak.shared.values.DTypes;
+import br.com.imerljak.vendor.jpa.annotation.DocumentoValido;
+import br.com.imerljak.vendor.jpa.converter.DocumentoJpaConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,10 +19,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true,
-        exclude = {"ouvidoria"})
-@EqualsAndHashCode(callSuper = true,
-        exclude = {"ouvidoria"})
+@ToString(callSuper = true, of = "documento")
+@EqualsAndHashCode(callSuper = true, of = {})
 @DiscriminatorValue(DTypes.Pessoa.CIDADAO)
 @DocumentoValido
 public class Cidadao extends Pessoa {

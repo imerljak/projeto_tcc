@@ -17,8 +17,8 @@ import javax.persistence.ManyToOne;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 public class Documento extends Arquivo {
 
     private static final long serialVersionUID = -8398942158105186355L;

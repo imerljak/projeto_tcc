@@ -1,7 +1,9 @@
 package br.com.imerljak.concessionarias.service;
 
 import br.com.imerljak.concessionarias.model.Concessionaria;
+import br.com.imerljak.ouvidorias.model.Ouvidoria;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,10 @@ public class ConcessionariaService {
         } else {
             return repository.search("%" + query + "%", pageable);
         }
+    }
+
+    public Page<Ouvidoria> findAllOuvidoriasDaConcessionaria(Long id, Pageable pageable) {
+        return repository.findAllOuvidoriasOf(id, pageable);
     }
 }
 

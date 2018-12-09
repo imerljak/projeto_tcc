@@ -71,7 +71,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <!--/*@thymesVar id="processos" type="java.awt.print.Pageable<br.com.imerljak.processos.model.Processo>"*/-->
+                    <!--/*@thymesVar id="processos" type="org.springframework.data.domain.PageImpl<br.com.imerljak.processos.model.Processo>"*/-->
                     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${processos}, url='/processos')}"></nav>
                 </div>
             </div>

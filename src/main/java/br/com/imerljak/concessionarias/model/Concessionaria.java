@@ -3,14 +3,15 @@ package br.com.imerljak.concessionarias.model;
 import br.com.caelum.stella.bean.validation.CNPJ;
 import br.com.imerljak.ouvidorias.model.Ouvidoria;
 import br.com.imerljak.shared.model.BasicEntity;
+import br.com.imerljak.usuarios.model.Cargo;
 import br.com.imerljak.vendor.jpa.annotation.Telefone;
 import br.com.imerljak.vendor.jpa.converter.CnpjFormatConverter;
 import br.com.imerljak.vendor.jpa.converter.TelefoneFormatConverter;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -27,9 +28,8 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Where(clause = "ativo = true")
-@ToString(callSuper = true, exclude = {"responsaveis", "ouvidorias", "servicos"})
-@EqualsAndHashCode(callSuper = true,
-        exclude = {"responsaveis", "ouvidorias", "servicos"})
+@ToString(callSuper = true, of = {"nome", "cnpj"})
+@EqualsAndHashCode(callSuper = true, of = {})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cnpj"}))
 public class Concessionaria extends BasicEntity {
 
@@ -47,6 +47,7 @@ public class Concessionaria extends BasicEntity {
     @CNPJ(formatted = true)
     @Convert(converter = CnpjFormatConverter.class)
     @Column(unique = true, nullable = false, length = 14)
+    @Getter(onMethod = @__(@RolesAllowed({Cargo.CARGO_GERENTE, Cargo.CARGO_ADMINISTRADOR, Cargo.CARGO_REVISOR_RELATOR})))
     private String cnpj;
 
     @Basic

@@ -11,14 +11,100 @@
 
     <div class="row">
         <div class="col-md-12">
-
             <!--/*@thymesVar id="message" type="br.com.imerljak.visao.AlertMessage"*/-->
             <div th:if="${message}"
                  th:text="${message.message}"
                  class="alert"
                  th:classappend="${message.status.styleClass}"
                  role="alert"></div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center icon-danger">
+                                <i class="nc-icon nc-tap-01 text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Denuncias em <span
+                                        th:text="${#dates.monthName(#dates.createNow())}"></span></p>
+                                <h4 class="card-title" th:text="${denunciasNoMes}">150GB</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="nc-icon nc-tap-01 text-warning"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Reclamações em <span
+                                        th:text="${#dates.monthName(#dates.createNow())}"></span></p>
+                                <h4 class="card-title" th:text="${reclamacoesNoMes}">150GB</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center icon-info">
+                                <i class="nc-icon nc-tap-01 text-info"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Sugestões em <span
+                                        th:text="${#dates.monthName(#dates.createNow())}"></span></p>
+                                <h4 class="card-title" th:text="${sugestoesNoMes}">150GB</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center icon-success">
+                                <i class="nc-icon nc-tap-01 text-success"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Elogios em <span
+                                        th:text="${#dates.monthName(#dates.createNow())}"></span></p>
+                                <h4 class="card-title" th:text="${elogiosNoMes}">150GB</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Lista de Ouvidorias</h4>
@@ -33,39 +119,38 @@
                         </div>
                         <div class="col-sm-12 col-md-8 pb-3">
 
-                            <!--/*@thymesVar id="tipoOuvidoria" type="br.com.imerljak.ouvidorias.value.TipoOuvidoria"*/-->
                             <!--/*@thymesVar id="tiposOuvidoria" type="br.com.imerljak.ouvidorias.value.TipoOuvidoria[]"*/-->
-                            <!--/*@thymesVar id="situacaoOuvidoria" type="br.com.imerljak.ouvidorias.value.SituacaoOuvidoria"*/-->
                             <!--/*@thymesVar id="situacoesOuvidoria" type="br.com.imerljak.ouvidorias.value.SituacaoOuvidoria[]"*/-->
                             <!--/*@thymesVar id="concessionarias" type="br.com.imerljak.concessionarias.model.Concessionaria[]"*/-->
-                            <!--/*@thymesVar id="concessionaria" type="java.lang.Long"*/-->
-                            <form class="form-inline" th:action="@{/ouvidorias}" method="get">
+                            <!--/*@thymesVar id="example" type="br.com.imerljak.ouvidorias.model.Ouvidoria"*/-->
+                            <form class="form-inline" th:action="@{/ouvidorias}" method="get" th:object="${example}">
                                 <div class="form-group col-md-4">
-                                    <select name="tipoOuvidoria" class="form-control" onchange="this.form.submit()">
+                                    <select th:field="*{tipo}" class="form-control" onchange="this.form.submit()">
                                         <option value="">-- Tipo de Ouvidoria --</option>
                                         <option th:each="tipo : ${tiposOuvidoria}"
                                                 th:value="${tipo.name()}"
                                                 th:text="${tipo.descricao}"
 
-                                                th:selected="${tipoOuvidoria == tipo}"></option>
+                                                th:selected="${tipo == example.tipo}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <select name="situacaoOuvidoria" class="form-control" onchange="this.form.submit()">
+                                    <select th:field="*{situacao}" class="form-control" onchange="this.form.submit()">
                                         <option value="">-- Situação da Ouvidoria --</option>
                                         <option th:each="situacao : ${situacoesOuvidoria}"
                                                 th:value="${situacao.name()}"
                                                 th:text="${situacao.descricao}"
-                                                th:selected="${situacaoOuvidoria == situacao}"></option>
+                                                th:selected="${situacao == example.situacao}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <select name="concessionaria" class="form-control" onchange="this.form.submit()">
+                                    <select th:field="*{concessionaria}" class="form-control"
+                                            onchange="this.form.submit()">
                                         <option value="">-- Concessionária --</option>
                                         <option th:each="c : ${concessionarias}"
                                                 th:value="${c.id}"
                                                 th:text="${c.nome}"
-                                                th:selected="${c.id == concessionaria}"></option>
+                                                th:selected="${c.id == example.concessionaria}"></option>
                                     </select>
                                 </div>
                             </form>

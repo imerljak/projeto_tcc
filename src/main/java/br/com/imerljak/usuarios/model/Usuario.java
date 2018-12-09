@@ -26,10 +26,8 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Where(clause = "ativo = true")
-@ToString(callSuper = true,
-        exclude = {"cargos", "processosRelator", "processosRevisor"})
-@EqualsAndHashCode(callSuper = true,
-        exclude = {"cargos", "processosRelator", "processosRevisor"})
+@ToString(callSuper = true, of = {"nome"})
+@EqualsAndHashCode(callSuper = true, of = {})
 public class Usuario extends BasicEntity {
 
     private static final long serialVersionUID = 3391331287260381725L;

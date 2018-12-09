@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @NoArgsConstructor
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of = {})
 @DiscriminatorValue(DTypes.Pessoa.RESPONSAVEL)
 public class Responsavel extends Pessoa {
 

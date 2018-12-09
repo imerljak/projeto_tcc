@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.NONE)
-@EqualsAndHashCode(exclude = {"usuarios"})
+@EqualsAndHashCode(of = "id")
 public class Cargo implements Serializable {
 
     public static final String CARGO_REVISOR_RELATOR = "REVISOR_RELATOR";

@@ -1,5 +1,7 @@
 package br.com.imerljak.i18n;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -38,5 +40,10 @@ public class LocalizedMessagesConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/access-denied").setViewName("access-denied");
+    }
+
+    @Bean
+    public Module dataTypeHibernateModule() {
+        return new Hibernate5Module();
     }
 }

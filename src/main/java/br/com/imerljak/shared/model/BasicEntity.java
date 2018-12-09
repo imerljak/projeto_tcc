@@ -1,6 +1,9 @@
 package br.com.imerljak.shared.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +16,7 @@ import java.io.Serializable;
 @Data
 @MappedSuperclass
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class BasicEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

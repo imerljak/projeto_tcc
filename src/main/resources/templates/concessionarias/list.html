@@ -19,8 +19,11 @@
             </form>
         </div>
     </div>
+
+    <!--/*@thymesVar id="concessionarias" type="org.springframework.data.domain.PageImpl<br.com.imerljak.concessionarias.model.Concessionaria>"*/-->
+    <!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.model.Concessionaria"*/-->
+    <h4 class="text-center card-title" th:if="${concessionarias.totalPages == 0}">Nenhuma Concessionária Cadastrada</h4>
     <div class="card-columns">
-        <!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.model.Concessionaria[]"*/-->
         <div class="card" th:each="concessionaria : ${concessionarias}" th:object="${concessionaria}">
             <div class="card-header">
                 <p class="text-muted small">CNPJ: <span th:text="*{cnpj}"></span></p>
@@ -33,7 +36,7 @@
             </div>
             <div class="card-footer text-right ">
 
-                <a href="#" class="btn btn-sm btn-outline btn-primary"><i class="fa fa-eye"></i></a>
+                <a th:href="@{concessionarias/{id}(id=*{id})}" class="btn btn-sm btn-outline btn-primary"><i class="fa fa-eye"></i></a>
                 <a th:href="@{concessionarias/editar/{id}(id=*{id})}" class="btn btn-sm btn-outline btn-info"><i
                         class="fa fa-edit"></i></a>
 
@@ -53,7 +56,6 @@
         </div>
     </div>
 
-    <!--/*@thymesVar id="concessionarias" type="java.awt.print.Pageable<br.com.imerljak.concessionarias.model.Concessionaria>"*/-->
     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${concessionarias}, url='/concessionarias')}"></nav>
 
 </div>

@@ -81,7 +81,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <!--/*@thymesVar id="usuarios" type="java.awt.print.Pageable<Usuario>"*/-->
+                    <!--/*@thymesVar id="usuarios" type="org.springframework.data.domain.PageImpl<Usuario>"*/-->
                     <nav th:replace="~{fragments/pagination-fragment :: pagination (page=${usuarios}, url='/usuarios')}"></nav>
                 </div>
             </div>

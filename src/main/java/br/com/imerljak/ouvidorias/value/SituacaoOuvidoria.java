@@ -1,5 +1,6 @@
 package br.com.imerljak.ouvidorias.value;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,7 @@ public enum SituacaoOuvidoria {
     GEROU_PROCESSO("Gerou Processo"),
     RESOLVIDO("Resolvido");
 
+    @JsonValue
     private final String descricao;
     public static final SituacaoOuvidoria[] values = values();
 }

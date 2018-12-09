@@ -114,7 +114,7 @@ public class ConcessionariaController {
         return "redirect:/concessionarias";
     }
 
-    @GetMapping("/detalhes/{id}")
+    @GetMapping("/{id}")
     public ModelAndView viewConcessionaria(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("concessionarias/view");
         modelAndView.addObject("concessionaria",

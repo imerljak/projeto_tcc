@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt_BR"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Israel Merljak">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title th:text="#{application.name.full}">Page Title</title>
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+</head>
+
+<body>
+
+<style type="text/css">
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .is-flex.is-fullheight {
+        height: 100%;
+    }
+
+    .is-flex.is-content-centered {
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+    }
+</style>
+
+<div id="app">
+    <nav class="navbar is-secondary is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" th:href="@{/cidadao}">
+                <img th:src="@{/assets/img/agesb_logo.svg}" width="112" height="112">
+            </a>
+
+            <a role="button"
+               class="navbar-burger burger"
+               :class="{'is-active': isNavActive}"
+               @click="isNavActive = !isNavActive"
+               aria-label="menu"
+               aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbar" class="navbar-menu" :class="{'is-active': isNavActive}">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#form-ouvidorias">
+                    Inicio
+                </a>
+
+                <a class="navbar-item" href="#hero-ouvidorias">
+                    Ouvidorias
+                </a>
+
+                <a class="navbar-item" href="#hero-processos">
+                    Processos
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <a class="navbar-item is-hidden-desktop" href="/login">
+                    Entrar
+                </a>
+                <div class="navbar-item is-hidden-touch">
+                    <div class="buttons">
+                        <a class="button is-light" href="/login">
+                            Entrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section id="form-ouvidorias" class="section hero is-fullheight is-bold is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column">
+                        <h1 class="title is-size-1">Nos dê sua opinião :)</h1>
+                        <h2 class="subtitle">Faça sua denúncia, reclamação, sugestão ou elogio..</h2>
+                    </div>
+                    <div class="column">
+                        <div class="is-flex is-content-centered is-fullheight">
+                            <button class="button is-primary is-inverted is-medium">Nova Ouvidoria</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section id="hero-ouvidorias" class="section hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Ouvidorias</h1>
+                <b-table
+                        paginated
+                        backend-pagination
+                        :data="ouvidorias.pageable.content"
+                        :loading="ouvidorias.isLoading"
+                        :per-page="ouvidorias.pageable.size"
+                        :current-page="ouvidorias.pageable.number + 1"
+                        :total="ouvidorias.pageable.totalElements"
+                        @page-change="loadOuvidorias">
+                    <template slot-scope="props">
+                        <b-table-column field="protocolo" label="Protocolo">
+                            {{ props.row.protocolo }}
+                        </b-table-column>
+
+                        <b-table-column field="concessionaria.nome" label="Ouvidoria">
+                            {{ props.row.concessionaria.nome }}
+                        </b-table-column>
+
+                        <b-table-column field="dataCriacao" label="Data">
+                            {{ props.row.dataCriacao | date }}
+                        </b-table-column>
+
+                        <b-table-column field="tipo" label="Tipo">
+                            {{ props.row.tipo }}
+                        </b-table-column>
+
+                        <b-table-column field="situacao" label="Situação">
+                            {{ props.row.situacao }}
+                        </b-table-column>
+                    </template>
+                    <template slot="empty">
+                        <section class="section">
+                            <div class="content has-text-grey has-text-centered">
+                                <p>
+                                    <b-icon
+                                            icon="emoticon-sad"
+                                            size="is-large">
+                                    </b-icon>
+                                </p>
+                                <p>Ops, não encontramos nada.</p>
+                            </div>
+                        </section>
+                    </template>
+                </b-table>
+            </div>
+        </div>
+    </section>
+    <section id="hero-processos" class="section hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Processos</h1>
+                <b-table
+                        paginated
+                        backend-pagination
+                        :data="processos.pageable.content"
+                        :loading="processos.isLoading"
+                        :per-page="processos.pageable.size"
+                        :current-page="processos.pageable.number + 1"
+                        :total="processos.pageable.totalElements"
+                        @page-change="loadProcessos">
+                    <template slot-scope="props">
+                        <b-table-column field="protocolo" label="Protocolo">
+                            {{ props.row.protocolo }}
+                        </b-table-column>
+
+                        <b-table-column field="concessionaria.nome" label="Ouvidoria">
+                            {{ props.row.concessionaria.nome }}
+                        </b-table-column>
+
+                        <b-table-column field="dataCriacao" label="Data">
+                            {{ props.row.dataCriacao | date }}
+                        </b-table-column>
+
+                        <b-table-column field="tipo" label="Tipo">
+                            {{ props.row.tipo }}
+                        </b-table-column>
+
+                        <b-table-column field="situacao" label="Situação">
+                            {{ props.row.situacao }}
+                        </b-table-column>
+                    </template>
+                    <template slot="empty">
+                        <section class="section">
+                            <div class="content has-text-grey has-text-centered">
+                                <p>
+                                    <b-icon
+                                            icon="emoticon-sad"
+                                            size="is-large">
+                                    </b-icon>
+                                </p>
+                                <p>Ops, não encontramos nada.</p>
+                            </div>
+                        </section>
+                    </template>
+                </b-table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://unpkg.com/vue" th:src="@{/assets/js/vue.js}"></script>
+<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
+<script>
+
+    var DATE_FORMATTER = new Intl.DateTimeFormat("pt-BR");
+
+    Vue.filter('date', function (value) {
+        return DATE_FORMATTER.format(new Date(value));
+    });
+
+    new Vue({
+        el: "#app",
+        data: {
+            isNavActive: false,
+            ouvidorias: {
+                pageSize: 5,
+                isLoading: false,
+                pageable: {}
+            },
+            processos: {
+                pageSize: 5,
+                isLoading: false,
+                pageable: {}
+            },
+            isPaginated: true
+        },
+        created: function () {
+            this.loadOuvidorias(1);
+            this.loadProcessos(1);
+        },
+        methods: {
+            loadProcessos: function (page) {
+                var instance = this;
+
+                fetch("cidadao/processos?page=" + (page - 1) + "&size=" + this.processos.pageSize)
+                    .then(function (value) {
+                        return value.json()
+                    })
+                    .then(function (value) {
+                        instance.processos.pageable = value
+                    })
+                    .then(function () {
+                        instance.processos.isLoading = false
+                    })
+            },
+            loadOuvidorias: function (page) {
+                var instance = this;
+
+                fetch("cidadao/ouvidorias?page=" + (page - 1) + "&size=" + this.ouvidorias.pageSize)
+                    .then(function (value) {
+                        return value.json()
+                    })
+                    .then(function (value) {
+                        instance.ouvidorias.pageable = value
+                    })
+                    .then(function () {
+                        instance.ouvidorias.isLoading = false
+                    })
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

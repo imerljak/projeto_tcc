@@ -30,8 +30,8 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @EntityListeners(OuvidoriaEntityListener.class)
-@ToString(callSuper = true, exclude = {"tramites", "anexos", "processos"})
-@EqualsAndHashCode(callSuper = true, exclude = {"tramites", "anexos", "processos"})
+@ToString(callSuper = true, of = "protocolo")
+@EqualsAndHashCode(callSuper = true, of = {})
 public class Ouvidoria extends AuditableEntity {
 
     private static final long serialVersionUID = 8340651480291045404L;
@@ -47,7 +47,7 @@ public class Ouvidoria extends AuditableEntity {
 
     @Valid
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(updatable = false)
     private Concessionaria concessionaria;
 

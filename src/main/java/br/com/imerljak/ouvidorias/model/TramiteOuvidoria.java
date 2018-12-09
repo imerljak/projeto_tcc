@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @DiscriminatorValue(DTypes.Tramite.OUVIDORIA)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of = {})
 public class TramiteOuvidoria extends Tramite {
 
     private static final long serialVersionUID = -8992231396345480007L;

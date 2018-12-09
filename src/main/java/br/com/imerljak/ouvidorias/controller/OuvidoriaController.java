@@ -49,28 +49,23 @@ public class OuvidoriaController {
 
 
     @GetMapping
-    public ModelAndView index(
-            @RequestParam(required = false) TipoOuvidoria tipoOuvidoria,
-            @RequestParam(required = false) SituacaoOuvidoria situacaoOuvidoria,
-            @RequestParam(required = false) Long concessionaria,
-            @PageableDefault Pageable pageable) {
-
-        log.info("tipoOuvidoria = {}", tipoOuvidoria);
-        log.info("situacaoOuvidoria = {}", situacaoOuvidoria);
-        log.info("concessionaria = {}", concessionaria);
+    public ModelAndView index(@ModelAttribute Ouvidoria ouvidoria, @PageableDefault Pageable pageable) {
 
         final PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
-                Sort.by("dataCriacao").descending());
+                Sort.by("id").descending());
 
         ModelAndView modelAndView = new ModelAndView("ouvidorias/list");
-        modelAndView.addObject("ouvidorias", service.search(tipoOuvidoria, situacaoOuvidoria, concessionaria, pageRequest));
 
-        modelAndView.addObject("tipoOuvidoria", tipoOuvidoria);
-        modelAndView.addObject("situacaoOuvidoria", situacaoOuvidoria);
-        modelAndView.addObject("concessionaria", concessionaria);
+        modelAndView.addObject("ouvidorias", service.search(ouvidoria, pageRequest));
 
+        modelAndView.addObject("denunciasNoMes", service.countBy(TipoOuvidoria.DENUNCIA));
+        modelAndView.addObject("reclamacoesNoMes", service.countBy(TipoOuvidoria.RECLAMACAO));
+        modelAndView.addObject("sugestoesNoMes", service.countBy(TipoOuvidoria.SUGESTAO));
+        modelAndView.addObject("elogiosNoMes", service.countBy(TipoOuvidoria.ELOGIO));
+
+        modelAndView.addObject("example", ouvidoria);
         return modelAndView;
     }
 

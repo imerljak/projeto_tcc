@@ -3,13 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Nova Concessionária</title>
+    <title>Editar Concessionária</title>
 </head>
 
 <!-- page content -->
 <div layout:fragment="content">
     <div class="row">
         <div class="col-md-12">
+            <!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.model.Concessionaria"*/-->
             <form id="concessionaria-form" class="form"
                   th:action="@{/concessionarias/editar}"
                   th:object="${concessionaria}"
@@ -25,7 +26,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        Formulário de Cadastro de Concessionária
+                        Formulário de Edição de Concessionária
                     </div>
                     <hr>
 

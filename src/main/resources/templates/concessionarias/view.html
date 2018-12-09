@@ -7,185 +7,72 @@
 </head>
 
 <!-- page content -->
-<div layout:fragment="content">
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Concessionárias</h3>
-        </div>
-
-        <div class="title_right">
-            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
+<!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.model.Concessionaria"*/-->
+<template layout:fragment="content" th:object="${concessionaria}">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <a class="btn" th:href="@{/concessionarias}">
-                        <i class="fa fa-arrow-left"></i>
-                        <span th:remove="tag" th:text="#{actions.return}">Return</span>
-                    </a>
-                    <div class="clearfix"></div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" th:text="*{nome}">Concessionária X</h4>
+                    <p class="card-category" th:text="*{cnpj}">111.23123.231/1223-33</p>
                 </div>
-                <div class="x_content">
-
-                    <!--/*@thymesVar id="concessionaria" type="br.com.imerljak.concessionarias.model.Concessionaria"*/-->
-                    <form class="form-horizontal form-label-left"
-                          th:href="@{/concessionarias/adicionar}"
-                          th:object="${concessionaria}"
-                          method="post"
-                          novalidate>
-
-                        <span class="section">Dados Gerais</span>
-
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('nome')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="nome">Nome
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="nome" class="form-control col-md-7 col-xs-12"
-                                       th:field="*{nome}" placeholder="Distribuidora de Água Ltda."
-                                       autofocus
-                                       required="required" type="text">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
-                                Erros de validação
-                            </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a id="d-tab" class="nav-link active" href="#detalhes" data-toggle="tab">Detalhes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="p-tab" class="nav-link" href="#processos" data-toggle="tab">Processos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="o-tab" class="nav-link" href="#ouvidorias" data-toggle="tab">Ouvidorias</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="tabs">
+                        <div id="detalhes" class="tab-pane fade active show">
+                            <h1>Detalhes</h1>
                         </div>
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('cnpj')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="cnpj">Cnpj
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="cnpj" th:field="*{cnpj}" required="required"
-                                       placeholder="00.000.000/0000-00"
-                                       data-inputmask="'mask': '99.999.999/9999-99'"
-                                       class="form-control col-md-7 col-xs-12">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}">
-                                Erros de validação
-                            </div>
+                        <div id="processos" class="tab-pane fade">
+                            <paged-table
+                                    th:attr="'url'=${'/api/processos/byConcessionaria/' + concessionaria.id}"
+                                    columns='[
+                                     {"index": "protocolo", "name": "Protocolo"},
+                                     {"index": "dataCriacao", "name": "Data", "date": "true"},
+                                     {"index": "tipo", "name": "Tipo"},
+                                     {"index": "situacao", "name": "Situação"}
+                                             ]'>
+                                <template slot="empty-message">Nenhum processo encontrado.</template>
+                            </paged-table>
                         </div>
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('endereco')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="endereco">Endereço</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="endereco" th:field="*{endereco}" required="required"
-                                       placeholder="Rua do Brasil, 1234"
-                                       class="form-control col-md-7 col-xs-12">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('endereco')}"
-                                 th:errors="*{endereco}">
-                                Erros de validação
-                            </div>
+                        <div id="ouvidorias" class="tab-pane fade">
+                            <paged-table
+                                    th:attr="'url'=${'/api/ouvidorias/byConcessionaria/' + concessionaria.id}"
+                                    columns='[
+                                     {"index": "protocolo", "name": "Protocolo"},
+                                     {"index": "dataCriacao", "name": "Data", "date": "true"},
+                                     {"index": "tipo", "name": "Tipo"},
+                                     {"index": "situacao", "name": "Situação"}
+                                             ]'>
+                                <template slot="empty-message">Nenhuma ouvidoria encontrada.</template>
+                            </paged-table>
                         </div>
-                        <div class="item form-group" th:classappend="${#fields.hasErrors('telefone')?'has-error':''}">
-                            <label class="control-label col-sm-2 col-xs-12" for="telefone">Telefone</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="tel" id="telefone" th:field="*{telefone}" required="required"
-                                       data-masktype="tel"
-                                       placeholder="(55) 3210-6543"
-                                       class="form-control col-md-7 col-xs-12">
-                            </div>
-                            <div class="help-block col-md-4" th:if="${#fields.hasErrors('telefone')}"
-                                 th:errors="*{telefone}">
-                                Erros de validação
-                            </div>
-                        </div>
-
-
-                        <span class="section">Representante</span>
-                        <div th:each="responsavel, row : *{responsaveis}">
-                            <div class="item form-group">
-                                <label th:for="${'responsaveis['+row.index+'].nome'}"
-                                       class="control-label col-sm-2 col-xs-12">Nome
-                                    <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'responsaveis['+row.index+'].nome'}" type="text"
-                                           class="form-control col-md-7 col-xs-12"
-                                           required="required"
-                                           th:field="*{responsaveis[__${row.index}__].nome}"
-                                           placeholder="Fulano da Silva">
-                                </div>
-                                <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('responsaveis['+row.index+'].nome')}"
-                                     th:errors="*{telefone}">
-                                    Erros de validação
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label th:for="${'responsaveis['+row.index+'].cargo'}"
-                                       class="control-label col-sm-2 col-xs-12">Cargo
-                                    <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'responsaveis['+row.index+'].cargo'}" type="text"
-                                           class="form-control col-md-7 col-xs-12"
-                                           required="required"
-                                           th:field="*{responsaveis[__${row.index}__].cargo}" placeholder="Gerente">
-                                </div>
-                                <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('responsaveis['+row.index+'].cargo')}"
-                                     th:errors="*{telefone}">
-                                    Erros de validação
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label th:for="${'responsaveis['+row.index+'].email'}"
-                                       class="control-label col-sm-2 col-xs-12">Email</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'responsaveis['+row.index+'].email'}" type="email"
-                                           class="form-control col-md-7 col-xs-12"
-                                           th:field="*{responsaveis[__${row.index}__].email}"
-                                           placeholder="email@empresa.com">
-                                </div>
-                                <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('responsaveis['+row.index+'].email')}"
-                                     th:errors="*{telefone}">
-                                    Erros de validação
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label th:for="${'responsaveis['+row.index+'].telefone'}"
-                                       class="control-label col-sm-2 col-xs-12">Telefone</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input th:id="${'responsaveis['+row.index+'].telefone'}" type="tel"
-                                           class="form-control col-md-7 col-xs-12"
-                                           th:field="*{responsaveis[__${row.index}__].telefone}"
-                                           data-masktype="tel"
-                                           placeholder="(55) 9876-12349">
-                                </div>
-                                <div class="help-block col-md-4"
-                                     th:if="${#fields.hasErrors('responsaveis['+row.index+'].telefone')}"
-                                     th:errors="*{telefone}">
-                                    Erros de validação
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-8">
-                                <a th:href="@{/concessionarias}" class="btn btn-default"
-                                   th:text="#{actions.cancel}">Cancel</a>
-
-                                <button id="send" type="submit" class="btn btn-success pull-right"
-                                        th:text="#{actions.confirm}">Confirm
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</template>
+
+<template layout:fragment="scripts">
+    <script th:src="@{/assets/js/vue.js}"></script>
+    <script th:src="@{/assets/js/plugins/moment.min.js}"></script>
+    <script th:src="@{/assets/js/vue/components.js}"></script>
+
+    <script th:inline="javascript">
+        var ouvidorias = new Vue({
+            el: "#tabs"
+        });
+
+    </script>
+</template>
 <!-- /page content -->

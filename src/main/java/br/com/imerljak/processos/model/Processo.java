@@ -1,10 +1,10 @@
 package br.com.imerljak.processos.model;
 
+import br.com.imerljak.concessionarias.model.Concessionaria;
+import br.com.imerljak.ouvidorias.model.Ouvidoria;
 import br.com.imerljak.processos.listener.ProcessoEntityListener;
 import br.com.imerljak.processos.value.SituacaoProcesso;
 import br.com.imerljak.shared.model.AuditableEntity;
-import br.com.imerljak.concessionarias.model.Concessionaria;
-import br.com.imerljak.ouvidorias.model.Ouvidoria;
 import br.com.imerljak.shared.model.Protocolo;
 import br.com.imerljak.usuarios.model.Usuario;
 import lombok.Data;
@@ -26,10 +26,8 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(callSuper = true,
-        exclude = {"tramites", "documentos", "ouvidorias"})
-@EqualsAndHashCode(callSuper = true,
-        exclude = {"tramites", "documentos", "ouvidorias"})
+@ToString(callSuper = true, of = "protocolo")
+@EqualsAndHashCode(callSuper = true, of = {})
 @EntityListeners(ProcessoEntityListener.class)
 public class Processo extends AuditableEntity {
 

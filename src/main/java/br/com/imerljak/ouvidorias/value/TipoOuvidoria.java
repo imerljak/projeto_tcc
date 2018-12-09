@@ -1,5 +1,6 @@
 package br.com.imerljak.ouvidorias.value;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +12,7 @@ public enum TipoOuvidoria {
     ELOGIO("Elogio", "table-success"),
     SUGESTAO("Sugestão", "table-info");
 
+    @JsonValue
     private final String descricao;
     private final String contextClass;
 
