@@ -30,6 +30,10 @@
         align-items: center;
     }
 
+    .height-transition {
+        transition: height .2s ease;
+    }
+
     .component-fade-enter-active, .component-fade-leave-active {
         transition: opacity .2s ease;
     }
@@ -108,31 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <app-ouvidoria key="form" v-else
-                                   @close-app-ouvidorias="showFormOuvidoria = false">
-                        <form action="#" class="has-text-light">
-                            <div class="card">
-                                <header class="card-header">
-                                    <p class="card-header-title">Formulário de Ouvidoria</p>
-                                </header>
-                                <div class="card-content">
-                                    <div class="content">
-                                        <b-field label="O    que você deseja fazer?">
-                                            <b-select placeholder="Select a name">
-                                                <option value="denuncia">Denunciar</option>
-                                                <option value="reclamacao">Reclamar</option>
-                                                <option value="sugestao">Sugerir</option>
-                                                <option value="elogio">Elogiar</option>
-                                            </b-select>
-                                        </b-field>
-                                    </div>
-                                </div>
-                                <footer class="card-footer">
-                                    <button class="card-footer-item" @click="showFormOuvidoria = false">Cancelar</button>
-                                </footer>
-                            </div>
-                        </form>
-                    </app-ouvidoria>
+                    <app-ouvidoria key="form" v-else @close-app-ouvidorias="showFormOuvidoria = false"></app-ouvidoria>
                 </transition>
             </div>
         </div>
@@ -257,14 +237,145 @@
 
     Vue.component("app-ouvidoria", {
         data: function () {
-            return {}
-        },
-        methods: {
-            closeApp: function () {
-                this.$emit("close-app-ouvidorias");
+            return {
+                concessionarias: [],
+                tipoOuvidoria: null,
+                step: 0,
+                ouvidoria: {
+                    cidadao: {},
+                    concessionaria: {}
+                }
             }
         },
-        template: "<div><slot></slot></div>"
+        computed: {
+            isDenuncia: function () {
+                return this.tipoOuvidoria === 'denuncia'
+            },
+            isReclamacao: function () {
+                return this.tipoOuvidoria === 'reclamacao'
+            },
+            isSugestao: function () {
+                return this.tipoOuvidoria === 'sugestao'
+            },
+            isElogio: function () {
+                return this.tipoOuvidoria === 'elogio'
+            }
+        },
+        methods: {
+            close: function () {
+                this.$emit("close-app-ouvidorias");
+            },
+            next: function () {
+                this.step++;
+            },
+            previous: function () {
+                if (this.step > 0)
+                    this.step--;
+            },
+            submit: function () {
+                alert("BANG!")
+            }
+        },
+        template: "<div>" +
+            "<form action='#' class='has-text-light'>" +
+            "    <div class='card'>" +
+            "        <header class='card-header'>" +
+            "            <p class='card-header-title'>Formulário de Ouvidoria</p>" +
+            "        </header>" +
+            "        <div class='card-content'>" +
+            "            <transition name=\"component-fade\" mode=\"out-in\">" +
+            "                <div v-if='step == 0' class='content' key='s0'>" +
+            "                    <b-field label='O que você deseja fazer?'>" +
+            "                        <b-select required expanded v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
+            "                            <option value='denuncia'>Uma denúncia!</option>" +
+            "                            <option value='reclamacao'>Quero reclamar!</option>" +
+            "                            <option value='sugestao'>Dar uma sugestão.</option>" +
+            "                            <option value='elogio'>Fazer um elogio <3</option>" +
+            "                        </b-select>" +
+            "                    </b-field>" +
+            "                </div>" +
+            "                <div v-else-if='step == 1' key='s1'>" +
+            "                    <div class='content'>" +
+            "                        <b-field label='Qual é a concessionária em questão?'>" +
+            "                            <b-select required expanded v-model='ouvidoria.concessionaria.id' placeholder='-- Selecione --'>" +
+            "                                <option v-for='c of concessionarias' :value='c.id'> {{ c.nome }} </option>" +
+            "                            </b-select>" +
+            "                        </b-field>" +
+            "                    </div>" +
+            "                </div>" +
+            "                <div v-else-if='step == 2' key='s2'>" +
+            "                    <div class='content'>" +
+            "                        <b-field label='Qual seu nome?'>" +
+            "                            <b-input required expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field label='Qual seu CPF ou CNPJ?'>" +
+            "                            <b-input required expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field label='Qual seu email?'>" +
+            "                            <b-input required expanded v-model='ouvidoria.cidadao.email'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field label='Informe seu telefone de contato (Opcional).'>" +
+            "                            <b-input expanded v-model='ouvidoria.cidadao.telefone'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field label='Seu endereço.'>" +
+            "                            <b-input required expanded v-model='ouvidoria.cidadao.endereco'></b-input>" +
+            "                        </b-field>" +
+            "                    </div>" +
+            "                </div>" +
+            "                <div v-else-if='step == 3' key='s3'>" +
+            "                    <div class='content'>" +
+            "                        <b-field label='O que aconteceu?'>" +
+            "                            <b-input type='textarea' maxlength='350' required expanded v-model='ouvidoria.manifestacao'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field label='Quando foi isso?'>" +
+            "                            <b-datepicker placeholder='Clique para selecionar...' icon='calendar-today'>" +
+            "                            </b-datepicker>" +
+            "                        </b-field>" +
+            "                        <b-field label='Informe o local da ocorrência.'>" +
+            "                            <b-input required expanded v-model='ouvidoria.localOcorrencia'></b-input>" +
+            "                        </b-field>" +
+            "                        <b-field>" +
+            "                            <b-upload v-model='dropFiles' multiple drag-drop expanded>" +
+            "                                <section class='section'>" +
+            "                                    <div class='content has-text-centered'>" +
+            "                                        <p>" +
+            "                                            <b-icon" +
+            "                                                icon='upload'" +
+            "                                                size='is-large'>" +
+            "                                            </b-icon>" +
+            "                                        </p>" +
+            "                                        <p>Clique ou arraste seus arquivos aqui para enviar..</p>" +
+            "                                    </div>" +
+            "                                </section>" +
+            "                            </b-upload>" +
+            "                        </b-field>" +
+            "                        <div class='tags'>" +
+            "                            <span v-for='(file, index) in dropFiles'" +
+            "                                :key='index'" +
+            "                                class='tag is-primary' >" +
+            "                                {{file.name}}" +
+            "                                <button class='delete is-small'" +
+            "                                    type='button'" +
+            "                                    @click='deleteDropFile(index)'>" +
+            "                                </button>" +
+            "                            </span>" +
+            "                        </div>" +
+            "                    </div>" +
+            "                </div>" +
+            "            </transition>" +
+            "        </div>" +
+            "        <footer class='card-footer'>" +
+            "            <a href='#' class='card-footer-item' @click='step == 0 ? close() : previous()'>" +
+            "                <span v-if='step == 0'>Cancelar</span>" +
+            "                <span v-else='step == 0'>Voltar</span>" +
+            "            </a>" +
+            "            <a href='#' class='card-footer-item' @click='step == 4 ? submit() : next()'>" +
+            "                <span v-if='step < 4'>Continuar</span>" +
+            "                <span v-if='step == 4'>Submeter</span>" +
+            "            </a>" +
+            "        </footer>" +
+            "    </div>" +
+            "</form></div>"
     });
 
     new Vue({
