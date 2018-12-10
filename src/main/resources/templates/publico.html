@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title th:text="#{application.name.full}">Page Title</title>
     <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"
+          th:href="@{/assets/vendor/buefy/buefy.min.css}">
 </head>
 
 <body>
@@ -28,6 +29,17 @@
         justify-items: center;
         align-items: center;
     }
+
+    .component-fade-enter-active, .component-fade-leave-active {
+        transition: opacity .2s ease;
+    }
+
+    .component-fade-enter, .component-fade-leave-to
+        /* .component-fade-leave-active below version 2.1.8 */
+    {
+        opacity: 0;
+    }
+
 </style>
 
 <div id="app">
@@ -82,18 +94,46 @@
     <section id="form-ouvidorias" class="section hero is-fullheight is-bold is-primary">
         <div class="hero-body">
             <div class="container">
-                <div class="columns">
-                    <div class="column">
-                        <h1 class="title is-size-1">Nos dê sua opinião :)</h1>
-                        <h2 class="subtitle">Faça sua denúncia, reclamação, sugestão ou elogio..</h2>
-                    </div>
-                    <div class="column">
-                        <div class="is-flex is-content-centered is-fullheight">
-                            <button class="button is-primary is-inverted is-medium">Nova Ouvidoria</button>
+                <transition name="component-fade" mode="out-in">
+                    <div class="columns" v-if="!showFormOuvidoria" key="hero">
+                        <div class="column">
+                            <h1 class="title is-size-1">Nos dê sua opinião :)</h1>
+                            <h2 class="subtitle">Faça sua denúncia, reclamação, sugestão ou elogio..</h2>
+                        </div>
+                        <div class="column">
+                            <div class="is-flex is-content-centered is-fullheight">
+                                <button class="button is-primary is-inverted is-medium"
+                                        @click="showFormOuvidoria = true">Nova Ouvidoria
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                    <app-ouvidoria key="form" v-else
+                                   @close-app-ouvidorias="showFormOuvidoria = false">
+                        <form action="#" class="has-text-light">
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">Formulário de Ouvidoria</p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <b-field label="O    que você deseja fazer?">
+                                            <b-select placeholder="Select a name">
+                                                <option value="denuncia">Denunciar</option>
+                                                <option value="reclamacao">Reclamar</option>
+                                                <option value="sugestao">Sugerir</option>
+                                                <option value="elogio">Elogiar</option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+                                </div>
+                                <footer class="card-footer">
+                                    <button class="card-footer-item" @click="showFormOuvidoria = false">Cancelar</button>
+                                </footer>
+                            </div>
+                        </form>
+                    </app-ouvidoria>
+                </transition>
             </div>
         </div>
     </section>
@@ -201,8 +241,11 @@
     </section>
 </div>
 
-<script src="https://unpkg.com/vue" th:src="@{/assets/js/vue.js}"></script>
-<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+<script src="https://unpkg.com/vue" th:src="@{/assets/vendor/vue/vue.js}"></script>
+<script src="https://unpkg.com/buefy/dist/buefy.min.js" th:src="@{/assets/vendor/buefy/buefy.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.1.4/vee-validate.min.js"></script>
+
 
 <script>
 
@@ -212,9 +255,22 @@
         return DATE_FORMATTER.format(new Date(value));
     });
 
+    Vue.component("app-ouvidoria", {
+        data: function () {
+            return {}
+        },
+        methods: {
+            closeApp: function () {
+                this.$emit("close-app-ouvidorias");
+            }
+        },
+        template: "<div><slot></slot></div>"
+    });
+
     new Vue({
         el: "#app",
         data: {
+            showFormOuvidoria: false,
             isNavActive: false,
             ouvidorias: {
                 pageSize: 5,
