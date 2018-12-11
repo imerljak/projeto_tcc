@@ -224,6 +224,7 @@
 <script src="https://unpkg.com/vue" th:src="@{/assets/vendor/vue/vue.js}"></script>
 <script src="https://unpkg.com/buefy/dist/buefy.min.js" th:src="@{/assets/vendor/buefy/buefy.min.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/addons/cleave-phone.br.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.1.4/vee-validate.min.js"></script>
 
 
@@ -231,19 +232,60 @@
 
     var DATE_FORMATTER = new Intl.DateTimeFormat("pt-BR");
 
+    var cleave = {
+        name: 'cleave',
+        bind(el, binding) {
+            var input = el.querySelector('input');
+            input._vCleave = new Cleave(input, binding.value);
+        },
+        update(el, binding) {
+            var input = el.querySelector('input');
+            input._vCleave.destroy();
+            input._vCleave = new Cleave(input, binding.value);
+        },
+        unbind(el) {
+            var input = el.querySelector('input');
+            input._vCleave.destroy();
+        }
+    };
+
+    Vue.use(VeeValidate, {
+        events: ''
+    });
+
     Vue.filter('date', function (value) {
         return DATE_FORMATTER.format(new Date(value));
     });
 
     Vue.component("app-ouvidoria", {
+        directives: {cleave: cleave},
         data: function () {
             return {
                 concessionarias: [],
                 tipoOuvidoria: null,
                 step: 0,
                 ouvidoria: {
-                    cidadao: {},
+                    cidadao: {
+                        tipoDocumento: 'CPF'
+                    },
                     concessionaria: {}
+                },
+                dropFiles: [],
+                masks: {
+                    cpf: {
+                        delimiters: ['.', '.', '-'],
+                        blocks: [3, 3, 3, 2],
+                        numericOnly: true
+                    },
+                    cnpj: {
+                        delimiters: ['.', '.', '/', '-'],
+                        blocks: [2, 3, 3, 4, 2],
+                        numericOnly: true
+                    },
+                    telefone: {
+                        phone: true,
+                        phoneRegionCode: 'BR'
+                    }
                 }
             }
         },
@@ -274,10 +316,16 @@
             },
             submit: function () {
                 alert("BANG!")
+            },
+            deleteDropFile: function (index) {
+                this.dropFiles.splice(index, 1)
+            },
+            validateBeforeSubmit: function () {
+
             }
         },
         template: "<div>" +
-            "<form action='#' class='has-text-light'>" +
+            "<form action='#' @submit.prevent='validateBeforeSubmit' class='has-text-light'>" +
             "    <div class='card'>" +
             "        <header class='card-header'>" +
             "            <p class='card-header-title'>Formulário de Ouvidoria</p>" +
@@ -286,7 +334,7 @@
             "            <transition name=\"component-fade\" mode=\"out-in\">" +
             "                <div v-if='step == 0' class='content' key='s0'>" +
             "                    <b-field label='O que você deseja fazer?'>" +
-            "                        <b-select required expanded v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
+            "                        <b-select v-validate='\"required\"' required expanded v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
             "                            <option value='denuncia'>Uma denúncia!</option>" +
             "                            <option value='reclamacao'>Quero reclamar!</option>" +
             "                            <option value='sugestao'>Dar uma sugestão.</option>" +
@@ -306,33 +354,38 @@
             "                <div v-else-if='step == 2' key='s2'>" +
             "                    <div class='content'>" +
             "                        <b-field label='Qual seu nome?'>" +
-            "                            <b-input required expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
+            "                            <b-input required v-validate='\"required|alpha\"' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Qual seu CPF ou CNPJ?'>" +
-            "                            <b-input required expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
+            "                            <b-field>" +
+            "                                <b-select v-model='ouvidoria.cidadao.tipoDocumento'>" +
+            "                                    <option value='CPF'>CPF</option>" +
+            "                                    <option value='CNPJ'>CNPJ</option>" +
+            "                                </b-select>" +
+            "                                <b-input v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
+            "                            </b-field>" +
             "                        </b-field>" +
             "                        <b-field label='Qual seu email?'>" +
-            "                            <b-input required expanded v-model='ouvidoria.cidadao.email'></b-input>" +
+            "                            <b-input type='email' required v-validate='\"required|email\"' expanded v-model='ouvidoria.cidadao.email'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Informe seu telefone de contato (Opcional).'>" +
-            "                            <b-input expanded v-model='ouvidoria.cidadao.telefone'></b-input>" +
+            "                            <b-input v-cleave='masks.telefone' expanded v-model='ouvidoria.cidadao.telefone'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Seu endereço.'>" +
-            "                            <b-input required expanded v-model='ouvidoria.cidadao.endereco'></b-input>" +
+            "                            <b-input required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.endereco'></b-input>" +
             "                        </b-field>" +
             "                    </div>" +
             "                </div>" +
             "                <div v-else-if='step == 3' key='s3'>" +
             "                    <div class='content'>" +
             "                        <b-field label='O que aconteceu?'>" +
-            "                            <b-input type='textarea' maxlength='350' required expanded v-model='ouvidoria.manifestacao'></b-input>" +
+            "                            <b-input type='textarea' maxlength='350' required v-validate='\"required\"' expanded v-model='ouvidoria.manifestacao'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Quando foi isso?'>" +
-            "                            <b-datepicker placeholder='Clique para selecionar...' icon='calendar-today'>" +
-            "                            </b-datepicker>" +
+            "                            <b-datepicker v-model='ouvidoria.dataOcorrencia' placeholder='Clique para selecionar...' icon='calendar-today'></b-datepicker>" +
             "                        </b-field>" +
             "                        <b-field label='Informe o local da ocorrência.'>" +
-            "                            <b-input required expanded v-model='ouvidoria.localOcorrencia'></b-input>" +
+            "                            <b-input required v-validate='\"required\"' expanded v-model='ouvidoria.localOcorrencia'></b-input>" +
             "                        </b-field>" +
             "                        <b-field>" +
             "                            <b-upload v-model='dropFiles' multiple drag-drop expanded>" +
