@@ -308,7 +308,13 @@
                 this.$emit("close-app-ouvidorias");
             },
             next: function () {
-                this.step++;
+                var instance = this;
+                instance.$validator.validateAll()
+                    .then(function (result) {
+                        if(result) {
+                            instance.step++;
+                        }
+                    })
             },
             previous: function () {
                 if (this.step > 0)
@@ -333,8 +339,8 @@
             "        <div class='card-content'>" +
             "            <transition name=\"component-fade\" mode=\"out-in\">" +
             "                <div v-if='step == 0' class='content' key='s0'>" +
-            "                    <b-field label='O que você deseja fazer?'>" +
-            "                        <b-select v-validate='\"required\"' required expanded v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
+            "                    <b-field label='O que você deseja fazer?' :type='{\"is-danger\": errors.has(\"tipoOuvidoria\")}' :message='errors.has(\"tipoOuvidoria\") ? \"Informe o tipo de ouvidoria desejada.\" : \"\"'>" +
+            "                        <b-select v-validate='\"required\"' required expanded name='tipoOuvidoria' v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
             "                            <option value='denuncia'>Uma denúncia!</option>" +
             "                            <option value='reclamacao'>Quero reclamar!</option>" +
             "                            <option value='sugestao'>Dar uma sugestão.</option>" +
@@ -344,8 +350,8 @@
             "                </div>" +
             "                <div v-else-if='step == 1' key='s1'>" +
             "                    <div class='content'>" +
-            "                        <b-field label='Qual é a concessionária em questão?'>" +
-            "                            <b-select required expanded v-model='ouvidoria.concessionaria.id' placeholder='-- Selecione --'>" +
+            "                        <b-field label='Qual é a concessionária em questão?' :type='{\"is-danger\": errors.has(\"concessionaria\")}' :message='errors.has(\"concessionaria\") ? \"Selecione a concessionária.\" : \"\"'>" +
+            "                            <b-select required expanded name='concessionaria' v-model='ouvidoria.concessionaria.id' placeholder='-- Selecione --'>" +
             "                                <option v-for='c of concessionarias' :value='c.id'> {{ c.nome }} </option>" +
             "                            </b-select>" +
             "                        </b-field>" +
@@ -353,16 +359,16 @@
             "                </div>" +
             "                <div v-else-if='step == 2' key='s2'>" +
             "                    <div class='content'>" +
-            "                        <b-field label='Qual seu nome?'>" +
-            "                            <b-input required v-validate='\"required|alpha\"' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
+            "                        <b-field label='Qual seu nome?' :type='{\"is-danger\": errors.has(\"nome\")}' :message='errors.has(\"nome\") ? \"Por favor, informe o seu nome.\" : \"\"'>" +
+            "                            <b-input required v-validate='\"required|alpha\"' name='nome' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
             "                        </b-field>" +
-            "                        <b-field label='Qual seu CPF ou CNPJ?'>" +
+            "                        <b-field label='Qual seu CPF ou CNPJ?' :type='{\"is-danger\": errors.has(\"documento\")}' :message='errors.has(\"documento\") ? \"Informe seu \" + ouvidoria.cidadao.tipoDocumento + \".\" : \"\"'>" +
             "                            <b-field>" +
             "                                <b-select v-model='ouvidoria.cidadao.tipoDocumento'>" +
             "                                    <option value='CPF'>CPF</option>" +
             "                                    <option value='CNPJ'>CNPJ</option>" +
             "                                </b-select>" +
-            "                                <b-input v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
+            "                                <b-input name='documento' v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
             "                            </b-field>" +
             "                        </b-field>" +
             "                        <b-field label='Qual seu email?'>" +
