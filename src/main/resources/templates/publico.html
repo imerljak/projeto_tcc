@@ -50,7 +50,7 @@
     <nav class="navbar is-secondary is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" th:href="@{/cidadao}">
-                <img th:src="@{/assets/img/agesb_logo.svg}" width="112" height="112">
+                <img src="../static/assets/img/agesb_logo.svg" th:src="@{/assets/img/agesb_logo.svg}" width="112" height="112">
             </a>
 
             <a role="button"
@@ -250,6 +250,8 @@
         }
     };
 
+    var EventBus = new Vue();
+
     Vue.use(VeeValidate, {
         events: ''
     });
@@ -265,19 +267,11 @@
                 concessionarias: [],
                 step: 0,
                 ouvidoria: {
-                    tipo: 'DENUNCIA',
-                    localOcorrencia: 'Xangri Lá',
-                    manifestacao: 'Gangnam Style..',
+                    tipo: null,
                     cidadao: {
-                        tipoDocumento: 'CPF',
-                        documento: '085.652.249-02',
-                        email: 'imerljak@gmail.com',
-                        nome: 'Israel Vargas Merljak',
-                        endereco: 'General Marques'
+                        tipoDocumento: 'CPF'
                     },
-                    concessionaria: {
-                        id: 2
-                    }
+                    concessionaria: {}
                 },
                 dropFiles: [],
                 masks: {
@@ -411,11 +405,22 @@
                 axios
                     .post('/cidadao/addOuvidoria', formData)
                     .then(function (response) {
+
+                        console.log(response);
+
                         instance.ouvidoria.protocolo = response.data.protocolo;
+                        EventBus.$emit('refresh-ouvidorias');
                         instance.next();
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        instance.$toast.open({
+                            duration: 5000,
+                            message: error.response.data.mensagem,
+                            position: 'is-top',
+                            type: 'is-danger'
+                        })
+
+                        instance.previous();
                     });
             },
             deleteDropFile: function (index) {
@@ -434,8 +439,8 @@
             }
         },
         template: "<div>" +
-            "<form action='#' @submit.prevent='validateBeforeSubmit' class='has-text-light'>" +
-            "    <div class='card'>" +
+            "<form action='#' @submit.prevent='validateBeforeSubmit' class='has-text-light columns is-centered'>" +
+            "    <div class='card column is-three-quarters-desktop'>" +
             "        <header class='card-header'>" +
             "            <p class='card-header-title'>Formulário de Ouvidoria</p>" +
             "        </header>" +
@@ -548,7 +553,7 @@
             "</form></div>"
     });
 
-    new Vue({
+    var app = new Vue({
         el: "#app",
         data: {
             showFormOuvidoria: false,
@@ -568,6 +573,11 @@
         created: function () {
             this.loadOuvidorias(1);
             this.loadProcessos(1);
+
+            var instance = this;
+            EventBus.$on('refresh-ouvidorias', function () {
+                instance.loadOuvidorias(1);
+            })
         },
         methods: {
             loadProcessos: function (page) {
