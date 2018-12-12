@@ -4,7 +4,10 @@
       layout:decorate="~{fragments/layout}">
 <head>
     <title>Nova Denuncia</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/lightbox2/2.10.0/dist/css/lightbox.min.css}">
 </head>
+
 
 <!-- page content -->
 <div layout:fragment="content">
@@ -241,8 +244,20 @@
                         <h4 class="card-title">Anexos</h4>
 
                         <div class="form-group">
-                            <input type="file" class="custom-file" name="anexos_files">
+                            <input multiple type="file" class="custom-file" name="files">
                         </div>
+
+                        <hr>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4 col-lg-3" th:each="anexo : ${ouvidoria.anexos}">
+                                    <a th:href="@{/files/anexos/{id}(id=${anexo.id})}" data-lightbox="ouvidoria">
+                                        <img class="img-fluid" th:src="@{/files/anexos/{id}(id=${anexo.id})}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="card-footer text-right">
@@ -268,6 +283,10 @@
     <!-- InputMask -->
     <script th:src="@{/webjars/jquery.inputmask/4.0.0/jquery.inputmask.bundle.js}"
             type="text/javascript"></script>
+
+    <script th:src="@{/webjars/lightbox2/2.10.0/dist/js/lightbox.min.js}"
+            type="text/javascript"></script>
+
 
     <script>
         function setFormValidation(id) {

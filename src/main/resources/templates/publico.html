@@ -226,6 +226,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/addons/cleave-phone.br.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.1.4/vee-validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
 
 <script>
@@ -262,13 +263,21 @@
         data: function () {
             return {
                 concessionarias: [],
-                tipoOuvidoria: null,
                 step: 0,
                 ouvidoria: {
+                    tipo: 'DENUNCIA',
+                    localOcorrencia: 'Xangri Lá',
+                    manifestacao: 'Gangnam Style..',
                     cidadao: {
-                        tipoDocumento: 'CPF'
+                        tipoDocumento: 'CPF',
+                        documento: '085.652.249-02',
+                        email: 'imerljak@gmail.com',
+                        nome: 'Israel Vargas Merljak',
+                        endereco: 'General Marques'
                     },
-                    concessionaria: {}
+                    concessionaria: {
+                        id: 2
+                    }
                 },
                 dropFiles: [],
                 masks: {
@@ -289,29 +298,81 @@
                 }
             }
         },
+        created: function () {
+
+            var instance = this;
+
+            axios
+                .get('cidadao/concessionarias')
+                .then(function (value) {
+                    instance.concessionarias = value.data
+                })
+        },
         computed: {
+            messages: function () {
+                return {
+                    tipoOuvidoria: "Informe o tipo de ouvidoria desejada.",
+                    concessionaria: "Selecione a concessionária.",
+                    nome: "Por favor, informe o seu nome.",
+                    documento: "Informe seu " + this.ouvidoria.cidadao.tipoDocumento + ".",
+                    email: "Por favor, informe o seu email.",
+                    endereco: "Por favor, informe o seu endereço.",
+                    manifestacao: '',
+                    dataOcorrencia: '',
+                    localOcorrencia: 'Precisamos saber o local da ocorrência.'
+                };
+            },
+            isFirstStep: function () {
+                return this.step === 0;
+            },
+            isFinalStep: function () {
+                return this.step === 4;
+            },
+            isSubmitStep: function () {
+                return this.step === 3
+            },
             isDenuncia: function () {
-                return this.tipoOuvidoria === 'denuncia'
+                return this.ouvidoria.tipo === 'DENUNCIA'
             },
             isReclamacao: function () {
-                return this.tipoOuvidoria === 'reclamacao'
+                return this.ouvidoria.tipo === 'RECLAMACAO'
             },
             isSugestao: function () {
-                return this.tipoOuvidoria === 'sugestao'
+                return this.ouvidoria.tipo === 'SUGESTAO'
             },
             isElogio: function () {
-                return this.tipoOuvidoria === 'elogio'
+                return this.ouvidoria.tipo === 'ELOGIO'
             }
         },
         methods: {
+            isStep: function (step) {
+                return step === this.step;
+            },
             close: function () {
                 this.$emit("close-app-ouvidorias");
             },
             next: function () {
                 var instance = this;
+
+                if (this.isFinalStep) {
+                    this.step = 0;
+
+                    this.ouvidoria = {
+                        cidadao: {
+                            tipoDocumento: 'CPF'
+                        },
+                        concessionaria: {}
+                    };
+
+                    this.dropFiles = [];
+
+                    this.close();
+                    return;
+                }
+
                 instance.$validator.validateAll()
                     .then(function (result) {
-                        if(result) {
+                        if (result) {
                             instance.step++;
                         }
                     })
@@ -321,13 +382,55 @@
                     this.step--;
             },
             submit: function () {
-                alert("BANG!")
+
+                var instance = this;
+
+                var dataOcorrencia = null;
+                if (this.ouvidoria.dataOcorrencia) {
+                    dataOcorrencia = new Date(this.ouvidoria.dataOcorrencia).toISOString().split("T")[0];
+                }
+
+                var formData = new FormData();
+                formData.append("tipo", this.ouvidoria.tipo);
+                formData.append("concessionaria.id", this.ouvidoria.concessionaria.id);
+                formData.append("cidadao.nome", this.ouvidoria.cidadao.nome);
+                formData.append("cidadao.email", this.ouvidoria.cidadao.email);
+                formData.append("cidadao.endereco", this.ouvidoria.cidadao.endereco);
+                formData.append("cidadao.documento", this.ouvidoria.cidadao.documento);
+                formData.append("cidadao.tipoDocumento", this.ouvidoria.cidadao.tipoDocumento);
+                formData.append("manifestacao", this.ouvidoria.manifestacao);
+                if (dataOcorrencia) {
+                    formData.append("dataOcorrencia", dataOcorrencia);
+                }
+                formData.append("localOcorrencia", this.ouvidoria.localOcorrencia);
+
+                this.dropFiles.forEach(function (file) {
+                    formData.append("files", file);
+                });
+
+                axios
+                    .post('/cidadao/addOuvidoria', formData)
+                    .then(function (response) {
+                        instance.ouvidoria.protocolo = response.data.protocolo;
+                        instance.next();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
             deleteDropFile: function (index) {
                 this.dropFiles.splice(index, 1)
             },
             validateBeforeSubmit: function () {
 
+            },
+            type: function (name) {
+                return {
+                    "is-danger": this.errors.has(name)
+                }
+            },
+            message: function (name) {
+                return this.errors.has(name) ? this.messages[name] : '';
             }
         },
         template: "<div>" +
@@ -338,63 +441,63 @@
             "        </header>" +
             "        <div class='card-content'>" +
             "            <transition name=\"component-fade\" mode=\"out-in\">" +
-            "                <div v-if='step == 0' class='content' key='s0'>" +
-            "                    <b-field label='O que você deseja fazer?' :type='{\"is-danger\": errors.has(\"tipoOuvidoria\")}' :message='errors.has(\"tipoOuvidoria\") ? \"Informe o tipo de ouvidoria desejada.\" : \"\"'>" +
-            "                        <b-select v-validate='\"required\"' required expanded name='tipoOuvidoria' v-model='tipoOuvidoria' placeholder='Selecione uma opção'>" +
-            "                            <option value='denuncia'>Uma denúncia!</option>" +
-            "                            <option value='reclamacao'>Quero reclamar!</option>" +
-            "                            <option value='sugestao'>Dar uma sugestão.</option>" +
-            "                            <option value='elogio'>Fazer um elogio <3</option>" +
+            "                <div v-if='isStep(0)' class='content' key='s0'>" +
+            "                    <b-field label='O que você deseja fazer?' :type='type(\"tipoOuvidoria\")' :message='message(\"tipoOuvidoria\")'>" +
+            "                        <b-select v-validate='\"required\"' expanded name='tipoOuvidoria' v-model='ouvidoria.tipo' placeholder='Selecione uma opção'>" +
+            "                            <option value='DENUNCIA'>Uma denúncia!</option>" +
+            "                            <option value='RECLAMACAO'>Quero reclamar!</option>" +
+            "                            <option value='SUGESTAO'>Dar uma sugestão.</option>" +
+            "                            <option value='ELOGIO'>Fazer um elogio <3</option>" +
             "                        </b-select>" +
             "                    </b-field>" +
             "                </div>" +
-            "                <div v-else-if='step == 1' key='s1'>" +
+            "                <div v-else-if='isStep(1)' key='s1'>" +
             "                    <div class='content'>" +
-            "                        <b-field label='Qual é a concessionária em questão?' :type='{\"is-danger\": errors.has(\"concessionaria\")}' :message='errors.has(\"concessionaria\") ? \"Selecione a concessionária.\" : \"\"'>" +
-            "                            <b-select required expanded name='concessionaria' v-model='ouvidoria.concessionaria.id' placeholder='-- Selecione --'>" +
+            "                        <b-field label='Qual é a concessionária em questão?' :type='type(\"concessionaria\")' :message='message(\"concessionaria\")'>" +
+            "                            <b-select v-validate='\"required\"' expanded name='concessionaria' v-model='ouvidoria.concessionaria.id' placeholder='-- Selecione --'>" +
             "                                <option v-for='c of concessionarias' :value='c.id'> {{ c.nome }} </option>" +
             "                            </b-select>" +
             "                        </b-field>" +
             "                    </div>" +
             "                </div>" +
-            "                <div v-else-if='step == 2' key='s2'>" +
+            "                <div v-else-if='isStep(2)' key='s2'>" +
             "                    <div class='content'>" +
-            "                        <b-field label='Qual seu nome?' :type='{\"is-danger\": errors.has(\"nome\")}' :message='errors.has(\"nome\") ? \"Por favor, informe o seu nome.\" : \"\"'>" +
-            "                            <b-input required v-validate='\"required|alpha\"' name='nome' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
+            "                        <b-field label='Qual seu nome?' :type='type(\"nome\")' :message='message(\"nome\")'>" +
+            "                            <b-input v-validate='\"required\"' name='nome' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
             "                        </b-field>" +
-            "                        <b-field label='Qual seu CPF ou CNPJ?' :type='{\"is-danger\": errors.has(\"documento\")}' :message='errors.has(\"documento\") ? \"Informe seu \" + ouvidoria.cidadao.tipoDocumento + \".\" : \"\"'>" +
-            "                            <b-field>" +
+            "                        <b-field label='Qual seu CPF ou CNPJ?' :message='message(\"documento\")' :type='type(\"documento\")'>" +
+            "                            <b-field :type='{\"is-danger\": errors.has(\"documento\")}'>" +
             "                                <b-select v-model='ouvidoria.cidadao.tipoDocumento'>" +
             "                                    <option value='CPF'>CPF</option>" +
             "                                    <option value='CNPJ'>CNPJ</option>" +
             "                                </b-select>" +
-            "                                <b-input name='documento' v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
+            "                                <b-input name='documento' v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
             "                            </b-field>" +
             "                        </b-field>" +
-            "                        <b-field label='Qual seu email?'>" +
-            "                            <b-input type='email' required v-validate='\"required|email\"' expanded v-model='ouvidoria.cidadao.email'></b-input>" +
+            "                        <b-field label='Qual seu email?' :type='type(\"email\")' :message='message(\"email\")'>" +
+            "                            <b-input type='email' v-validate='\"required|email\"' expanded name='email' v-model='ouvidoria.cidadao.email'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Informe seu telefone de contato (Opcional).'>" +
             "                            <b-input v-cleave='masks.telefone' expanded v-model='ouvidoria.cidadao.telefone'></b-input>" +
             "                        </b-field>" +
-            "                        <b-field label='Seu endereço.'>" +
-            "                            <b-input required v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.endereco'></b-input>" +
+            "                        <b-field label='Seu endereço.' :type='type(\"endereco\")' :message='message(\"endereco\")'>" +
+            "                            <b-input v-validate='\"required\"' expanded name='endereco' v-model='ouvidoria.cidadao.endereco'></b-input>" +
             "                        </b-field>" +
             "                    </div>" +
             "                </div>" +
-            "                <div v-else-if='step == 3' key='s3'>" +
+            "                <div v-else-if='isStep(3)' key='s3'>" +
             "                    <div class='content'>" +
-            "                        <b-field label='O que aconteceu?'>" +
-            "                            <b-input type='textarea' maxlength='350' required v-validate='\"required\"' expanded v-model='ouvidoria.manifestacao'></b-input>" +
+            "                        <b-field label='O que aconteceu?' :type='type(\"manifestacao\")' :message='message(\"manifestacao\")'>" +
+            "                            <b-input type='textarea' maxlength='350' v-validate='\"required\"' expanded name='manifestacao' v-model='ouvidoria.manifestacao'></b-input>" +
             "                        </b-field>" +
-            "                        <b-field label='Quando foi isso?'>" +
-            "                            <b-datepicker v-model='ouvidoria.dataOcorrencia' placeholder='Clique para selecionar...' icon='calendar-today'></b-datepicker>" +
+            "                        <b-field label='Quando foi isso?' :type='type(\"dataOcorrencia\")' :message='message(\"dataOcorrencia\")'>" +
+            "                            <b-datepicker name='dataOcorrencia' v-model='ouvidoria.dataOcorrencia' placeholder='Clique para selecionar...' icon='calendar-today'></b-datepicker>" +
             "                        </b-field>" +
-            "                        <b-field label='Informe o local da ocorrência.'>" +
-            "                            <b-input required v-validate='\"required\"' expanded v-model='ouvidoria.localOcorrencia'></b-input>" +
+            "                        <b-field label='Informe o local da ocorrência.' :type='type(\"localOcorrencia\")' :message='message(\"localOcorrencia\")'>" +
+            "                            <b-input v-validate='\"required\"' expanded name='localOcorrencia' v-model='ouvidoria.localOcorrencia'></b-input>" +
             "                        </b-field>" +
             "                        <b-field>" +
-            "                            <b-upload v-model='dropFiles' multiple drag-drop expanded>" +
+            "                            <b-upload id='dropFiles' v-model='dropFiles' multiple drag-drop expanded>" +
             "                                <section class='section'>" +
             "                                    <div class='content has-text-centered'>" +
             "                                        <p>" +
@@ -421,16 +524,24 @@
             "                        </div>" +
             "                    </div>" +
             "                </div>" +
+            "                <div v-else-if='isStep(4)' key='s4'>" +
+            "                    <div class='content has-text-centered'>" +
+            "                        <p class='is-size-4 has-text-dark'>Obrigado pela sua contribuição!</p>" +
+            "                        <p class='is-size-5'>Seu número de protocolo é: </p>" +
+            "                        <p class='title has-text-primary'>{{ ouvidoria.protocolo }}</p>" +
+            "                    </div>" +
+            "                </div>" +
             "            </transition>" +
             "        </div>" +
             "        <footer class='card-footer'>" +
-            "            <a href='#' class='card-footer-item' @click='step == 0 ? close() : previous()'>" +
-            "                <span v-if='step == 0'>Cancelar</span>" +
-            "                <span v-else='step == 0'>Voltar</span>" +
+            "            <a href='#' v-if='!isFinalStep' class='card-footer-item' @click='isFirstStep ? close() : previous()'>" +
+            "                <span v-if='isFirstStep'>Cancelar</span>" +
+            "                <span v-else>Voltar</span>" +
             "            </a>" +
-            "            <a href='#' class='card-footer-item' @click='step == 4 ? submit() : next()'>" +
-            "                <span v-if='step < 4'>Continuar</span>" +
-            "                <span v-if='step == 4'>Submeter</span>" +
+            "            <a href='#' class='card-footer-item' @click='isSubmitStep ? submit() : next()'>" +
+            "                <span v-if='isFinalStep'>Voltar ao Início</span>" +
+            "                <span v-else-if='isSubmitStep'>Submeter</span>" +
+            "                <span v-else>Continuar</span>" +
             "            </a>" +
             "        </footer>" +
             "    </div>" +
@@ -462,28 +573,30 @@
             loadProcessos: function (page) {
                 var instance = this;
 
-                fetch("cidadao/processos?page=" + (page - 1) + "&size=" + this.processos.pageSize)
-                    .then(function (value) {
-                        return value.json()
+                axios
+                    .get("cidadao/processos", {
+                        params: {
+                            page: (page - 1),
+                            size: this.processos.pageSize
+                        }
                     })
                     .then(function (value) {
-                        instance.processos.pageable = value
-                    })
-                    .then(function () {
+                        instance.processos.pageable = value.data
                         instance.processos.isLoading = false
                     })
             },
             loadOuvidorias: function (page) {
                 var instance = this;
 
-                fetch("cidadao/ouvidorias?page=" + (page - 1) + "&size=" + this.ouvidorias.pageSize)
-                    .then(function (value) {
-                        return value.json()
+                axios
+                    .get("cidadao/ouvidorias", {
+                        params: {
+                            page: (page - 1),
+                            size: this.ouvidorias.pageSize
+                        }
                     })
                     .then(function (value) {
-                        instance.ouvidorias.pageable = value
-                    })
-                    .then(function () {
+                        instance.ouvidorias.pageable = value.data;
                         instance.ouvidorias.isLoading = false
                     })
             }

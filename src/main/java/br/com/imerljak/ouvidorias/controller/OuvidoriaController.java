@@ -1,11 +1,14 @@
 package br.com.imerljak.ouvidorias.controller;
 
 import br.com.imerljak.concessionarias.service.ConcessionariaRepository;
+import br.com.imerljak.ouvidorias.model.AnexoOuvidoria;
 import br.com.imerljak.ouvidorias.model.Ouvidoria;
 import br.com.imerljak.ouvidorias.service.OuvidoriaService;
 import br.com.imerljak.ouvidorias.value.SituacaoOuvidoria;
 import br.com.imerljak.ouvidorias.value.TipoOuvidoria;
+import br.com.imerljak.utils.FileUploader;
 import br.com.imerljak.utils.Redirect;
+import br.com.imerljak.utils.UploadPath;
 import br.com.imerljak.visao.AlertMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -91,10 +95,15 @@ public class OuvidoriaController {
     }
 
     @PostMapping(value = "/adicionar")
-    private String store(@Validated Ouvidoria ouvidoria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    private String store(@Validated Ouvidoria ouvidoria, MultipartFile[] files, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "/ouvidorias/form";
+        }
+
+        FileUploader.save(files, UploadPath.OUVIDORIAS);
+        for (MultipartFile file : files) {
+            ouvidoria.addAnexo(AnexoOuvidoria.from(file, UploadPath.OUVIDORIAS));
         }
 
         service.save(ouvidoria);
@@ -116,9 +125,14 @@ public class OuvidoriaController {
     }
 
     @PutMapping("/editar/{id}")
-    public String save(@PathVariable Long id, Ouvidoria ouvidoria, RedirectAttributes redirectAttributes) {
+    public String save(@PathVariable Long id, Ouvidoria ouvidoria, MultipartFile[] files, RedirectAttributes redirectAttributes) {
         final Ouvidoria old = service.getOne(id);
         old.setSituacao(ouvidoria.getSituacao());
+
+        FileUploader.save(files, UploadPath.OUVIDORIAS);
+        for (MultipartFile file : files) {
+            old.addAnexo(AnexoOuvidoria.from(file, UploadPath.OUVIDORIAS));
+        }
 
         service.save(old);
 

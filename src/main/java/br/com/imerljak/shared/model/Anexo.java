@@ -1,9 +1,6 @@
 package br.com.imerljak.shared.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -15,8 +12,8 @@ import javax.persistence.Entity;
 @Entity
 @NoArgsConstructor
 @DiscriminatorColumn
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 public abstract class Anexo extends Arquivo {
     private static final long serialVersionUID = -1892835440758935271L;
 }

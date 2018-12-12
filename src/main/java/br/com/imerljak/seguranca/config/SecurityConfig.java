@@ -4,6 +4,7 @@ import br.com.imerljak.usuarios.model.Cargo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -58,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/js/**",
                         "/images/**",
-                        "/webjars/**"
+                        "/webjars/**",
+                        "/cidadao/**"
                 );
     }
 
@@ -66,11 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/cidadao/**").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/cidadao/addOuvidoria").permitAll()
+                .antMatchers("/login", "/cidadao/**").permitAll()
                 .antMatchers("/usuarios/**").hasRole(Cargo.CARGO_ADMINISTRADOR)
-                .antMatchers("/concessionarias/**").hasRole(Cargo.CARGO_GERENTE)
-                .antMatchers("/ouvidorias/**").hasRole(Cargo.CARGO_GERENTE)
+                .antMatchers("/concessionarias/**", "/ouvidorias/**").hasRole(Cargo.CARGO_GERENTE)
                 .antMatchers("/processos/**").hasAnyRole(Cargo.CARGO_GERENTE, Cargo.CARGO_REVISOR_RELATOR)
                 .anyRequest().authenticated()
 

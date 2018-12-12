@@ -78,9 +78,22 @@ public class Ouvidoria extends AuditableEntity {
     @OneToMany(mappedBy = "ouvidoria")
     private List<TramiteOuvidoria> tramites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ouvidoria")
+    @OneToMany(mappedBy = "ouvidoria", cascade = CascadeType.ALL)
     private List<AnexoOuvidoria> anexos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "ouvidorias")
     private Set<Processo> processos = new HashSet<>();
+
+    public void addAnexo(AnexoOuvidoria anexo) {
+        if (!this.anexos.contains(anexo)) {
+            anexo.setOuvidoria(this);
+            this.anexos.add(anexo);
+        }
+    }
+
+    public void removeAnexo(AnexoOuvidoria anexo) {
+        if (this.anexos.remove(anexo)) {
+            anexo.setOuvidoria(null);
+        }
+    }
 }
