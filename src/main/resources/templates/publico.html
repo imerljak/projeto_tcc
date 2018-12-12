@@ -7,7 +7,8 @@
     <meta name="author" content="Israel Merljak">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title th:text="#{application.name.full}">Page Title</title>
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css"
+          th:href="@{/assets/vendor/materialdesign/css/materialdesignicons.min.css}">
     <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css"
           th:href="@{/assets/vendor/buefy/buefy.min.css}">
 </head>
@@ -50,7 +51,8 @@
     <nav class="navbar is-secondary is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" th:href="@{/cidadao}">
-                <img src="../static/assets/img/agesb_logo.svg" th:src="@{/assets/img/agesb_logo.svg}" width="112" height="112">
+                <img src="../static/assets/img/agesb_logo.svg" th:src="@{/assets/img/agesb_logo.svg}" width="112"
+                     height="112">
             </a>
 
             <a role="button"
@@ -221,12 +223,18 @@
     </section>
 </div>
 
-<script src="https://unpkg.com/vue" th:src="@{/assets/vendor/vue/vue.min.js}"></script>
-<script src="https://unpkg.com/buefy/dist/buefy.min.js" th:src="@{/assets/vendor/buefy/buefy.min.js}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/addons/cleave-phone.br.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.1.4/vee-validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script src="https://unpkg.com/vue"
+        th:src="@{/assets/vendor/vue/vue.min.js}"></script>
+<script src="https://unpkg.com/buefy/dist/buefy.min.js"
+        th:src="@{/assets/vendor/buefy/buefy.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"
+        th:src="@{/assets/vendor/cleave/cleave.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/addons/cleave-phone.br.js"
+        th:src="@{/assets/vendor/cleave/addons/cleave-phone.br.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.1.4/vee-validate.min.js"
+        th:src="@{/assets/vendor/vee-validate/vee-validate.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"
+        th:src="@{/assets/vendor/axios/axios.min.js}"></script>
 
 
 <script>
@@ -296,10 +304,11 @@
 
             var instance = this;
 
+            instance.autofocus();
             axios
                 .get('cidadao/concessionarias')
                 .then(function (value) {
-                    instance.concessionarias = value.data
+                    instance.concessionarias = value.data;
                 })
         },
         computed: {
@@ -311,6 +320,7 @@
                     documento: "Informe seu " + this.ouvidoria.cidadao.tipoDocumento + ".",
                     email: "Por favor, informe o seu email.",
                     endereco: "Por favor, informe o seu endereço.",
+                    telefone: "Por favor, informe o seu telefone.",
                     manifestacao: '',
                     dataOcorrencia: '',
                     localOcorrencia: 'Precisamos saber o local da ocorrência.'
@@ -345,6 +355,12 @@
             close: function () {
                 this.$emit("close-app-ouvidorias");
             },
+            autofocus: function () {
+                setTimeout(function () {
+                    var input = document.querySelector("#form-ouvidoria .card-content :enabled");
+                    if (input) input.focus();
+                }, 300);
+            },
             next: function () {
                 var instance = this;
 
@@ -368,6 +384,7 @@
                     .then(function (result) {
                         if (result) {
                             instance.step++;
+                            instance.autofocus();
                         }
                     })
             },
@@ -406,7 +423,7 @@
                     .post('/cidadao/addOuvidoria', formData)
                     .then(function (response) {
 
-                        console.log(response);
+                        // console.log(response);
 
                         instance.ouvidoria.protocolo = response.data.protocolo;
                         EventBus.$emit('refresh-ouvidorias');
@@ -418,7 +435,7 @@
                             message: error.response.data.mensagem,
                             position: 'is-top',
                             type: 'is-danger'
-                        })
+                        });
 
                         instance.previous();
                     });
@@ -439,7 +456,7 @@
             }
         },
         template: "<div>" +
-            "<form action='#' @submit.prevent='validateBeforeSubmit' class='has-text-light columns is-centered'>" +
+            "<form id='form-ouvidoria' action='#' @submit.prevent='validateBeforeSubmit' class='has-text-light columns is-centered'>" +
             "    <div class='card column is-three-quarters-desktop'>" +
             "        <header class='card-header'>" +
             "            <p class='card-header-title'>Formulário de Ouvidoria</p>" +
@@ -468,7 +485,7 @@
             "                <div v-else-if='isStep(2)' key='s2'>" +
             "                    <div class='content'>" +
             "                        <b-field label='Qual seu nome?' :type='type(\"nome\")' :message='message(\"nome\")'>" +
-            "                            <b-input v-validate='\"required\"' name='nome' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
+            "                            <b-input name='nome' expanded v-model='ouvidoria.cidadao.nome'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Qual seu CPF ou CNPJ?' :message='message(\"documento\")' :type='type(\"documento\")'>" +
             "                            <b-field :type='{\"is-danger\": errors.has(\"documento\")}'>" +
@@ -479,14 +496,14 @@
             "                                <b-input name='documento' v-cleave='ouvidoria.cidadao.tipoDocumento == \"CPF\" ? masks.cpf : masks.cnpj' v-validate='\"required\"' expanded v-model='ouvidoria.cidadao.documento'></b-input>" +
             "                            </b-field>" +
             "                        </b-field>" +
-            "                        <b-field label='Qual seu email?' :type='type(\"email\")' :message='message(\"email\")'>" +
-            "                            <b-input type='email' v-validate='\"required|email\"' expanded name='email' v-model='ouvidoria.cidadao.email'></b-input>" +
+            "                        <b-field label='Qual seu Email?' :type='type(\"email\")' :message='message(\"email\")'>" +
+            "                            <b-input icon='at' type='email' v-validate='\"email\"' expanded name='email' v-model='ouvidoria.cidadao.email'></b-input>" +
             "                        </b-field>" +
-            "                        <b-field label='Informe seu telefone de contato (Opcional).'>" +
-            "                            <b-input v-cleave='masks.telefone' expanded v-model='ouvidoria.cidadao.telefone'></b-input>" +
+            "                        <b-field label='Qual seu número de Telefone?' :type='type(\"telefone\")' :message='message(\"telefone\")'>" +
+            "                            <b-input icon='phone' v-cleave='masks.telefone' v-validate='\"required\"' expanded name='telefone' v-model='ouvidoria.cidadao.telefone'></b-input>" +
             "                        </b-field>" +
             "                        <b-field label='Seu endereço.' :type='type(\"endereco\")' :message='message(\"endereco\")'>" +
-            "                            <b-input v-validate='\"required\"' expanded name='endereco' v-model='ouvidoria.cidadao.endereco'></b-input>" +
+            "                            <b-input icon='map' v-validate='\"required\"' expanded name='endereco' v-model='ouvidoria.cidadao.endereco'></b-input>" +
             "                        </b-field>" +
             "                    </div>" +
             "                </div>" +
@@ -499,7 +516,7 @@
             "                            <b-datepicker name='dataOcorrencia' v-model='ouvidoria.dataOcorrencia' placeholder='Clique para selecionar...' icon='calendar-today'></b-datepicker>" +
             "                        </b-field>" +
             "                        <b-field label='Informe o local da ocorrência.' :type='type(\"localOcorrencia\")' :message='message(\"localOcorrencia\")'>" +
-            "                            <b-input v-validate='\"required\"' expanded name='localOcorrencia' v-model='ouvidoria.localOcorrencia'></b-input>" +
+            "                            <b-input icon='map' v-validate='\"required\"' expanded name='localOcorrencia' v-model='ouvidoria.localOcorrencia'></b-input>" +
             "                        </b-field>" +
             "                        <b-field>" +
             "                            <b-upload id='dropFiles' v-model='dropFiles' multiple drag-drop expanded>" +

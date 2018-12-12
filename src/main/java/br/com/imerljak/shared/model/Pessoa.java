@@ -10,7 +10,6 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Israel Merljak <imerljak@gmail.com.br>
@@ -31,7 +30,6 @@ public abstract class Pessoa extends BasicEntity {
 
     @Basic
     @Email
-    @NotNull
     private String email;
 
     @Basic
